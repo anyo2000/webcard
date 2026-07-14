@@ -262,9 +262,10 @@
     border-left:2px dashed #E9AEBE;border-right:2px dashed #E9AEBE;
     background:repeating-linear-gradient(-45deg,rgba(232,150,170,.1) 0 5px,transparent 5px 10px);
     display:flex;align-items:center;justify-content:center;
-    opacity:0;transition:opacity .45s ease .8s;
+    opacity:0;
+    transition:opacity .22s ease;          /* 사라질 때는 즉시 (잔상 방지) */
   }
-  .gapmark.show{opacity:1;}
+  .gapmark.show{opacity:1;transition:opacity .45s ease .8s;}  /* 나타날 때만 지연 */
   .gapmark .tag{
     background:#B03A56;color:#fff;padding:5px 10px;border-radius:9px;
     font-size:var(--fs-cap);font-weight:800;white-space:nowrap;
@@ -293,16 +294,20 @@
   }
   .agecut .note span{display:block;font-size:14px;font-weight:600;color:#B96A82;margin-top:4px;}
 
+  /* 결론 한 문장 — 숫자만 던지지 않고 무슨 일이 일어나는지 서술 */
   .total{
-    margin-top:11px;border-radius:20px;padding:15px 18px;
-    display:flex;align-items:center;justify-content:space-between;
-    background:#F4F6FA;border:1px solid #E4E9F1;
+    margin-top:11px;border-radius:20px;padding:16px 18px;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    background:#EDF7F1;border:1px solid #D3E9DC;
     transition:background .35s,border-color .35s;
   }
   .total.cutdown{background:linear-gradient(135deg,#FFF0F3,#FFE7EC);border-color:#F6CFDA;}
-  .total .k{font-size:16px;font-weight:800;color:#5E6470;letter-spacing:-0.03em;}
-  .total .v{font-size:26px;font-weight:800;letter-spacing:-0.05em;color:#3A8A5E;font-variant-numeric:tabular-nums;}
-  .total.cutdown .v{color:#B03A56;}
+  .total .v{
+    font-size:19px;font-weight:700;letter-spacing:-0.035em;color:#2F7A54;line-height:1.4;
+  }
+  .total.cutdown .v{color:#8E2E46;}
+  .total .v b{font-size:25px;font-weight:800;color:#3A8A5E;letter-spacing:-0.045em;}
+  .total.cutdown .v b{color:#B03A56;}
 
   /* ═══ 표 ═══ */
   .tbl-wrap{position:relative;z-index:2;flex:1;overflow-y:auto;border-radius:20px;border:1px solid #E4E9F1;background:#fff;}
@@ -542,14 +547,13 @@
           <div class="box aug"><div class="k">8월부터</div><div class="v">33세</div></div>
         </div>
         <div class="note">
-          기준연령이 2살 내려갑니다
+          가입 우대 연령이 2년 축소됩니다
           <span>34 · 35세 고객이 새로 불리해집니다 (100·50만 → 50·30만)</span>
         </div>
       </div>
 
       <div class="total" id="total">
-        <span class="k">8월부터 차액</span>
-        <span class="v" id="t-v">-50만원</span>
+        <span class="v" id="t-v">출산지원금이 <b>50만원</b> 줄어듭니다</span>
       </div>
     </div>
   </section>
@@ -748,7 +752,9 @@ function render(){
 
   if(isInf){
     const cut = (age === 'high');
-    $('t-v').textContent = cut ? '기준연령 2살 하향' : '변동 없음';
+    $('t-v').innerHTML = cut
+      ? '가입 우대 연령이 <b>2년</b> 축소됩니다'
+      : '33세 이하는 <b>그대로</b>입니다';
     $('total').classList.toggle('cutdown', cut);
     return;
   }
@@ -778,18 +784,22 @@ function render(){
     );
   }
 
+  /* ⚠ 이전 fill:forwards 애니메이션이 opacity를 붙잡고 있으므로 반드시 먼저 취소 */
+  gm.getAnimations().forEach(a => a.cancel());
   gm.classList.remove('show');
   gm.style.bottom = augH + 'px';
   gm.style.height = (fullH - augH) + 'px';
+
+  const NAME = (item === 'birth') ? '출산지원금' : '임신축하금';
   if(diff < 0){
     $('gaptag').textContent = diff + '만';
-    gm.getAnimations().forEach(a => a.cancel());
+    gm.classList.add('show');
     gm.animate([{opacity:0},{opacity:0},{opacity:1}],
       {duration: 1350, easing: 'ease-out', fill: 'forwards'});
-    gm.classList.add('show');
+    $('t-v').innerHTML = NAME + '이 <b>' + Math.abs(diff) + '만원</b> 줄어듭니다';
+  }else{
+    $('t-v').innerHTML = NAME + '은 <b>그대로</b>입니다';
   }
-
-  $('t-v').textContent = (diff === 0) ? '변동 없음' : (diff + '만원');
   $('total').classList.toggle('cutdown', diff < 0);
 }
 
