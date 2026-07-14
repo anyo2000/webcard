@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<title>SI 경증질환 심사기준 변경 안내 (7.20 시행)</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  /* ═══════════════════════════════════════════════
+     최소 폰트 규약 (50대 이상 가독성)
+       본문 18px · 캡션 15px · 그 아래 금지
+     ═══════════════════════════════════════════════ */
+  :root{
+    --navy:#12305C;
+    --navy-2:#2A5596;
+    --ink:#111318;
+    --gray:#6B6F78;      /* 회색도 진하게 — 연회색 금지 */
+    --line:#E6E8EE;
+    --surface:#F4F6FA;
+
+    --fs-body:18px;
+    --fs-cap:15px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;overflow:hidden;}
+  body{
+    font-family:'Pretendard','Pretendard Variable',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    color:var(--ink);background:#F7F8FB;
+    -webkit-font-smoothing:antialiased;letter-spacing:-0.022em;
+  }
+
+  #deck{height:100dvh;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;}
+  #deck::-webkit-scrollbar{display:none;}
+  .slide{
+    height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;
+    position:relative;display:flex;flex-direction:column;
+    padding:calc(env(safe-area-inset-top) + 74px) 22px calc(env(safe-area-inset-bottom) + 62px);
+    overflow:hidden;
+    text-align:center;                 /* ★ 기본 가운데 정렬 */
+  }
+
+  /* ── 톤 통일 : 전부 밝게. 표지만 옅은 그라데이션 ── */
+  .slide--cover{
+    background:
+      radial-gradient(ellipse 520px 380px at 18% 6%,  #DCE6FF 0%, transparent 62%),
+      radial-gradient(ellipse 460px 400px at 92% 24%, #EADDFF 0%, transparent 60%),
+      radial-gradient(ellipse 500px 360px at 50% 104%,#DFF0FF 0%, transparent 66%),
+      linear-gradient(175deg,#F7F9FF 0%,#EFF3FC 100%);
+  }
+  .slide--light{background:#FFFFFF;}
+  .slide--tint{
+    background:linear-gradient(180deg,#FBFCFF 0%,#F4F7FC 100%);
+  }
+
+  /* 배경 고스트 숫자 */
+  .ghost{
+    position:absolute;font-weight:800;letter-spacing:-0.06em;
+    pointer-events:none;user-select:none;line-height:1;
+    color:rgba(18,48,92,.045);
+  }
+  .ghost--hero{font-size:200px;left:50%;transform:translateX(-50%);bottom:44px;white-space:nowrap;}
+  .ghost--cat{font-size:190px;right:-10px;top:30px;color:rgba(18,48,92,.04);}
+
+  /* ── 컴플라이언스 문구 (의도적으로 작게 — 최소폰트 규약 예외) ── */
+  #comply-top{
+    position:fixed;top:0;left:0;right:0;z-index:70;
+    padding:calc(env(safe-area-inset-top) + 9px) 14px 8px;
+    font-size:9.5px;line-height:1.35;font-weight:400;letter-spacing:-0.02em;
+    color:#9DA3AE;text-align:center;pointer-events:none;
+    background:linear-gradient(180deg,rgba(255,255,255,.92) 60%,rgba(255,255,255,0) 100%);
+  }
+  #comply-bot{
+    position:fixed;bottom:0;left:0;right:0;z-index:70;
+    padding:10px 16px calc(env(safe-area-inset-bottom) + 10px);
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:10px;font-weight:400;letter-spacing:0;color:#9DA3AE;
+    pointer-events:none;
+    background:linear-gradient(0deg,rgba(255,255,255,.92) 55%,rgba(255,255,255,0) 100%);
+  }
+
+  /* ── 진행바 ── */
+  #progress{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;gap:4px;
+    padding:calc(env(safe-area-inset-top) + 31px) 22px 0;pointer-events:none;}
+  #progress .seg{flex:1;height:3px;border-radius:2px;background:rgba(18,48,92,.15);transition:background .45s ease;}
+  #progress .seg.on{background:var(--navy);}
+
+  /* ═══ 표지 ═══ */
+  .hero{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;z-index:2;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:9px 16px;margin-bottom:24px;border-radius:100px;
+    background:rgba(255,255,255,.82);
+    border:1px solid #D7DEEE;
+    box-shadow:0 2px 10px rgba(18,48,92,.06);
+    font-size:var(--fs-cap);font-weight:700;color:var(--navy);letter-spacing:-0.01em;
+  }
+  .eyebrow .live{width:7px;height:7px;border-radius:50%;background:#3B72D9;
+    animation:pulse 2s infinite;}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(59,114,217,.5)}
+    70%{box-shadow:0 0 0 8px rgba(59,114,217,0)}
+    100%{box-shadow:0 0 0 0 rgba(59,114,217,0)}
+  }
+  .hero h1{
+    font-size:clamp(44px,13.5vw,58px);font-weight:800;line-height:1.14;
+    letter-spacing:-0.05em;margin-bottom:20px;color:#0E1D33;
+  }
+  .hero h1 .grad{
+    background:linear-gradient(100deg,#2A5596 0%,#5B4FD0 55%,#C4568C 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .hero .sub{font-size:var(--fs-body);line-height:1.66;color:var(--gray);font-weight:500;}
+
+  .hero-stats{display:flex;gap:10px;margin-top:34px;width:100%;}
+  .stat{
+    flex:1;padding:17px 8px;border-radius:18px;
+    background:rgba(255,255,255,.78);
+    border:1px solid #E1E7F2;
+    box-shadow:0 4px 16px rgba(18,48,92,.05);
+    backdrop-filter:blur(10px);
+  }
+  .stat .n{
+    font-size:30px;font-weight:800;letter-spacing:-0.045em;line-height:1;margin-bottom:7px;
+    background:linear-gradient(140deg,#2A5596,#6A4FC4);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .stat .l{font-size:var(--fs-cap);color:#7A7F8A;font-weight:600;line-height:1.4;}
+
+  .scroll-cue{
+    position:relative;z-index:2;
+    display:flex;flex-direction:column;align-items:center;gap:7px;
+    font-size:var(--fs-cap);color:#9BA1AD;font-weight:600;
+  }
+  .scroll-cue svg{animation:bob 1.9s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(6px);opacity:1}}
+
+  /* ═══ 카테고리 헤더 (가운데) ═══ */
+  .cat-head{position:relative;z-index:2;margin-bottom:17px;}
+  .cat-badge{
+    display:inline-flex;align-items:center;gap:11px;
+    padding:10px 20px 10px 11px;margin-bottom:14px;border-radius:100px;
+    border:1.5px solid var(--cb-line,#DCE3F0);
+    background:var(--cb-bg,#F0F4FB);
+    box-shadow:0 4px 14px var(--cb-sh,rgba(18,48,92,.07));
+  }
+  .cat-badge .ic{
+    width:32px;height:32px;border-radius:50%;
+    background:var(--cb-ic,linear-gradient(135deg,#4E7ACB,#7E6BD8));
+    display:grid;place-items:center;color:#fff;font-size:17px;font-weight:800;
+    box-shadow:0 2px 7px rgba(0,0,0,.13);
+  }
+  .cat-badge .tx{font-size:24px;font-weight:800;color:var(--cb-tx,#3A5C97);letter-spacing:-0.04em;}
+  .cat-head h2{font-size:31px;font-weight:800;line-height:1.22;letter-spacing:-0.045em;margin-bottom:10px;}
+  .cat-head p{font-size:16px;line-height:1.55;color:var(--gray);font-weight:500;}
+
+  /* ═══ 항목 카드 ═══ */
+  .list{position:relative;z-index:2;display:flex;flex-direction:column;gap:8px;text-align:left;}
+  .item{
+    position:relative;background:var(--surface);border:1px solid #E8ECF3;
+    border-radius:20px;padding:14px 16px;cursor:pointer;
+    display:flex;align-items:center;gap:12px;
+    transition:transform .34s cubic-bezier(.32,.72,0,1);
+  }
+  .item:active{transform:scale(.972);}
+  .item .txt{flex:1;min-width:0;}
+  .item .name{font-size:20px;font-weight:800;letter-spacing:-0.035em;margin-bottom:7px;line-height:1.28;}
+  .item .tags{display:flex;gap:5px;flex-wrap:wrap;}
+  .item .tag{
+    font-size:var(--fs-cap);font-weight:700;
+    padding:5px 10px;border-radius:9px;background:#fff;color:#6B6F78;border:1px solid #E4E8EF;
+  }
+  .item .tag.yes{background:#E9F0FF;color:#2A5596;border-color:#D6E2F7;}
+  .item .tag.no{background:#FFECF0;color:#B84A68;border-color:#F7D8E0;}
+  .item .tag.hot{background:#FFF0E4;color:#B5641C;border-color:#F8DFC6;}
+  .daybox{
+    flex:none;width:68px;padding:12px 4px;border-radius:17px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:linear-gradient(145deg,#2A5596 0%,#12305C 100%);
+    color:#fff;box-shadow:0 6px 18px rgba(18,48,92,.22);
+  }
+  .daybox .u1{font-size:var(--fs-cap);font-weight:700;color:#A9C0E4;line-height:1;margin-bottom:5px;}
+  .daybox .d{font-size:27px;font-weight:800;letter-spacing:-0.05em;line-height:1;}
+  .daybox .u2{font-size:var(--fs-cap);font-weight:700;color:#A9C0E4;margin-top:5px;line-height:1;}
+  .daybox.free{background:linear-gradient(145deg,#6B5FC0 0%,#3E3480 100%);box-shadow:0 6px 18px rgba(80,64,160,.22);}
+
+  /* ═══ 탭 유도 — 화살표 + 퍼지는 파장 ═══ */
+  .chev{
+    flex:none;position:relative;
+    width:30px;height:30px;border-radius:50%;
+    background:#fff;border:1px solid #DFE4EC;
+    display:grid;place-items:center;color:#2A5596;
+    box-shadow:0 2px 6px rgba(18,48,92,.08);
+  }
+  /* 파장 : 화살표에서 물결처럼 퍼져나감 */
+  .chev::before,.chev::after{
+    content:'';position:absolute;inset:0;border-radius:50%;
+    border:2px solid #2A5596;opacity:0;
+    animation:ripple 2.8s cubic-bezier(.22,.8,.28,1) infinite;
+  }
+  .chev::after{animation-delay:.7s;}
+  @keyframes ripple{
+    0%  {transform:scale(1);   opacity:.5;}
+    60% {transform:scale(1.85);opacity:0;}
+    100%{transform:scale(1.85);opacity:0;}
+  }
+  /* 카드마다 파장 시작 시점을 어긋나게 — 순서대로 번지는 느낌 */
+  .item:nth-child(2) .chev::before,.item:nth-child(2) .chev::after{animation-delay:.35s;}
+  .item:nth-child(2) .chev::after{animation-delay:1.05s;}
+  .item:nth-child(3) .chev::before,.item:nth-child(3) .chev::after{animation-delay:.7s;}
+  .item:nth-child(3) .chev::after{animation-delay:1.4s;}
+  /* 누르는 순간 파장 정지 */
+  .item:active .chev::before,.item:active .chev::after{animation:none;opacity:0;}
+
+  /* 리스트 위 안내 — 눈에 띄어야 하므로 네이비 채움 */
+  .tap-hint{
+    position:relative;z-index:3;
+    display:inline-flex;align-items:center;gap:7px;align-self:center;
+    margin-bottom:10px;padding:9px 18px;border-radius:100px;
+    background:linear-gradient(135deg,#2A5596 0%,#12305C 100%);
+    border:none;color:#fff;
+    font-size:17px;font-weight:800;letter-spacing:-0.03em;
+    box-shadow:0 4px 14px rgba(18,48,92,.3);
+    animation:hintPulse 2.2s ease-in-out infinite;
+  }
+  @keyframes hintPulse{
+    0%,100%{transform:translateY(0) scale(1);   box-shadow:0 4px 14px rgba(18,48,92,.3);}
+    50%    {transform:translateY(-3px) scale(1.045);box-shadow:0 9px 24px rgba(18,48,92,.42);}
+  }
+  .tap-hint .fin{font-size:18px;animation:tapbob 1.4s ease-in-out infinite;}
+  @keyframes tapbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+
+  /* 공통 확인사항 */
+  .common{
+    position:relative;z-index:2;margin-top:auto;
+    border-radius:20px;padding:13px 13px;
+    background:linear-gradient(135deg,#FFFFFF 0%,#F5F7FB 100%);
+    border:1px solid #E6EAF1;
+  }
+  .common .h{font-size:var(--fs-cap);font-weight:700;color:#7A7F8A;margin-bottom:8px;}
+  .common .three{display:flex;gap:7px;}
+  .common .c{flex:1;padding:10px 4px;border-radius:14px;background:#fff;border:1px solid #EBEEF4;}
+  .common .c .ci{font-size:18px;margin-bottom:5px;line-height:1;}
+  .common .c .cl{font-size:var(--fs-cap);font-weight:700;color:#4E535D;}
+
+  .tip-line{position:relative;z-index:2;margin-top:14px;font-size:var(--fs-cap);color:#A2A7B2;font-weight:500;}
+
+  /* ═══ 체크포인트(7장) ═══ */
+  .checks{position:relative;z-index:2;display:flex;flex-direction:column;gap:10px;text-align:left;}
+  .check{
+    display:flex;align-items:flex-start;gap:13px;
+    background:#fff;border:1px solid #E6EAF1;border-radius:20px;padding:18px;
+    cursor:pointer;transition:all .3s cubic-bezier(.32,.72,0,1);
+  }
+  .check .box{
+    flex:none;width:27px;height:27px;border-radius:9px;
+    border:2px solid #CBD3E0;background:#fff;
+    display:grid;place-items:center;color:#fff;font-size:14px;font-weight:800;
+    transition:all .28s cubic-bezier(.32,.72,0,1);
+  }
+  .check .ct{font-size:17px;font-weight:700;line-height:1.45;padding-top:2px;}
+  .check .ct span{display:block;font-size:var(--fs-cap);font-weight:500;color:var(--gray);margin-top:5px;line-height:1.5;}
+  .check.on{background:#F0F5FF;border-color:#C4D6F5;}
+  .check.on .box{background:linear-gradient(140deg,#2A5596,#12305C);border-color:#12305C;}
+  .check.on .ct{color:var(--navy);}
+
+  /* ═══ 하단 시트 ═══ */
+  #dim{position:fixed;inset:0;z-index:80;background:rgba(14,29,51,.4);
+    backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+    opacity:0;pointer-events:none;transition:opacity .38s ease;}
+  #dim.show{opacity:1;pointer-events:auto;}
+  #sheet{
+    position:fixed;left:0;right:0;bottom:0;z-index:90;background:#fff;
+    border-radius:30px 30px 0 0;
+    padding:12px 22px calc(env(safe-area-inset-bottom) + 26px);
+    transform:translateY(101%);
+    transition:transform .46s cubic-bezier(.32,.72,0,1);
+    max-height:86dvh;overflow-y:auto;
+    box-shadow:0 -10px 44px rgba(14,29,51,.18);
+    text-align:left;
+  }
+  #sheet::-webkit-scrollbar{display:none;}
+  #sheet.show{transform:translateY(0);}
+  .grabber{width:40px;height:5px;border-radius:3px;background:#DDE1E9;margin:0 auto 20px;}
+
+  .s-hero{
+    position:relative;overflow:hidden;border-radius:24px;padding:22px;margin-bottom:18px;
+    background:linear-gradient(140deg,#12305C 0%,#2A5596 55%,#4677BF 100%);color:#fff;
+  }
+  .s-hero .glow{position:absolute;width:200px;height:200px;border-radius:50%;
+    top:-76px;right:-56px;filter:blur(40px);
+    background:radial-gradient(circle,#8FBEFF 0%,transparent 70%);opacity:.5;}
+  .s-hero .s-name{font-size:26px;font-weight:800;letter-spacing:-0.04em;margin-bottom:15px;position:relative;line-height:1.3;}
+  .s-hero .s-num{display:flex;align-items:baseline;gap:6px;position:relative;flex-wrap:wrap;}
+  .s-hero .s-num .lead{font-size:17px;font-weight:700;color:#B9CDEB;}
+  .s-hero .s-num .big{font-size:54px;font-weight:800;letter-spacing:-0.055em;line-height:1;}
+  .s-hero .s-num .unit{font-size:19px;font-weight:700;color:#C6D8F0;}
+  .s-hero .s-chips{display:flex;gap:6px;margin-top:16px;position:relative;flex-wrap:wrap;}
+  .s-hero .chip{
+    font-size:var(--fs-cap);font-weight:700;padding:7px 11px;border-radius:10px;
+    background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.16);
+  }
+
+  /* 현행→변경 (Before/After) */
+  .ba{
+    display:flex;align-items:stretch;gap:9px;margin-bottom:18px;
+  }
+  .ba .cell{
+    flex:1;border-radius:18px;padding:15px 13px;text-align:center;
+  }
+  .ba .before{background:#F5F6F8;border:1px solid #E6E8EE;}
+  .ba .after{background:linear-gradient(140deg,#EAF2FF,#E2EBFF);border:1px solid #CFDFF9;}
+  .ba .k{font-size:var(--fs-cap);font-weight:700;color:#9AA0AB;margin-bottom:7px;}
+  .ba .after .k{color:#4A75BA;}
+  .ba .v{font-size:19px;font-weight:800;letter-spacing:-0.035em;line-height:1.35;}
+  .ba .before .v{color:#9AA0AB;text-decoration:line-through;text-decoration-thickness:2px;}
+  .ba .after .v{color:var(--navy);}
+  .ba .arrow{align-self:center;font-size:19px;color:#B6BECC;font-weight:800;}
+
+  .verdict{background:var(--surface);border:1px solid #E8ECF3;border-radius:20px;padding:18px;margin-bottom:18px;}
+  .verdict .lbl{font-size:var(--fs-cap);font-weight:800;color:var(--navy);margin-bottom:9px;}
+  .verdict .txt{font-size:17.5px;line-height:1.62;font-weight:600;}
+  .verdict .txt b{font-weight:800;color:var(--navy);}
+
+  .conds{margin-bottom:18px;}
+  .conds .h{font-size:var(--fs-cap);font-weight:800;color:#7A7F8A;margin-bottom:10px;}
+  .cond-row{display:flex;gap:11px;align-items:flex-start;padding:13px 0;border-top:1px solid var(--line);}
+  .cond-row:last-child{border-bottom:1px solid var(--line);}
+  .cond-row .num{
+    flex:none;width:22px;height:22px;border-radius:50%;
+    background:linear-gradient(140deg,#2A5596,#12305C);color:#fff;
+    font-size:12px;font-weight:800;display:grid;place-items:center;margin-top:2px;
+  }
+  .cond-row .c-txt{font-size:17px;line-height:1.5;font-weight:600;}
+  .cond-row .c-txt .raw{display:block;font-size:var(--fs-cap);color:#9AA0AB;margin-top:4px;font-weight:500;}
+
+  /* 원인별 분기 (복통/소화불량) */
+  .branch{margin-bottom:18px;}
+  .branch .h{font-size:var(--fs-cap);font-weight:800;color:#7A7F8A;margin-bottom:10px;}
+  .br{
+    display:flex;align-items:center;gap:12px;
+    border-radius:18px;padding:15px;margin-bottom:8px;
+    background:#F4F6FA;border:1px solid #E6EAF1;
+  }
+  .br .bi{
+    flex:none;width:34px;height:34px;border-radius:11px;
+    display:grid;place-items:center;font-size:16px;
+    background:#fff;border:1px solid #E4E8EF;
+  }
+  .br .bt{flex:1;font-size:17px;font-weight:700;line-height:1.4;}
+  .br .bt span{display:block;font-size:var(--fs-cap);font-weight:600;color:var(--gray);margin-top:4px;}
+  .br.ok{background:#EFF5FF;border-color:#D4E2F8;}
+  .br.no{background:#FFF0F3;border-color:#F8D9E1;}
+  .br.no .bt{color:#A83E5C;}
+  .br.no .bt span{color:#B96A82;}
+
+  .warn{border:1px solid #F2DFC0;background:linear-gradient(135deg,#FEFAF2 0%,#FDF4E7 100%);
+    border-radius:20px;padding:17px;margin-bottom:18px;}
+  .warn .h{font-size:var(--fs-cap);font-weight:800;color:#96681B;margin-bottom:8px;}
+  .warn .t{font-size:16.5px;line-height:1.58;color:#5B4926;font-weight:600;}
+
+  .src{font-size:var(--fs-cap);color:#A2A7B2;line-height:1.55;font-weight:500;}
+
+  .term{border-bottom:2px dotted #C0A26E;cursor:pointer;font-weight:800;}
+  #pop{
+    position:fixed;z-index:100;background:#16181D;color:#fff;
+    border-radius:14px;padding:14px 15px;
+    font-size:15.5px;line-height:1.52;font-weight:500;max-width:262px;
+    opacity:0;transform:translateY(5px) scale(.96);pointer-events:none;
+    transition:opacity .22s ease,transform .22s cubic-bezier(.32,.72,0,1);
+    box-shadow:0 10px 32px rgba(0,0,0,.32);
+  }
+  #pop.show{opacity:1;transform:none;}
+  #pop .p-term{display:block;font-weight:800;margin-bottom:5px;color:#8CBBFF;font-size:var(--fs-cap);}
+
+  .legal{display:none;}   /* 고정 컴플라이언스 바로 대체 */
+
+  /* 모션 */
+  .rise{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s cubic-bezier(.22,.8,.28,1);}
+  .slide.in .rise{opacity:1;transform:none;}
+  .slide.in .rise:nth-child(1){transition-delay:.05s}
+  .slide.in .rise:nth-child(2){transition-delay:.13s}
+  .slide.in .rise:nth-child(3){transition-delay:.21s}
+  .slide.in .rise:nth-child(4){transition-delay:.29s}
+  .list .item,.checks .check{opacity:0;transform:translateY(22px);transition:opacity .75s ease,transform .75s cubic-bezier(.22,.8,.28,1);}
+  .slide.in .list .item:nth-child(1),.slide.in .checks .check:nth-child(1){opacity:1;transform:none;transition-delay:.2s}
+  .slide.in .list .item:nth-child(2),.slide.in .checks .check:nth-child(2){opacity:1;transform:none;transition-delay:.28s}
+  .slide.in .list .item:nth-child(3),.slide.in .checks .check:nth-child(3){opacity:1;transform:none;transition-delay:.36s}
+  .slide.in .checks .check:nth-child(4){opacity:1;transform:none;transition-delay:.44s}
+  .no-anim .rise,.no-anim .item,.no-anim .check{opacity:1!important;transform:none!important;transition:none!important;}
+</style>
+</head>
+<body>
+
+<div id="comply-top">본 자료는 교육용으로 온라인 매체(SNS등) 및 고객 설명, 광고자료로 활용 행위는 법으로 금지됩니다.</div>
+<div id="comply-bot">
+  <span>영업컨설팅파트 2607 - 03</span>
+  <span>모집인 / 교육용</span>
+</div>
+
+<div id="progress"></div>
+
+<div id="deck">
+
+  <!-- ══ 1 · 표지 ══ -->
+  <section class="slide slide--cover">
+    <div class="ghost ghost--hero">7.20</div>
+    <div class="hero">
+      <div class="eyebrow rise"><span class="live"></span>SI 경증질환 심사기준 변경</div>
+      <h1 class="rise">가입이 어렵던<br>11개 질환<br><span class="grad">다시 확인하세요</span></h1>
+      <div class="sub rise">모두 <b style="color:#3A4150;">인수불가</b>였던 질환<br>인수 검토대상으로</div>
+      <div class="hero-stats rise">
+        <div class="stat"><div class="n">11</div><div class="l">인수불가<br>→ 검토</div></div>
+        <div class="stat"><div class="n">5</div><div class="l">질환<br>그룹</div></div>
+        <div class="stat"><div class="n">7.20</div><div class="l">시행일<br>(월)</div></div>
+      </div>
+    </div>
+    <div class="scroll-cue">
+      <svg width="17" height="10" viewBox="0 0 15 9" fill="none"><path d="M1.5 1.5L7.5 7L13.5 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      밀어서 보기
+    </div>
+    <div class="legal">준법감시인 심의필 제0000-0000호 (2026.07.__ ~ 2027.07.__)</div>
+  </section>
+
+  <!-- ══ 2 · 여성질환 ══ -->
+  <section class="slide slide--light">
+    <div class="ghost ghost--cat">01</div>
+    <div class="cat-head">
+      <div class="cat-badge rise" style="--cb-bg:#FDF0F4;--cb-line:#F7DDE5;--cb-ic:linear-gradient(135deg,#E2809F,#E8A98C);--cb-tx:#B85476;">
+        <span class="ic">♀</span><span class="tx">여성질환</span>
+      </div>
+      <h2 class="rise">여성질환 3종이<br><span style="color:#B85476;">열립니다.</span></h2>
+      <p class="rise">모두 현행 <b>인수불가</b>였던 질환입니다.</p>
+    </div>
+    <div class="tap-hint rise"><span class="fin">👆</span> 클릭해서 세부내용 보기</div>
+    <div class="list">
+      <div class="item" data-key="breast">
+        <div class="txt">
+          <div class="name">유방 양성종양</div>
+          <div class="tags">
+            <span class="tag yes">제거수술 완료</span>
+            <span class="tag no">재발 없음</span>
+          </div>
+        </div>
+        <div class="daybox"><div class="u1">입원</div><div class="d">3</div><div class="u2">일 이하</div></div>
+       <div class="chev"><svg width="8" height="13" viewBox="0 0 7 11" fill="none"><path d="M1.5 1L5.5 5.5L1.5 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="item" data-key="endo">
+        <div class="txt">
+          <div class="name">자궁내막증</div>
+          <div class="tags"><span class="tag yes">수술 있음</span></div>
+        </div>
+        <div class="daybox"><div class="u1">입원</div><div class="d">15</div><div class="u2">일 이하</div></div>
+       <div class="chev"><svg width="8" height="13" viewBox="0 0 7 11" fill="none"><path d="M1.5 1L5.5 5.5L1.5 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="item" data-key="hyper">
+        <div class="txt">
+          <div class="name">자궁내막증식증</div>
+          <div class="tags"><span class="tag yes">수술 있음</span></div>
+        </div>
+        <div class="daybox"><div class="u1">입원</div><div class="d">15</div><div class="u2">일 이하</div></div>
+       <div class="chev"><svg width="8" height="13" viewBox="0 0 7 11" fill="none"><path d="M1.5 1L5.5 5.5L1.5 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+    <div class="common">
+      <div class="h">세 항목 모두 아래를 함께 확인하세요</div>
+      <div class="three">
+        <div class="c"><div class="ci">🛏</div><div class="cl">입원일수</div></div>
+        <div class="c"><div class="ci">✚</div><div class="cl">수술 여부</div></div>
+        <div class="c"><div class="ci">🔒</div><div class="cl">담보 제한</div></div>
+      </div>
+    </div>
+    <div class="legal">준법감시인 심의필 제0000-0000호 (2026.07.__ ~ 2027.07.__)</div>
+  </section>
+
+  <!-- ══ 3 · 양성 신생물 ══ -->
+  <section class="slide slide--tint">
+    <div class="ghost ghost--cat">02</div>
+    <div class="cat-head">
+      <div class="cat-badge rise" style="--cb-bg:#F2F0FE;--cb-line:#E2DDF9;--cb-ic:linear-gradient(135deg,#8C7BE0,#6FA0E4);--cb-tx:#6255A8;">
+        <span class="ic">✽</span><span class="tx">양성 신생물</span>
+      </div>
+      <h2 class="rise">연조직 종양도<br><span style="color:#6255A8;">열립니다.</span></h2>
+      <p class="rise">현행 <b>인수불가</b> → 입원 15일 이하 +<br>수술을 받았다면 인수 검토됩니다.</p>
+    </div>
+    <div class="tap-hint rise"><span class="fin">👆</span> 클릭해서 세부내용 보기</div>
+    <div class="list">
+      <div class="item" data-key="soft">
+        <div class="txt">
+          <div class="name">결합조직 및 연조직의<br>양성 신생물</div>
+          <div class="tags"><span class="tag yes">수술 있음</span></div>
+        </div>
+        <div class="daybox"><div class="u1">입원</div><div class="d">15</div><div class="u2">일 이하</div></div>
+       <div class="chev"><svg width="8" height="13" viewBox="0 0 7 11" fill="none"><path d="M1.5 1L5.5 5.5L1.5 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+    <div class="common">
+      <div class="h">함께 알아두세요</div>
+      <div style="font-size:17px;font-weight:700;line-height:1.55;color:#3A4150;text-align:left;padding:2px 4px;">
+        이 기준은 <b style="color:#12305C;">현재 피부양성종양·지방종에<br>적용 중인 기준과 동일</b>합니다.
+        <span style="display:block;font-size:15px;font-weight:600;color:#7A7F8A;margin-top:7px;">
+          피부양성종양·지방종의 기준이 새로 바뀌는 것이 아닙니다.
+        </span>
+      </div>
+    </div>
+    <div class="legal">준법감시인 심의필 제0000-0000호 (2026.07.__ ~ 2027.07.__)</div>
+  </section>
+
+  <!-- ══ 4 · 안과질환 ══ -->
+  <section class="slide slide--light">
+    <div class="ghost ghost--cat">03</div>
+    <div class="cat-head">
+      <div class="cat-badge rise" style="--cb-bg:#EAF4FB;--cb-line:#D5E7F4;--cb-ic:linear-gradient(135deg,#4E9AD0,#5FC3C8);--cb-tx:#2F6E96;">
+        <span class="ic">◉</span><span class="tx">안과질환</span>
+      </div>
+      <h2 class="rise">망막·비문증도<br><span style="color:#2F6E96;">열립니다.</span></h2>
+      <p class="rise">현행 <b>인수불가</b> → 입원 15일 이하 +<br>수술을 받았다면 인수 검토됩니다.</p>
+    </div>
+    <div class="tap-hint rise"><span class="fin">👆</span> 클릭해서 세부내용 보기</div>
+    <div class="list">
+      <div class="item" data-key="retina">
+        <div class="txt">
+          <div class="name">망막박리 및 망막열공</div>
+          <div class="tags"><span class="tag yes">수술 있음</span></div>
+        </div>
+        <div class="daybox"><div class="u1">입원</div><div class="d">15</div><div class="u2">일 이하</div></div>
+       <div class="chev"><svg width="8" height="13" viewBox="0 0 7 11" fill="none"><path d="M1.5 1L5.5 5.5L1.5 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="item" data-key="vitreous">
+        <div class="txt">
+          <div class="name">유리체혼탁·변성<br>(비문증)</div>
+          <div class="tags"><span class="tag yes">수술 있음</span></div>
+        </div>
+        <div class="daybox"><div class="u1">입원</div><div class="d">15</div><div class="u2">일 이하</div></div>
+       <div class="chev"><svg width="8" height="13" viewBox="0 0 7 11" fill="none"><path d="M1.5 1L5.5 5.5L1.5 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+    <div class="common">
+      <div class="h">두 항목 모두 아래를 함께 확인하세요</div>
+      <div class="three">
+        <div class="c"><div class="ci">🛏</div><div class="cl">입원일수</div></div>
+        <div class="c"><div class="ci">✚</div><div class="cl">수술 여부</div></div>
+      </div>
+    </div>
+    <div class="legal">준법감시인 심의필 제0000-0000호 (2026.07.__ ~ 2027.07.__)</div>
+  </section>
+
+  <!-- ══ 5 · 소화기 증상 ══ -->
+  <section class="slide slide--tint">
+    <div class="ghost ghost--cat">04</div>
+    <div class="cat-head">
+      <div class="cat-badge rise" style="--cb-bg:#FFF3E9;--cb-line:#F9E2CE;--cb-ic:linear-gradient(135deg,#E29A5B,#DFC062);--cb-tx:#A96D2C;">
+        <span class="ic">◆</span><span class="tx">소화기 증상</span>
+      </div>
+      <h2 class="rise">시스템 거절에서<br><span style="color:#A96D2C;">선별 인수로.</span></h2>
+      <p class="rise">단, 원인 질환에 따라 갈립니다.<br>이 코드라고 모두 인수되지 않습니다.</p>
+    </div>
+    <div class="tap-hint rise"><span class="fin">👆</span> 클릭해서 세부내용 보기</div>
+    <div class="list">
+      <div class="item" data-key="pain">
+        <div class="txt">
+          <div class="name">복통</div>
+          <div class="tags">
+            <span class="tag">수술 무관</span>
+            <span class="tag hot">원인·동반질환 질문</span>
+          </div>
+        </div>
+        <div class="daybox free"><div class="u1">입원</div><div class="d">15</div><div class="u2">일 이하</div></div>
+       <div class="chev"><svg width="8" height="13" viewBox="0 0 7 11" fill="none"><path d="M1.5 1L5.5 5.5L1.5 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="item" data-key="dys">
+        <div class="txt">
+          <div class="name">소화불량</div>
+          <div class="tags">
+            <span class="tag">수술 무관</span>
+            <span class="tag hot">원인·동반질환 질문</span>
+          </div>
+        </div>
+        <div class="daybox free"><div class="u1">입원</div><div class="d">15</div><div class="u2">일 이하</div></div>
+       <div class="chev"><svg width="8" height="13" viewBox="0 0 7 11" fill="none"><path d="M1.5 1L5.5 5.5L1.5 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+    <div class="common">
+      <div class="h">현장에서 가장 많이 오해하는 부분입니다</div>
+      <div style="font-size:17px;font-weight:700;line-height:1.55;color:#3A4150;text-align:left;padding:2px 4px;">
+        원인이 <b style="color:#12305C;">위염·장염·용종이면 인수 가능</b>,<br>
+        <b style="color:#A83E5C;">급성 췌장염이면 거절</b>됩니다.
+        <span style="display:block;font-size:15px;font-weight:600;color:#7A7F8A;margin-top:7px;">
+          항목을 눌러 원인별 기준을 꼭 확인하세요.
+        </span>
+      </div>
+    </div>
+    <div class="legal">준법감시인 심의필 제0000-0000호 (2026.07.__ ~ 2027.07.__)</div>
+  </section>
+
+  <!-- ══ 6 · 기타 질환 ══ -->
+  <section class="slide slide--light">
+    <div class="ghost ghost--cat">05</div>
+    <div class="cat-head">
+      <div class="cat-badge rise" style="--cb-bg:#EDF6F1;--cb-line:#D8EAE0;--cb-ic:linear-gradient(135deg,#54AD86,#5FB8B0);--cb-tx:#357C5F;">
+        <span class="ic">✚</span><span class="tx">기타 질환</span>
+      </div>
+      <h2 class="rise">어지럼증·간염도<br><span style="color:#357C5F;">열립니다.</span></h2>
+      <p class="rise">현행 <b>인수불가</b> → 세 항목 모두<br><b>수술이 없어야</b> 인수 검토됩니다.</p>
+    </div>
+    <div class="tap-hint rise"><span class="fin">👆</span> 클릭해서 세부내용 보기</div>
+    <div class="list">
+      <div class="item" data-key="vest">
+        <div class="txt">
+          <div class="name">전정기능의 장애</div>
+          <div class="tags"><span class="tag no">수술 없음</span></div>
+        </div>
+        <div class="daybox"><div class="u1">입원</div><div class="d">15</div><div class="u2">일 이하</div></div>
+       <div class="chev"><svg width="8" height="13" viewBox="0 0 7 11" fill="none"><path d="M1.5 1L5.5 5.5L1.5 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="item" data-key="meniere">
+        <div class="txt">
+          <div class="name">메니에르병</div>
+          <div class="tags"><span class="tag no">수술 없음</span></div>
+        </div>
+        <div class="daybox"><div class="u1">입원</div><div class="d">15</div><div class="u2">일 이하</div></div>
+       <div class="chev"><svg width="8" height="13" viewBox="0 0 7 11" fill="none"><path d="M1.5 1L5.5 5.5L1.5 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+      <div class="item" data-key="hepa">
+        <div class="txt">
+          <div class="name">급성 바이러스간염</div>
+          <div class="tags"><span class="tag no">수술 없음</span></div>
+        </div>
+        <div class="daybox"><div class="u1">입원</div><div class="d">15</div><div class="u2">일 이하</div></div>
+       <div class="chev"><svg width="8" height="13" viewBox="0 0 7 11" fill="none"><path d="M1.5 1L5.5 5.5L1.5 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+    </div>
+    <div class="common">
+      <div class="h">세 항목 공통</div>
+      <div class="three">
+        <div class="c"><div class="ci">🛏</div><div class="cl">입원 15일 이하</div></div>
+        <div class="c"><div class="ci">✕</div><div class="cl">수술 없을 것</div></div>
+      </div>
+    </div>
+    <div class="legal">준법감시인 심의필 제0000-0000호 (2026.07.__ ~ 2027.07.__)</div>
+  </section>
+
+  <!-- ══ 7 · 체크포인트 ══ -->
+  <section class="slide slide--cover">
+    <div class="cat-head">
+      <div class="cat-badge rise" style="--cb-bg:#FFFFFFCC;--cb-line:#D7DEEE;--cb-ic:linear-gradient(135deg,#2A5596,#12305C);--cb-tx:#2A5596;">
+        <span class="ic">✓</span><span class="tx">최종 체크포인트</span>
+      </div>
+      <h2 class="rise">심사 전<br>꼭 확인하세요.</h2>
+      <p class="rise">눌러서 하나씩 체크해 보세요.</p>
+    </div>
+    <div class="checks">
+      <div class="check">
+        <div class="box">✓</div>
+        <div class="ct">입원일수를 확인했다
+          <span>3일 이하(유방 양성종양) 또는 15일 이하</span></div>
+      </div>
+      <div class="check">
+        <div class="box">✓</div>
+        <div class="ct">수술 여부를 확인했다
+          <span>있음 · 없음 · 무관 — 질환마다 다릅니다</span></div>
+      </div>
+      <div class="check">
+        <div class="box">✓</div>
+        <div class="ct">재발·잔존 종양을 확인했다
+          <span>유방 양성종양은 3개월 내 추가검사 소견도 없어야 합니다</span></div>
+      </div>
+      <div class="check">
+        <div class="box">✓</div>
+        <div class="ct">복통·소화불량은 원인을 확인했다
+          <span>원인 질환에 따라 인수 여부가 갈립니다</span></div>
+      </div>
+    </div>
+    <div class="tip-line">세부 심사기준은 공문을 반드시 함께 확인하세요.<br>문의 : 장기UW파트</div>
+    <div class="legal">준법감시인 심의필 제0000-0000호 (2026.07.__ ~ 2027.07.__)</div>
+  </section>
+
+</div>
+
+<div id="dim"></div>
+<div id="sheet">
+  <div class="grabber"></div>
+  <div class="s-hero">
+    <div class="glow"></div>
+    <div class="s-name" id="s-name"></div>
+    <div class="s-num">
+      <span class="lead">입원</span>
+      <span class="big" id="s-day"></span><span class="unit">일 이하</span>
+    </div>
+    <div class="s-chips" id="s-chips"></div>
+  </div>
+  <div id="s-ba"></div>
+  <div class="verdict">
+    <div class="txt" id="s-verdict"></div>
+  </div>
+  <div id="s-body"></div>
+  <div id="s-warn"></div>
+  <div class="src">출처 : 장기UW파트 「SI 경증질환 변경사항 재공유」 (2026.07.20 시행 예정)<br>세부 심사기준은 공문을 반드시 함께 확인하세요.</div>
+</div>
+
+<div id="pop"></div>
+
+<script>
+/* ══ 데이터 : 공문 원문의 조건만 문장으로 풀어씀. 원문에 없는 내용은 넣지 않음 ══ */
+const DATA = {
+  breast:{
+    name:'유방 양성종양', day:'3',
+    chips:['제거수술 완료','재발 없음','잔존 종양 없음'],
+    ba:['인수 불가','인수 검토 가능'],
+    verdict:'입원 <b>3일 이하</b> · <b>제거수술 완료</b> · <b>재발 없음</b> — 이 셋을 충족하면 <b>인수 검토</b>가 가능합니다.<br><br>여기에 <b>남아있는 종양이 없고</b>, <b>3개월 내 추가검사 소견도 없으면</b> <b>인수 가능</b>합니다.',
+    conds:[
+      ['입원일수가 3일 이하일 것','원문 : 3일이하 입원'],
+      ['제거수술을 완료했을 것','원문 : 수술 有'],
+      ['재발이 없을 것','원문 : 재발 無'],
+      ['현재 보유 중인 종양이 없을 것','원문 : 보유중 종양 없는 경우 限'],
+      ['3개월 내 추가검사 소견이 없을 것','원문 : 3개월내 추가검사 소견 無']
+    ],
+    warn:'종양이 남아있거나 추가검사 소견이 있었던 경우는 <b>인수 불가</b>입니다.<br><br>인수되더라도 <b>유방 관련 담보</b>와 <span class="term" data-t="유갑생">유갑생 담보</span>는 <span class="term" data-t="담보제한">제한</span>됩니다.'
+  },
+  endo:{
+    name:'자궁내막증', day:'15', chips:['수술 있음'],
+    ba:['인수 불가','인수 검토 가능'],
+    verdict:'입원이 <b>15일 이하</b>였고, <b>수술을 받은</b> 경우 인수 검토가 가능합니다.',
+    conds:[['입원일수가 15일 이하일 것','원문 : 15일이하 입원'],['수술을 받았을 것','원문 : 수술 有']],
+    warn:'인수되더라도 <b>자궁내막증 담보</b>와 <span class="term" data-t="유갑생">유갑생 담보</span>는 <span class="term" data-t="담보제한">제한</span>됩니다.'
+  },
+  hyper:{
+    name:'자궁내막증식증', day:'15', chips:['수술 있음'],
+    ba:['인수 불가','인수 검토 가능'],
+    verdict:'입원이 <b>15일 이하</b>였고, <b>수술을 받은</b> 경우 인수 검토가 가능합니다.',
+    conds:[['입원일수가 15일 이하일 것','원문 : 15일이하 입원'],['수술을 받았을 것','원문 : 수술 有']],
+    warn:'인수되더라도 <b>자궁내막증 담보</b>와 <span class="term" data-t="유갑생">유갑생 담보</span>는 <span class="term" data-t="담보제한">제한</span>됩니다.'
+  },
+  soft:{
+    name:'결합조직 및 연조직의 양성 신생물', day:'15', chips:['수술 있음'],
+    ba:['인수 불가','인수 검토 가능'],
+    verdict:'입원이 <b>15일 이하</b>였고, <b>수술을 받은</b> 경우 인수 검토가 가능합니다.',
+    conds:[['입원일수가 15일 이하일 것','원문 : 15일이하 입원'],['수술을 받았을 것','원문 : 수술 有']],
+    warn:'재발한 경우 <b>질병수술비 담보</b>가 <span class="term" data-t="담보제한">제한</span>됩니다.<br><br>이 기준은 <b>현재 피부양성종양·지방종에 적용 중인 기준과 동일</b>합니다. 피부양성종양·지방종의 기준이 새로 바뀌는 것이 아닙니다.'
+  },
+  retina:{
+    name:'망막박리 및 망막열공', day:'15', chips:['수술 있음'],
+    ba:['인수 불가','인수 검토 가능'],
+    verdict:'입원이 <b>15일 이하</b>였고, <b>수술을 받은</b> 경우 인수 검토가 가능합니다.',
+    conds:[['입원일수가 15일 이하일 것','원문 : 15일이하 입원'],['수술을 받았을 것','원문 : 수술 有']]
+  },
+  vitreous:{
+    name:'유리체혼탁·변성 (비문증)', day:'15', chips:['수술 있음'],
+    ba:['인수 불가','인수 검토 가능'],
+    verdict:'입원이 <b>15일 이하</b>였고, <b>수술을 받은</b> 경우 인수 검토가 가능합니다.',
+    conds:[['입원일수가 15일 이하일 것','원문 : 15일이하 입원'],['수술을 받았을 것','원문 : 수술 有']]
+  },
+  vest:{
+    name:'전정기능의 장애', day:'15', chips:['수술 없음'],
+    ba:['인수 불가','인수 검토 가능'],
+    verdict:'입원이 <b>15일 이하</b>였고, <b>수술을 받지 않은</b> 경우 인수 검토가 가능합니다.',
+    conds:[['입원일수가 15일 이하일 것','원문 : 15일이하 입원'],['수술을 받지 않았을 것','원문 : 수술 無']]
+  },
+  meniere:{
+    name:'메니에르병', day:'15', chips:['수술 없음'],
+    ba:['인수 불가','인수 검토 가능'],
+    verdict:'입원이 <b>15일 이하</b>였고, <b>수술을 받지 않은</b> 경우 인수 검토가 가능합니다.',
+    conds:[['입원일수가 15일 이하일 것','원문 : 15일이하 입원'],['수술을 받지 않았을 것','원문 : 수술 無']]
+  },
+  hepa:{
+    name:'급성 바이러스간염', day:'15', chips:['수술 없음'],
+    ba:['인수 불가','인수 검토 가능'],
+    verdict:'입원이 <b>15일 이하</b>였고, <b>수술을 받지 않은</b> 경우 인수 검토가 가능합니다.',
+    conds:[['입원일수가 15일 이하일 것','원문 : 15일이하 입원'],['수술을 받지 않았을 것','원문 : 수술 無']]
+  },
+  pain:{
+    name:'복통', day:'15', chips:['수술 무관','원인·동반질환 질문'],
+    ba:['인수 불가<br><small style="font-size:13px;font-weight:600;">(시스템 거절)</small>','원인별<br>선별 인수'],
+    verdict:'입원이 <b>15일 이하</b>라면 수술 여부와 관계없이 심사하되, <b>원인·동반질환이 무엇이냐</b>에 따라 갈립니다.<br><br>동반된 질환이 <b>경증질환이면 인수 가능</b>합니다.',
+    branch:true,
+    warn:'복통·소화불량 코드로 고지했다고 해서 <b>모든 질환이 경증 인수되는 것은 아닙니다.</b> 반드시 원인을 확인하고 정확히 안내하세요.'
+  },
+  dys:{
+    name:'소화불량', day:'15', chips:['수술 무관','원인·동반질환 질문'],
+    ba:['인수 불가<br><small style="font-size:13px;font-weight:600;">(시스템 거절)</small>','원인별<br>선별 인수'],
+    verdict:'입원이 <b>15일 이하</b>라면 수술 여부와 관계없이 심사하되, <b>원인·동반질환이 무엇이냐</b>에 따라 갈립니다.<br><br>동반된 질환이 <b>경증질환이면 인수 가능</b>합니다.',
+    branch:true,
+    warn:'복통·소화불량 코드로 고지했다고 해서 <b>모든 질환이 경증 인수되는 것은 아닙니다.</b> 반드시 원인을 확인하고 정확히 안내하세요.'
+  }
+};
+
+/* 원인별 분기 — 복통·소화불량 공통 */
+const BRANCH = `
+  <div class="branch">
+    <div class="h">추가질문 : 원인 / 동반질환 유무</div>
+    <div class="br ok">
+      <div class="bi">✓</div>
+      <div class="bt">위염 · 장염<span>수술을 받지 않았어야 합니다 → 경증조건 충족 시 <b>인수 가능</b></span></div>
+    </div>
+    <div class="br ok">
+      <div class="bi">✓</div>
+      <div class="bt">대장용종 · 담낭용종<span>용종제거 수술을 받았어야 합니다 → 경증조건 충족 시 <b>인수 가능</b></span></div>
+    </div>
+    <div class="br">
+      <div class="bi">?</div>
+      <div class="bt">그 외 질환<span>상세 병력을 고지 → 고지된 병력에 따라 심사</span></div>
+    </div>
+    <div class="br no">
+      <div class="bi">✕</div>
+      <div class="bt">급성 췌장염<span><b>추가질문의 '그 외 질환' 항목에 "췌장염"으로 반드시 기재</b>해야 합니다.<br>췌장염은 현재 인수불가 질환이라 <b>거절</b>로 심사됩니다.</span></div>
+    </div>
+  </div>`;
+
+const TERMS = {
+  '유갑생':'<b style="color:#fff;font-weight:700;">유방,갑상선,여성생식기질환통합치료비</b>의 공식 약칭입니다. (한도별 2천만·5천만·1억)<br>현장에서는 <b style="color:#fff;font-weight:700;">유갑자</b>라고도 부릅니다.',
+  '담보제한':'계약은 인수하되, 해당 담보만 빼고 가입하는 것. 계약 자체가 거절되는 것은 아닙니다.'
+};
+
+/* 진행바 자동 생성 */
+const deck=document.getElementById('deck');
+const slides=[...document.querySelectorAll('.slide')];
+const bar=document.getElementById('progress');
+bar.innerHTML=slides.map(()=>'<div class="seg"></div>').join('');
+const segs=[...bar.children];
+
+new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.intersectionRatio>.55){
+      const i=slides.indexOf(e.target);
+      e.target.classList.add('in');
+      segs.forEach((s,n)=>s.classList.toggle('on',n<=i));
+    }
+  });
+},{root:deck,threshold:[.55]}).observe && slides.forEach(s=>{
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.intersectionRatio>.55){
+        const i=slides.indexOf(e.target);
+        e.target.classList.add('in');
+        segs.forEach((sg,n)=>sg.classList.toggle('on',n<=i));
+      }
+    });
+  },{root:deck,threshold:[.55]});
+  io.observe(s);
+});
+
+const sheet=document.getElementById('sheet'), dim=document.getElementById('dim');
+function openSheet(key){
+  const d=DATA[key]; if(!d) return;
+  document.getElementById('s-name').textContent=d.name;
+  document.getElementById('s-day').textContent=d.day;
+  document.getElementById('s-chips').innerHTML=d.chips.map(c=>`<span class="chip">${c}</span>`).join('');
+  document.getElementById('s-ba').innerHTML = d.ba ? `
+    <div class="ba">
+      <div class="cell before"><div class="k">현행</div><div class="v">${d.ba[0]}</div></div>
+      <div class="arrow">→</div>
+      <div class="cell after"><div class="k">7.20부터</div><div class="v">${d.ba[1]}</div></div>
+    </div>` : '';
+  document.getElementById('s-verdict').innerHTML=d.verdict;
+  document.getElementById('s-body').innerHTML = d.branch ? BRANCH : `
+    <div class="conds"><div class="h">조건</div>
+      ${d.conds.map((c,i)=>`<div class="cond-row"><div class="num">${i+1}</div>
+        <div class="c-txt">${c[0]}</div></div>`).join('')}
+    </div>`;
+  document.getElementById('s-warn').innerHTML=d.warn?`<div class="warn"><div class="h">⚠ 반드시 함께 안내하세요</div><div class="t">${d.warn}</div></div>`:'';
+  sheet.classList.add('show'); dim.classList.add('show'); sheet.scrollTop=0;
+}
+function closeSheet(){sheet.classList.remove('show');dim.classList.remove('show');hidePop();}
+document.querySelectorAll('.item').forEach(el=>el.addEventListener('click',()=>openSheet(el.dataset.key)));
+dim.addEventListener('click',closeSheet);
+
+/* 체크포인트 토글 */
+document.querySelectorAll('.check').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+
+/* 시트 드래그 닫기 */
+let sy=0,dy=0,drag=false;
+sheet.addEventListener('touchstart',e=>{if(sheet.scrollTop>0)return;sy=e.touches[0].clientY;drag=true;sheet.style.transition='none';},{passive:true});
+sheet.addEventListener('touchmove',e=>{if(!drag)return;dy=e.touches[0].clientY-sy;if(dy>0)sheet.style.transform=`translateY(${dy}px)`;},{passive:true});
+sheet.addEventListener('touchend',()=>{if(!drag)return;drag=false;sheet.style.transition='';sheet.style.transform='';if(dy>90)closeSheet();dy=0;});
+
+/* 용어 툴팁 */
+const pop=document.getElementById('pop');
+function hidePop(){pop.classList.remove('show');}
+document.addEventListener('click',e=>{
+  const t=e.target.closest('.term');
+  if(!t){hidePop();return;}
+  e.stopPropagation();
+  pop.innerHTML=`<span class="p-term">${t.textContent}</span>${TERMS[t.dataset.t]||''}`;
+  pop.classList.add('show');
+  const r=t.getBoundingClientRect(),pw=pop.offsetWidth,ph=pop.offsetHeight;
+  let x=r.left+r.width/2-pw/2;
+  x=Math.max(12,Math.min(x,innerWidth-pw-12));
+  let y=r.top-ph-9; if(y<12) y=r.bottom+9;
+  pop.style.left=x+'px'; pop.style.top=y+'px';
+});
+
+/* 목업 캡처용 */
+const q=new URLSearchParams(location.search);
+if(q.get('still')) document.body.classList.add('no-anim');
+window.addEventListener('load',()=>{
+  const s=parseInt(q.get('s')||'1',10);
+  const target=slides[s-1];
+  if(target && s>1) target.scrollIntoView({block:'start'});   /* offsetTop보다 안전 */
+  slides.forEach(sl=>sl.classList.add('in'));
+  const k=q.get('sheet');
+  if(k&&DATA[k]) setTimeout(()=>openSheet(k),260);
+});
+</script>
+</body>
+</html>
