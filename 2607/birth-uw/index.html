@@ -244,9 +244,14 @@
     border-radius:14px 14px 0 0;
     transition:height .95s cubic-bezier(.55,.06,.25,1);
   }
-  .fbar.jul{background:linear-gradient(180deg,#8FA9CE 0%,#6E88AE 100%);}
-  .fbar.aug{background:linear-gradient(180deg,#2A5596 0%,#12305C 100%);
-            box-shadow:0 -3px 16px rgba(18,48,92,.26);}
+  /* 색이 의미를 갖는다 — 7월(지나갈 것)은 채도를 죽인 슬레이트,
+     8월은 결과에 따라: 줄면 로즈, 그대로면 틸 */
+  .fbar.jul{background:linear-gradient(180deg,#C3CCD8 0%,#9EAAB9 100%);}
+  .fbar.aug{background:linear-gradient(180deg,#2A5596 0%,#12305C 100%);}
+  .fbar.aug.down{background:linear-gradient(180deg,#C8546B 0%,#8E2440 100%);
+                 box-shadow:0 -3px 16px rgba(142,36,64,.28);}
+  .fbar.aug.same{background:linear-gradient(180deg,#3EA88C 0%,#1F7A63 100%);
+                 box-shadow:0 -3px 16px rgba(31,122,99,.24);}
   /* 금액은 막대 안쪽 상단 — 빗금 구역의 차액 태그와 겹치지 않게 */
   .fbar .amt{
     position:absolute;top:11px;left:0;right:0;
@@ -259,8 +264,8 @@
 
   .gapmark{
     position:absolute;left:0;right:0;
-    border-left:2px dashed #E9AEBE;border-right:2px dashed #E9AEBE;
-    background:repeating-linear-gradient(-45deg,rgba(232,150,170,.1) 0 5px,transparent 5px 10px);
+    border-left:2px dashed #D9A4AF;border-right:2px dashed #D9A4AF;
+    background:repeating-linear-gradient(-45deg,rgba(200,84,107,.12) 0 5px,transparent 5px 10px);
     display:flex;align-items:center;justify-content:center;
     opacity:0;
     transition:opacity .22s ease;          /* 사라질 때는 즉시 (잔상 방지) */
@@ -272,27 +277,21 @@
     box-shadow:0 3px 10px rgba(176,58,86,.32);
   }
 
-  /* 난임 전용 */
-  .agecut{
-    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;
-  }
-  .agecut .pair{display:flex;align-items:center;gap:16px;}
-  .agecut .box{
-    border-radius:20px;padding:18px 22px;text-align:center;min-width:112px;
+  /* 난임 전용 — 기준연령이 왜 움직였는지를 그래프 위에 한 줄로 */
+  .cutbar{
+    margin-bottom:12px;border-radius:14px;padding:11px 14px;
     background:#F1F4F9;border:1px solid #E2E7EF;
+    display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
+    font-size:16px;font-weight:700;color:#5A6473;letter-spacing:-0.02em;
   }
-  .agecut .box.aug{background:linear-gradient(140deg,#12305C,#2A5596);border-color:#12305C;}
-  .agecut .box .k{font-size:14px;font-weight:800;color:#98A0AC;margin-bottom:6px;}
-  .agecut .box.aug .k{color:#A9C0E4;}
-  .agecut .box .v{font-size:36px;font-weight:800;letter-spacing:-0.05em;color:#8A96A8;line-height:1;}
-  .agecut .box.aug .v{color:#fff;}
-  .agecut .arw{font-size:22px;font-weight:800;color:#C3C9D3;}
-  .agecut .note{
-    border-radius:16px;padding:13px 15px;
-    background:#FFF3F5;border:1px solid #F7DCE3;
-    font-size:16px;font-weight:700;color:#A83E5C;line-height:1.45;text-align:center;
+  .cutbar b{font-size:21px;font-weight:800;letter-spacing:-0.04em;}
+  .cutbar b.old{color:#9EAAB9;text-decoration:line-through;text-decoration-thickness:2px;}
+  .cutbar b.new{color:#12305C;}
+  .cutbar i{font-style:normal;color:#C3C9D3;font-weight:800;}
+  .cutbar span{
+    background:#8E2440;color:#fff;border-radius:20px;padding:3px 10px;
+    font-size:13px;font-weight:800;
   }
-  .agecut .note span{display:block;font-size:14px;font-weight:600;color:#B96A82;margin-top:4px;}
 
   /* 결론 한 문장 — 숫자만 던지지 않고 무슨 일이 일어나는지 서술 */
   .total{
@@ -310,17 +309,31 @@
   .total.cutdown .v b{color:#B03A56;}
 
   /* ═══ 표 ═══ */
-  .tbl-wrap{position:relative;z-index:2;flex:1;overflow-y:auto;border-radius:20px;border:1px solid #E4E9F1;background:#fff;}
+  .tbl-wrap{
+    position:relative;z-index:2;flex:1;overflow-y:auto;
+    border-radius:20px;border:1px solid #E4E9F1;background:#fff;
+    /* 아래에 더 있다는 신호 — 표가 잘려 보이지 않게 */
+    -webkit-mask-image:linear-gradient(180deg,#000 88%,rgba(0,0,0,.25) 100%);
+            mask-image:linear-gradient(180deg,#000 88%,rgba(0,0,0,.25) 100%);
+  }
+  .tbl-hint{
+    position:relative;z-index:2;margin-top:7px;
+    font-size:13.5px;font-weight:600;color:#A2A7B2;
+  }
   .tbl-wrap::-webkit-scrollbar{display:none;}
-  table{width:100%;border-collapse:collapse;font-size:var(--fs-cap);}
+  table{
+    width:100%;border-collapse:collapse;font-size:14px;table-layout:fixed;
+    word-break:keep-all;                 /* 한국어는 단어 단위로만 줄바꿈 */
+  }
+  col.c-nm{width:27%;} col.c-old{width:23%;} col.c-new{width:25%;}
   thead th{
     position:sticky;top:0;z-index:1;
     background:#F1F4F9;color:#4A5160;font-weight:800;
-    padding:12px 8px;border-bottom:1px solid #E2E7EF;font-size:14px;
+    padding:9px 5px;border-bottom:1px solid #E2E7EF;font-size:13.5px;
   }
   thead th.chg{background:#FFF1E8;color:var(--orange);}
-  td{padding:12px 8px;border-bottom:1px solid #EFF2F6;text-align:center;vertical-align:middle;line-height:1.45;}
-  td.nm{text-align:left;font-weight:800;color:#2C323C;font-size:15px;}
+  td{padding:9px 5px;border-bottom:1px solid #EFF2F6;text-align:center;vertical-align:middle;line-height:1.38;}
+  td.nm{text-align:left;font-weight:800;color:#2C323C;font-size:14.5px;padding-left:11px;}
   td.old{color:#A2A8B3;font-weight:600;}
   td.new{font-weight:800;color:var(--navy);background:#FBFCFE;}
   td b{color:var(--orange);}
@@ -458,7 +471,7 @@
       <div class="cat-badge rise" style="--cb-bg:#FFF2EA;--cb-line:#F7DFCE;--cb-ic:linear-gradient(135deg,#E58A4E,#D4621F);--cb-tx:#B85A21;">
         <span class="ic" aria-hidden="true">↓</span><span class="tx">얼마나 줄어드나</span>
       </div>
-      <h2 class="rise">34세 고객은<br>지원금이 <b style="color:#D4621F;">절반</b>이 됩니다.</h2>
+      <h2 class="rise">34세부터는<br>지원금이 <b style="color:#D4621F;">절반</b>이 됩니다.</h2>
       <p class="rise">프리미엄플랜 · 첫째 출산 기준</p>
     </div>
 
@@ -487,7 +500,7 @@
     </div>
 
     <div class="case-note rise">
-      34세 · 프리미엄플랜 고객은<br><b>합계 150만원 → 80만원</b>
+      34세 · 프리미엄플랜 고객이라면<br><b>합계 150만원 → 80만원</b>
       <span>둘째·셋째 출산지원금(300만·500만)은 변경 없습니다.</span>
     </div>
   </section>
@@ -540,16 +553,9 @@
         </div>
       </div>
 
-      <div class="agecut" id="agecut" hidden>
-        <div class="pair">
-          <div class="box"><div class="k">7월까지</div><div class="v">35세</div></div>
-          <div class="arw">→</div>
-          <div class="box aug"><div class="k">8월부터</div><div class="v">33세</div></div>
-        </div>
-        <div class="note">
-          가입 우대 연령이 2년 축소됩니다
-          <span>34 · 35세 고객이 새로 불리해집니다 (100·50만 → 50·30만)</span>
-        </div>
+      <div class="cutbar" id="cutbar" hidden>
+        우대 기준연령 <b class="old">35세</b> <i>→</i> <b class="new">33세</b>
+        <span>2년 축소</span>
       </div>
 
       <div class="total" id="total">
@@ -565,15 +571,18 @@
       <div class="cat-badge rise" style="--cb-bg:#F2F0FE;--cb-line:#E2DDF9;--cb-ic:linear-gradient(135deg,#8C7BE0,#6255A8);--cb-tx:#6255A8;">
         <span class="ic" aria-hidden="true">≡</span><span class="tx">변경 내용</span>
       </div>
-      <h2 class="rise">최저보험료 <b>10만원</b>,<br>지원금은 <b>33세</b> 기준.</h2>
-      <p class="rise">8월 시행 예정 — 세부 조건과 시행일은<br>확정되는 대로 다시 안내드립니다.</p>
+      <h2 class="rise">최저보험료 <b>10만원</b>,<br>지원금은 <b>33세</b> 기준입니다.</h2>
+      <p class="rise">8월 시행 예정입니다.<br>세부 조건은 확정되는 대로 다시 안내드립니다.</p>
     </div>
 
     <div class="tbl-wrap">
       <table>
+        <colgroup>
+          <col class="c-nm"><col class="c-old"><col class="c-new"><col class="c-new">
+        </colgroup>
         <thead>
           <tr>
-            <th style="text-align:left">구분</th>
+            <th style="text-align:left;padding-left:11px">구분</th>
             <th>현행</th>
             <th class="chg">프리미엄</th>
             <th class="chg">일반</th>
@@ -581,111 +590,113 @@
         </thead>
         <tbody>
           <tr>
-            <td class="nm">최저보험료</td>
-            <td class="old">7만원↑</td>
-            <td class="new"><b>10만원↑</b></td>
-            <td class="new"><b>10만원↑</b></td>
+            <td class="nm">최저<br>보험료</td>
+            <td class="old">7만원<br>이상</td>
+            <td class="new"><b>10만원</b><br>이상</td>
+            <td class="new"><b>10만원</b><br>이상</td>
           </tr>
           <tr>
             <td class="nm">출산지원금<br><span style="font-weight:600;color:#9AA0AB;font-size:13px">첫째</span></td>
             <td class="old">프리미엄 100만<br>일반 50만</td>
-            <td class="new"><b>33세↓</b> 100만<br>초과 50만</td>
-            <td class="new"><b>33세↓</b> 50만<br>초과 30만</td>
+            <td class="new"><b>33세 이하</b><br>100만<br><span style="font-weight:700;color:#7A8494">34세 이상</span><br>50만</td>
+            <td class="new"><b>33세 이하</b><br>50만<br><span style="font-weight:700;color:#7A8494">34세 이상</span><br>30만</td>
           </tr>
           <tr>
             <td class="nm">출산지원금<br><span style="font-weight:600;color:#9AA0AB;font-size:13px">둘째·셋째</span></td>
             <td class="old">300만<br>500만</td>
-            <td class="new">전과 동일</td>
-            <td class="new">전과 동일</td>
+            <td class="new">전과<br>동일</td>
+            <td class="new">전과<br>동일</td>
           </tr>
           <tr>
-            <td class="nm">임신축하금</td>
+            <td class="nm">임신<br>축하금</td>
             <td class="old">50만원</td>
-            <td class="new"><b>33세↓</b> 50만<br>초과 30만</td>
-            <td class="new"><b>33세↓</b> 30만<br>초과 20만</td>
+            <td class="new"><b>33세 이하</b><br>50만<br><span style="font-weight:700;color:#7A8494">34세 이상</span><br>30만</td>
+            <td class="new"><b>33세 이하</b><br>30만<br><span style="font-weight:700;color:#7A8494">34세 이상</span><br>20만</td>
           </tr>
           <tr>
-            <td class="nm">난임치료비</td>
-            <td class="old">35세 기준<br>100·50만 / 50·30만</td>
-            <td class="new"><b>33세 기준</b><br>100·50만 / 50·30만</td>
+            <td class="nm">난임<br>치료비</td>
+            <td class="old">35세 기준<br>100·50만<br>50·30만</td>
+            <td class="new"><b>33세 기준</b><br>100·50만<br>50·30만</td>
             <td class="new">동일</td>
           </tr>
         </tbody>
       </table>
     </div>
 
+    <div class="tbl-hint">표를 위아래로 밀어서 전체를 확인하세요</div>
+
     <div class="newline">
-      <span class="chip">신설</span>모집 관리 — 불량 속성 모집자 판매제한 (수시 점검)
+      <span class="chip">신설</span>모집 관리가 새로 생깁니다<br><span style="display:block;font-size:14px;font-weight:600;color:#A98362;margin-top:5px;">무리한 모집이 반복되면 판매가 제한될 수 있습니다.</span>
     </div>
   </section>
 
-  <!-- ══ 5 · 왜 바뀌나 ══ -->
+  <!-- ══ 5 · 왜 줄어들까요 ══ -->
   <section class="slide slide--tint">
     <div class="ghost ghost--cat">04</div>
     <div class="cat-head">
       <div class="cat-badge rise" style="--cb-bg:#EDF6F1;--cb-line:#D8EAE0;--cb-ic:linear-gradient(135deg,#54AD86,#357C5F);--cb-tx:#357C5F;">
-        <span class="ic" aria-hidden="true">?</span><span class="tx">왜 바뀌나</span>
+        <span class="ic" aria-hidden="true">?</span><span class="tx">왜 줄어들까요?</span>
       </div>
-      <h2 class="rise">받는 보험료보다<br>나가는 보험금이 훨씬 큽니다.</h2>
-      <p class="rise">고객이 물으면 이렇게 설명하세요.</p>
+      <h2 class="rise">고객이 물으면<br>이렇게 말씀해 주세요.</h2>
+      <p class="rise">이유를 알면 고객도 이해합니다.</p>
     </div>
 
     <div class="cards">
       <div class="ncard">
         <div class="n">1</div>
-        <div class="t">출산 계획이 있는 고객이 골라서 가입합니다
-          <span>요율은 일반 통계(국가 출산율) 기준인데, 실제 가입자는 출산 계획 고객 중심입니다.</span></div>
+        <div class="t">출산을 준비하는 분들이 주로 가입하십니다
+          <span>보험료는 일반 통계로 정해지는데, 실제로는 출산 계획이 있는 분들이 집중해서 가입하십니다. 그래서 받는 보험료보다 나가는 보험금이 훨씬 커졌습니다.</span></div>
       </div>
       <div class="ncard">
         <div class="n">2</div>
         <div class="t">실제 출산 연령이 예상보다 높습니다
-          <span>고연령 구간에서 손해가 특히 크게 발생하고 있습니다. 그래서 나이 기준이 새로 들어옵니다.</span></div>
+          <span>고연령 구간에서 특히 부담이 커졌습니다. 나이 기준이 새로 생긴 이유입니다.</span></div>
       </div>
       <div class="ncard hot">
         <div class="n">3</div>
-        <div class="t">담보 하나가 계약 전체에 영향을 줍니다
-          <span>이 담보 하나 때문에 계약 전체 손익이 나빠집니다. 그래서 최저보험료도 함께 올라갑니다.</span></div>
+        <div class="t">이 담보 하나가 계약 전체에 영향을 줍니다
+          <span>담보 하나 때문에 계약 전체의 손익이 나빠집니다. 최저보험료가 함께 오르는 이유입니다.</span></div>
       </div>
     </div>
 
     <div class="callout">
-      <b>변경은 정해진 수순입니다.</b>
-      <span>손해 구조가 계속되는 한 조건이 다시 좋아지기는 어렵습니다.</span>
+      <b>죄송하지만, 지금 조건을 그대로 유지하기는 어려운 상황입니다.</b>
+      <span>그래서 미리 알려드리는 것이 저희가 드릴 수 있는 최선입니다.</span>
     </div>
   </section>
 
-  <!-- ══ 6 · 7월 실행 ══ -->
+  <!-- ══ 6 · 지금 하실 일 ══ -->
   <section class="slide slide--light">
     <div class="ghost ghost--cat">05</div>
     <div class="cat-head">
       <div class="cat-badge rise" style="--cb-bg:#FFF2EA;--cb-line:#F7DFCE;--cb-ic:linear-gradient(135deg,#E58A4E,#D4621F);--cb-tx:#B85A21;">
-        <span class="ic" aria-hidden="true">✓</span><span class="tx">7월에 할 일</span>
+        <span class="ic" aria-hidden="true">✓</span><span class="tx">지금 하실 일</span>
       </div>
-      <h2 class="rise">변경 전에<br>정확히 안내하세요.</h2>
-      <p class="rise">고객에게 유리한 조건이 줄어드는 변경입니다.<br>미리 알려주는 것이 고객을 위한 일입니다.</p>
+      <h2 class="rise">고객이 놀라지 않게<br>미리 알려주세요.</h2>
+      <p class="rise">고객에게 유리한 조건이 줄어듭니다.<br>먼저 알려드리는 것이 고객을 위한 일입니다.</p>
     </div>
 
     <div class="cards">
       <div class="ncard">
         <div class="n">1</div>
-        <div class="t">미체결 여성 고객을 다시 점검하세요
-          <span>설계는 했는데 아직 체결 안 된 고객. 8월에는 같은 설계가 나오지 않습니다.</span></div>
+        <div class="t">설계만 하고 아직 체결 안 된 고객
+          <span>여성 고객 명단을 이번 주에 한 번 확인해 보세요. 8월에는 같은 설계가 나오지 않습니다.</span></div>
       </div>
       <div class="ncard">
         <div class="n">2</div>
-        <div class="t">상담 시 변경 예정 내용을 함께 안내하세요
-          <span>지금 조건과 8월 조건을 같이 설명합니다. 먼저 들은 고객이 결정도 빠릅니다.</span></div>
+        <div class="t">상담할 때 8월 조건도 같이 말씀드리기
+          <span>지금 조건과 8월 조건을 함께 설명해 주세요. 먼저 들은 고객이 마음도 빨리 정합니다.</span></div>
       </div>
       <div class="ncard hot">
         <div class="n">!</div>
-        <div class="t">표적 모집은 하지 마세요
-          <span>출산예정자만 집중적으로 모으는 방식은 <b>모집자 단위로 점검</b>됩니다. 상담 중 고객을 마무리하는 것과는 다릅니다.</span></div>
+        <div class="t">무리한 모집은 오히려 손해입니다
+          <span>출산 예정 고객만 골라서 집중적으로 모으면 <b>판매제한 대상</b>이 될 수 있습니다. 평소처럼 상담 중에 마무리하시면 됩니다.</span></div>
       </div>
     </div>
 
     <div class="callout">
-      <b>본사는 이 담보의 가입률을 분기 단위로 보고 있습니다.</b>
-      <span>모집자 속성평가·판매제한이 신설되었습니다.</span>
+      <b>서두르지 않으셔도 됩니다.</b>
+      <span>하던 대로 상담하시되, 여성 고객께는 8월 변경을 한 번 짚어 주세요.</span>
     </div>
   </section>
 
@@ -695,29 +706,29 @@
       <div class="cat-badge rise" style="--cb-bg:#FFFFFFCC;--cb-line:#EFDFD3;--cb-ic:linear-gradient(135deg,#E58A4E,#D4621F);--cb-tx:#B85A21;">
         <span class="ic" aria-hidden="true">✓</span><span class="tx">최종 체크포인트</span>
       </div>
-      <h2 class="rise">안내 전<br>꼭 확인하세요.</h2>
+      <h2 class="rise">안내 전에<br>한 번만 확인해 주세요.</h2>
       <p class="rise">눌러서 하나씩 체크해 보세요.</p>
     </div>
     <div class="checks">
       <div class="check" tabindex="0" role="checkbox" aria-checked="false">
         <div class="box">✓</div>
         <div class="ct">고객 나이가 33세를 넘는지 확인했다
-          <span>34세부터 출산지원금·임신축하금이 줄어듭니다</span></div>
+          <span>34세부터 출산지원금과 임신축하금이 줄어듭니다</span></div>
       </div>
       <div class="check" tabindex="0" role="checkbox" aria-checked="false">
         <div class="box">✓</div>
-        <div class="ct">일반플랜은 33세 이하도 줄어든다는 걸 안다
-          <span>임신축하금 50만 → 30만 (나이와 무관하게 축소)</span></div>
+        <div class="ct">일반플랜은 33세 이하도 줄어듭니다
+          <span>임신축하금 50만원 → 30만원 (나이와 상관없이 줄어듭니다)</span></div>
       </div>
       <div class="check" tabindex="0" role="checkbox" aria-checked="false">
         <div class="box">✓</div>
         <div class="ct">최저보험료 10만원을 안내했다
-          <span>7만원 → 10만원. 플랜·나이 무관</span></div>
+          <span>7만원 → 10만원 (플랜·나이와 상관없이 오릅니다)</span></div>
       </div>
       <div class="check" tabindex="0" role="checkbox" aria-checked="false">
         <div class="box">✓</div>
-        <div class="ct">표적 모집이 아닌지 스스로 점검했다
-          <span>출산예정자 집중모집은 모집자 단위로 점검됩니다</span></div>
+        <div class="ct">무리한 모집이 아닌지 돌아봤다
+          <span>출산 예정 고객만 집중해서 모으면 판매가 제한될 수 있습니다</span></div>
       </div>
     </div>
     <div class="tip-line">8월 시행 예정 — 세부 조건과 시행일은 확정되는 대로 다시 안내됩니다.<br>문의 : 영업컨설팅파트</div>
@@ -729,7 +740,12 @@
 /* ══ 데이터 : 공식 변경(안) 표 그대로. 추측 없음 ══
    출산지원금(첫째) 현행 : 프리미엄 100만 · 일반 50만 (나이 무관)
    임신축하금       현행 : 50만 (플랜·나이 무관)
-   난임치료비       현행 : 기준연령 35세 → 변경 33세 (금액표 동일)   */
+   난임치료비       현행 : 기준연령 35세 → 변경 33세 (금액표는 그대로)
+                    프리미엄 기준이하 100만 / 초과 50만, 일반 50만 / 30만
+
+   ⚠ 난임의 "불리해지는 층"은 34·35세뿐이다.
+      36세 이상은 7월에도 이미 초과구간(50·30만)이라 변화가 없다.
+      그래서 나이 버튼을 '34세 이상'이 아니라 '34~35세'로 부른다.        */
 const D = {
   birth:{
     premium:{ low:[100,100], high:[100,50] },
@@ -738,26 +754,24 @@ const D = {
   preg:{
     premium:{ low:[50,50], high:[50,30] },
     normal :{ low:[50,30], high:[50,20] }
+  },
+  inf:{
+    premium:{ low:[100,100], high:[100,50] },   /* 34·35세: 우대 → 초과로 밀려남 */
+    normal :{ low:[ 50, 50], high:[ 50,30] }
   }
 };
+const NAMES = { birth:'출산지원금', preg:'임신축하금', inf:'난임치료비' };
 
 let item='birth', plan='premium', age='high';
 const $ = id => document.getElementById(id);
 
 function render(){
   const isInf = (item === 'inf');
-  $('fall').hidden = isInf;
-  $('agecut').hidden = !isInf;
-  $('seg-plan').style.display = isInf ? 'none' : 'flex';
-
-  if(isInf){
-    const cut = (age === 'high');
-    $('t-v').innerHTML = cut
-      ? '가입 우대 연령이 <b>2년</b> 축소됩니다'
-      : '33세 이하는 <b>그대로</b>입니다';
-    $('total').classList.toggle('cutdown', cut);
-    return;
-  }
+  $('cutbar').hidden = !isInf;
+  /* 난임도 플랜마다 금액이 다르다 — 플랜 버튼을 숨기면 안 된다 */
+  $('seg-plan').style.display = 'flex';
+  /* 난임에서 불리해지는 건 34·35세뿐 (36세↑는 원래 초과구간) */
+  $('a-high').textContent = isInf ? '34~35세' : '34세 이상';
 
   const [jul, aug] = D[item][plan][age];
   const diff = aug - jul;
@@ -790,15 +804,26 @@ function render(){
   gm.style.bottom = augH + 'px';
   gm.style.height = (fullH - augH) + 'px';
 
-  const NAME = (item === 'birth') ? '출산지원금' : '임신축하금';
+  /* 색으로 결과를 말한다 — 줄면 로즈, 그대로면 틸 */
+  bar.classList.toggle('down', diff < 0);
+  bar.classList.toggle('same', diff >= 0);
+
+  /* 조사: 출산지원금'이' / 임신축하금'이' / 난임치료비'가' — 받침으로 판정 */
+  const NAME = NAMES[item];
+  const 받침 = (( NAME.charCodeAt(NAME.length-1) - 0xAC00 ) % 28) !== 0;
+  const 이가 = 받침 ? '이' : '가';
+  const 은는 = 받침 ? '은' : '는';
+
   if(diff < 0){
     $('gaptag').textContent = diff + '만';
     gm.classList.add('show');
     gm.animate([{opacity:0},{opacity:0},{opacity:1}],
       {duration: 1350, easing: 'ease-out', fill: 'forwards'});
-    $('t-v').innerHTML = NAME + '이 <b>' + Math.abs(diff) + '만원</b> 줄어듭니다';
+    $('t-v').innerHTML = NAME + 이가 + ' <b>' + Math.abs(diff) + '만원</b> 줄어듭니다';
   }else{
-    $('t-v').innerHTML = NAME + '은 <b>그대로</b>입니다';
+    $('t-v').innerHTML = isInf
+      ? '<b>33세 이하</b>는 그대로입니다'
+      : NAME + 은는 + ' <b>그대로</b>입니다';
   }
   $('total').classList.toggle('cutdown', diff < 0);
 }
