@@ -24,6 +24,7 @@
     color-scheme:light;
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  [hidden]{display:none!important;}   /* display:flex 가 hidden 속성을 덮지 않도록 */
   html,body{height:100%;overflow:hidden;}
   body{
     font-family:'Pretendard','Pretendard Variable',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
@@ -198,90 +199,109 @@
   }
   .case-note span{display:block;font-size:var(--fs-cap);font-weight:600;color:#A98362;margin-top:5px;}
 
-  /* ═══ [3] 나이 슬라이더 ═══ */
+  /* ═══ [3] 항목 탭 + 낙하 그래프 ═══ */
   .calc{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;}
 
-  .plan-tog{
-    display:flex;gap:6px;padding:5px;border-radius:100px;
-    background:#EEF1F6;border:1px solid #E1E6EE;margin-bottom:16px;
+  .item-tabs{display:flex;gap:7px;margin-bottom:10px;}
+  .item-tabs button{
+    flex:1;border:1.5px solid #E1E6EE;cursor:pointer;
+    padding:11px 4px;border-radius:16px;
+    font-family:inherit;font-size:15px;font-weight:800;letter-spacing:-0.04em;
+    background:#fff;color:#8A909C;line-height:1.25;
+    transition:all .32s cubic-bezier(.32,.72,0,1);
   }
-  .plan-tog button{
-    flex:1;border:0;cursor:pointer;
-    padding:11px 0;border-radius:100px;
-    font-family:inherit;font-size:16px;font-weight:800;letter-spacing:-0.03em;
+  .item-tabs button small{display:block;font-size:12px;font-weight:700;color:#B4BAC4;margin-top:3px;}
+  .item-tabs button.on{
+    background:linear-gradient(140deg,#2A5596,#12305C);
+    border-color:#12305C;color:#fff;
+    box-shadow:0 6px 16px rgba(18,48,92,.26);transform:translateY(-1px);
+  }
+  .item-tabs button.on small{color:#A9C0E4;}
+
+  .seg{
+    display:flex;gap:5px;padding:4px;border-radius:100px;
+    background:#EEF1F6;border:1px solid #E1E6EE;margin-bottom:8px;
+  }
+  .seg button{
+    flex:1;border:0;cursor:pointer;padding:9px 0;border-radius:100px;
+    font-family:inherit;font-size:15px;font-weight:800;letter-spacing:-0.03em;
     background:transparent;color:#8A909C;
     transition:background .3s cubic-bezier(.32,.72,0,1),color .3s,box-shadow .3s;
   }
-  .plan-tog button.on{
-    background:#fff;color:var(--navy);
-    box-shadow:0 2px 8px rgba(18,48,92,.13);
+  .seg button.on{background:#fff;color:var(--navy);box-shadow:0 2px 8px rgba(18,48,92,.13);}
+  .seg.age button.on{color:var(--orange);}
+
+  /* 낙하 그래프 : 7월 → 8월 */
+  .fall{
+    flex:1;display:flex;align-items:flex-end;justify-content:center;gap:30px;
+    padding:40px 8px 0;
+  }
+  .fcol{flex:1;max-width:118px;display:flex;flex-direction:column;align-items:center;height:100%;}
+  /* ⚠ 막대를 flex 자식으로 두면 height 지정이 stretch에 먹힌다 → 절대 위치로 고정 */
+  .fwrap{position:relative;width:100%;flex:1;}
+  .fbar{
+    position:absolute;bottom:0;left:0;right:0;
+    border-radius:14px 14px 0 0;
+    transition:height .95s cubic-bezier(.55,.06,.25,1);
+  }
+  .fbar.jul{background:linear-gradient(180deg,#8FA9CE 0%,#6E88AE 100%);}
+  .fbar.aug{background:linear-gradient(180deg,#2A5596 0%,#12305C 100%);
+            box-shadow:0 -3px 16px rgba(18,48,92,.26);}
+  /* 금액은 막대 안쪽 상단 — 빗금 구역의 차액 태그와 겹치지 않게 */
+  .fbar .amt{
+    position:absolute;top:11px;left:0;right:0;
+    font-size:20px;font-weight:800;letter-spacing:-0.04em;white-space:nowrap;
+    font-variant-numeric:tabular-nums;color:#fff;
+    text-shadow:0 1px 3px rgba(0,0,0,.18);
+  }
+  .fcol .cap{margin-top:11px;font-size:17px;font-weight:800;color:#3A4150;letter-spacing:-0.03em;}
+  .fcol.now .cap{color:#8A96A8;}
+
+  .gapmark{
+    position:absolute;left:0;right:0;
+    border-left:2px dashed #E9AEBE;border-right:2px dashed #E9AEBE;
+    background:repeating-linear-gradient(-45deg,rgba(232,150,170,.1) 0 5px,transparent 5px 10px);
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;transition:opacity .45s ease .8s;
+  }
+  .gapmark.show{opacity:1;}
+  .gapmark .tag{
+    background:#B03A56;color:#fff;padding:5px 10px;border-radius:9px;
+    font-size:var(--fs-cap);font-weight:800;white-space:nowrap;
+    box-shadow:0 3px 10px rgba(176,58,86,.32);
   }
 
-  .age-panel{
-    border-radius:22px;padding:18px 18px 12px;margin-bottom:14px;
-    background:linear-gradient(140deg,#12305C 0%,#2A5596 100%);
-    color:#fff;box-shadow:0 8px 24px rgba(18,48,92,.24);
+  /* 난임 전용 */
+  .agecut{
+    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;
   }
-  .age-panel .row{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px;}
-  .age-panel .k{font-size:var(--fs-cap);font-weight:700;color:#A9C0E4;}
-  .age-panel .v{font-size:38px;font-weight:800;letter-spacing:-0.05em;line-height:1;font-variant-numeric:tabular-nums;}
-  .age-panel .v small{font-size:19px;font-weight:700;color:#C6D8F0;margin-left:2px;}
-
-  input[type=range]{
-    -webkit-appearance:none;appearance:none;
-    width:100%;height:34px;background:transparent;cursor:pointer;
+  .agecut .pair{display:flex;align-items:center;gap:16px;}
+  .agecut .box{
+    border-radius:20px;padding:18px 22px;text-align:center;min-width:112px;
+    background:#F1F4F9;border:1px solid #E2E7EF;
   }
-  input[type=range]::-webkit-slider-runnable-track{
-    height:8px;border-radius:100px;
-    background:linear-gradient(90deg,#5E9BE8 0%,#5E9BE8 var(--pct,40%),rgba(255,255,255,.22) var(--pct,40%));
+  .agecut .box.aug{background:linear-gradient(140deg,#12305C,#2A5596);border-color:#12305C;}
+  .agecut .box .k{font-size:14px;font-weight:800;color:#98A0AC;margin-bottom:6px;}
+  .agecut .box.aug .k{color:#A9C0E4;}
+  .agecut .box .v{font-size:36px;font-weight:800;letter-spacing:-0.05em;color:#8A96A8;line-height:1;}
+  .agecut .box.aug .v{color:#fff;}
+  .agecut .arw{font-size:22px;font-weight:800;color:#C3C9D3;}
+  .agecut .note{
+    border-radius:16px;padding:13px 15px;
+    background:#FFF3F5;border:1px solid #F7DCE3;
+    font-size:16px;font-weight:700;color:#A83E5C;line-height:1.45;text-align:center;
   }
-  input[type=range]::-webkit-slider-thumb{
-    -webkit-appearance:none;appearance:none;
-    width:30px;height:30px;margin-top:-11px;border-radius:50%;
-    background:#fff;border:3px solid #5E9BE8;
-    box-shadow:0 3px 10px rgba(0,0,0,.28);
-  }
-  input[type=range]::-moz-range-track{height:8px;border-radius:100px;background:rgba(255,255,255,.22);}
-  input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid #5E9BE8;}
-
-  .ticks{display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:#8FA9CE;padding:0 2px;}
-  .ticks .mark{color:#FFC08A;}
-
-  /* 결과 카드 */
-  .res{display:flex;flex-direction:column;gap:8px;}
-  .res-row{
-    display:flex;align-items:center;gap:11px;
-    background:var(--surface);border:1px solid #E8ECF3;border-radius:18px;
-    padding:13px 15px;
-  }
-  .res-row .nm{flex:1;font-size:16.5px;font-weight:700;letter-spacing:-0.03em;text-align:left;line-height:1.3;}
-  .res-row .nm span{display:block;font-size:13px;font-weight:600;color:#9AA0AB;margin-top:2px;}
-  .res-row .amt{display:flex;align-items:center;gap:8px;}
-  .res-row .old{
-    font-size:16px;font-weight:700;color:#AEB4BE;
-    text-decoration:line-through;text-decoration-thickness:2px;
-    font-variant-numeric:tabular-nums;
-  }
-  .res-row .arw{color:#C3C9D3;font-size:14px;font-weight:800;}
-  .res-row .new{
-    font-size:21px;font-weight:800;color:var(--navy);letter-spacing:-0.04em;
-    font-variant-numeric:tabular-nums;min-width:66px;text-align:right;
-    transition:color .3s;
-  }
-  .res-row.cutdown{background:#FFF3F5;border-color:#F7DCE3;}
-  .res-row.cutdown .new{color:#B03A56;}
-  .res-row.same .old{display:none;}
-  .res-row.same .arw{display:none;}
+  .agecut .note span{display:block;font-size:14px;font-weight:600;color:#B96A82;margin-top:4px;}
 
   .total{
-    margin-top:11px;border-radius:20px;padding:16px 18px;
+    margin-top:11px;border-radius:20px;padding:15px 18px;
     display:flex;align-items:center;justify-content:space-between;
     background:#F4F6FA;border:1px solid #E4E9F1;
     transition:background .35s,border-color .35s;
   }
   .total.cutdown{background:linear-gradient(135deg,#FFF0F3,#FFE7EC);border-color:#F6CFDA;}
   .total .k{font-size:16px;font-weight:800;color:#5E6470;letter-spacing:-0.03em;}
-  .total .v{font-size:30px;font-weight:800;letter-spacing:-0.05em;color:#3A8A5E;font-variant-numeric:tabular-nums;}
+  .total .v{font-size:26px;font-weight:800;letter-spacing:-0.05em;color:#3A8A5E;font-variant-numeric:tabular-nums;}
   .total.cutdown .v{color:#B03A56;}
 
   /* ═══ 표 ═══ */
@@ -467,64 +487,69 @@
     </div>
   </section>
 
-  <!-- ══ 3 · 계산기 ══ -->
+  <!-- ══ 3 · 항목별 낙하 그래프 ══ -->
   <section class="slide slide--tint">
     <div class="ghost ghost--cat">02</div>
     <div class="cat-head">
       <div class="cat-badge rise" style="--cb-bg:#EDF2FB;--cb-line:#DAE3F1;--cb-ic:linear-gradient(135deg,#4E7ACB,#12305C);--cb-tx:#2A5596;">
-        <span class="ic" aria-hidden="true">☰</span><span class="tx">내 고객은 얼마?</span>
+        <span class="ic" aria-hidden="true">↓</span><span class="tx">항목별로 보기</span>
       </div>
-      <h2 class="rise">나이를 밀어보세요.</h2>
-      <p class="rise">고객 나이와 플랜을 바꾸면<br>지원금이 어떻게 달라지는지 바로 보입니다.</p>
+      <h2 class="rise">담보를 눌러보세요.</h2>
     </div>
 
-    <div class="tap-hint"><span class="fin">👆</span> 손가락으로 밀어보세요</div>
+    <div class="tap-hint"><span class="fin">👆</span> 눌러서 8월 그래프 확인</div>
 
     <div class="calc">
-      <div class="plan-tog" role="tablist">
-        <button id="btn-prem" class="on" role="tab" aria-selected="true">프리미엄플랜</button>
-        <button id="btn-norm" role="tab" aria-selected="false">일반플랜</button>
+      <div class="item-tabs" role="tablist">
+        <button id="t-birth" class="on" role="tab">출산지원금<small>첫째</small></button>
+        <button id="t-preg" role="tab">임신축하금<small>&nbsp;</small></button>
+        <button id="t-inf" role="tab">난임치료비<small>기준연령</small></button>
       </div>
 
-      <div class="age-panel">
-        <div class="row">
-          <span class="k">고객 나이</span>
-          <span class="v"><span id="age-v">35</span><small>세</small></span>
+      <div class="seg" id="seg-plan">
+        <button id="p-prem" class="on">프리미엄플랜</button>
+        <button id="p-norm">일반플랜</button>
+      </div>
+      <div class="seg age">
+        <button id="a-low">33세 이하</button>
+        <button id="a-high" class="on">34세 이상</button>
+      </div>
+
+      <div class="fall" id="fall">
+        <div class="fcol now">
+          <div class="fwrap">
+            <div class="fbar jul" id="bar-jul" style="height:100%">
+              <div class="amt" id="amt-jul">100만</div>
+            </div>
+          </div>
+          <div class="cap">7월</div>
         </div>
-        <input type="range" id="age" min="20" max="45" value="35" step="1" aria-label="고객 나이">
-        <div class="ticks">
-          <span>20세</span><span class="mark">33세</span><span>45세</span>
+        <div class="fcol">
+          <div class="fwrap">
+            <div class="gapmark" id="gapmark"><span class="tag" id="gaptag">-50만</span></div>
+            <div class="fbar aug" id="bar-aug" style="height:100%">
+              <div class="amt" id="amt-aug">50만</div>
+            </div>
+          </div>
+          <div class="cap">8월</div>
         </div>
       </div>
 
-      <div class="res">
-        <div class="res-row" id="r-birth">
-          <div class="nm">출산지원금<span>첫째</span></div>
-          <div class="amt">
-            <span class="old" id="b-old">100만</span>
-            <span class="arw">→</span>
-            <span class="new" id="b-new">50만</span>
-          </div>
+      <div class="agecut" id="agecut" hidden>
+        <div class="pair">
+          <div class="box"><div class="k">7월까지</div><div class="v">35세</div></div>
+          <div class="arw">→</div>
+          <div class="box aug"><div class="k">8월부터</div><div class="v">33세</div></div>
         </div>
-        <div class="res-row" id="r-preg">
-          <div class="nm">임신축하금</div>
-          <div class="amt">
-            <span class="old" id="p-old">50만</span>
-            <span class="arw">→</span>
-            <span class="new" id="p-new">30만</span>
-          </div>
-        </div>
-        <div class="res-row" id="r-inf">
-          <div class="nm">난임치료비<span>기준연령 35세 → 33세</span></div>
-          <div class="amt">
-            <span class="new" id="i-new" style="font-size:17px">100·50만</span>
-          </div>
+        <div class="note">
+          기준연령이 2살 내려갑니다
+          <span>34 · 35세 고객이 새로 불리해집니다 (100·50만 → 50·30만)</span>
         </div>
       </div>
 
       <div class="total" id="total">
         <span class="k">8월부터 차액</span>
-        <span class="v" id="t-v">−70만원</span>
+        <span class="v" id="t-v">-50만원</span>
       </div>
     </div>
   </section>
@@ -700,71 +725,86 @@
 /* ══ 데이터 : 공식 변경(안) 표 그대로. 추측 없음 ══
    출산지원금(첫째) 현행 : 프리미엄 100만 · 일반 50만 (나이 무관)
    임신축하금       현행 : 50만 (플랜·나이 무관)
-   변경 후는 33세 기준으로 분기                                   */
-const PLAN = {
-  premium:{
-    birthNow: 100,
-    birthNew: a => a <= 33 ? 100 : 50,
-    pregNow : 50,
-    pregNew : a => a <= 33 ? 50 : 30,
-    infNow  : a => a <= 35 ? '100·50만' : '50·30만',
-    infNew  : a => a <= 33 ? '100·50만' : '50·30만'
+   난임치료비       현행 : 기준연령 35세 → 변경 33세 (금액표 동일)   */
+const D = {
+  birth:{
+    premium:{ low:[100,100], high:[100,50] },
+    normal :{ low:[ 50, 50], high:[ 50,30] }
   },
-  normal:{
-    birthNow: 50,
-    birthNew: a => a <= 33 ? 50 : 30,
-    pregNow : 50,
-    pregNew : a => a <= 33 ? 30 : 20,
-    infNow  : a => a <= 35 ? '100·50만' : '50·30만',
-    infNew  : a => a <= 33 ? '100·50만' : '50·30만'
+  preg:{
+    premium:{ low:[50,50], high:[50,30] },
+    normal :{ low:[50,30], high:[50,20] }
   }
 };
 
-let plan = 'premium';
+let item='birth', plan='premium', age='high';
 const $ = id => document.getElementById(id);
-const ageEl = $('age');
 
 function render(){
-  const a = +ageEl.value;
-  const P = PLAN[plan];
+  const isInf = (item === 'inf');
+  $('fall').hidden = isInf;
+  $('agecut').hidden = !isInf;
+  $('seg-plan').style.display = isInf ? 'none' : 'flex';
 
-  ageEl.style.setProperty('--pct', ((a-20)/25*100)+'%');
-  $('age-v').textContent = a;
+  if(isInf){
+    const cut = (age === 'high');
+    $('t-v').textContent = cut ? '기준연령 2살 하향' : '변동 없음';
+    $('total').classList.toggle('cutdown', cut);
+    return;
+  }
 
-  const bOld = P.birthNow, bNew = P.birthNew(a);
-  const pOld = P.pregNow,  pNew = P.pregNew(a);
-  const iOld = P.infNow(a), iNew = P.infNew(a);
+  const [jul, aug] = D[item][plan][age];
+  const diff = aug - jul;
+  $('amt-jul').textContent = jul + '만';
+  $('amt-aug').textContent = aug + '만';
 
-  $('b-old').textContent = bOld + '만';
-  $('b-new').textContent = bNew + '만';
-  $('p-old').textContent = pOld + '만';
-  $('p-new').textContent = pNew + '만';
-  $('i-new').textContent = iNew;
+  /* ★ 8월 막대를 7월과 같은 높이에서 출발시켜 실제로 "떨어뜨린다"
+     ⚠ flex 컨테이너 안에서는 height:% 가 늘어나 버린다 → 실제 px로 계산
+     ⚠ transition 재시작은 동기 리플로우 2회로 강제 (rAF는 탭 전환 시 누락됨) */
+  const barJ = $('bar-jul'), bar = $('bar-aug'), gm = $('gapmark');
+  const wrapH = bar.parentElement.getBoundingClientRect().height;
+  const fullH = wrapH;                       /* 7월 = 항상 최대 높이 */
+  const augH  = Math.round(wrapH * aug / jul);
 
-  $('r-birth').classList.toggle('cutdown', bNew < bOld);
-  $('r-birth').classList.toggle('same',    bNew === bOld);
-  $('r-preg') .classList.toggle('cutdown', pNew < pOld);
-  $('r-preg') .classList.toggle('same',    pNew === pOld);
-  $('r-inf')  .classList.toggle('cutdown', iNew !== iOld);
+  barJ.style.height = fullH + 'px';
+  bar.style.height  = augH + 'px';   /* 최종 상태를 먼저 확정 */
 
-  const diff = (bNew + pNew) - (bOld + pOld);
-  $('t-v').textContent = diff === 0 ? '변동 없음' : ('−' + Math.abs(diff) + '만원');
+  /* 7월 높이 → 8월 높이로 실제로 떨어뜨린다 (Web Animations API) */
+  bar.getAnimations().forEach(a => a.cancel());
+  if(augH < fullH){
+    bar.animate(
+      [{height: fullH + 'px'}, {height: augH + 'px'}],
+      {duration: 950, easing: 'cubic-bezier(.55,.06,.25,1)', fill: 'backwards'}
+    );
+  }
+
+  gm.classList.remove('show');
+  gm.style.bottom = augH + 'px';
+  gm.style.height = (fullH - augH) + 'px';
+  if(diff < 0){
+    $('gaptag').textContent = diff + '만';
+    gm.getAnimations().forEach(a => a.cancel());
+    gm.animate([{opacity:0},{opacity:0},{opacity:1}],
+      {duration: 1350, easing: 'ease-out', fill: 'forwards'});
+    gm.classList.add('show');
+  }
+
+  $('t-v').textContent = (diff === 0) ? '변동 없음' : (diff + '만원');
   $('total').classList.toggle('cutdown', diff < 0);
 }
 
-ageEl.addEventListener('input', render);
-$('btn-prem').addEventListener('click', ()=>{
-  plan='premium';
-  $('btn-prem').classList.add('on'); $('btn-prem').setAttribute('aria-selected','true');
-  $('btn-norm').classList.remove('on'); $('btn-norm').setAttribute('aria-selected','false');
-  render();
-});
-$('btn-norm').addEventListener('click', ()=>{
-  plan='normal';
-  $('btn-norm').classList.add('on'); $('btn-norm').setAttribute('aria-selected','true');
-  $('btn-prem').classList.remove('on'); $('btn-prem').setAttribute('aria-selected','false');
-  render();
-});
+function pick(on, offs, setter){
+  on.classList.add('on');
+  offs.forEach(b => b.classList.remove('on'));
+  setter(); render();
+}
+$('t-birth').onclick = ()=> pick($('t-birth'),[$('t-preg'),$('t-inf')], ()=> item='birth');
+$('t-preg') .onclick = ()=> pick($('t-preg'), [$('t-birth'),$('t-inf')],()=> item='preg');
+$('t-inf')  .onclick = ()=> pick($('t-inf'),  [$('t-birth'),$('t-preg')],()=>item='inf');
+$('p-prem').onclick = ()=> pick($('p-prem'),[$('p-norm')], ()=> plan='premium');
+$('p-norm').onclick = ()=> pick($('p-norm'),[$('p-prem')], ()=> plan='normal');
+$('a-low') .onclick = ()=> pick($('a-low'), [$('a-high')],()=> age='low');
+$('a-high').onclick = ()=> pick($('a-high'),[$('a-low')],  ()=> age='high');
 render();
 
 /* 체크포인트 */
@@ -798,7 +838,6 @@ window.addEventListener('load',()=>{
   const s=parseInt(q.get('s')||'1',10);
   if(slides[s-1] && s>1) slides[s-1].scrollIntoView({block:'start'});
   slides.forEach(sl=>sl.classList.add('in'));
-  if(q.get('age')){ ageEl.value=q.get('age'); render(); }
 });
 slides[0].classList.add('in');
 </script>
