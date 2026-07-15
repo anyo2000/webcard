@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- 스크린샷용 iframe 래퍼 — Chrome headless가 뷰포트를 500px로 잡는 문제 우회 (CLAUDE.md 참고)
+     사용: _shot.html?p=2607/birth-uw/&s=2&still=1  (p = 자료 폴더, 나머지 쿼리는 그대로 전달) -->
+<style>html,body{margin:0;padding:0}iframe{width:393px;height:852px;border:0;display:block}</style>
+</head>
+<body>
+<iframe id="f"></iframe>
+<script>
+  const q = new URLSearchParams(location.search);
+  const p = q.get('p') || '2607/birth-uw/';
+  q.delete('p');
+  document.getElementById('f').src = '/' + p + 'index.html?' + q.toString();
+</script>
+</body>
+</html>

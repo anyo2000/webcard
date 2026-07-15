@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>여성·출산 담보 인수기준 변경 (8월 시행 예정)</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
@@ -26,18 +26,24 @@
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
   [hidden]{display:none!important;}   /* display:flex 가 hidden 속성을 덮지 않도록 */
   html,body{height:100%;overflow:hidden;}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}  /* 시스템 글자확대가 레이아웃을 깨지 않게 — 확대는 핀치줌으로 */
   body{
     font-family:'Pretendard','Pretendard Variable',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
     color:var(--ink);background:#F7F8FB;
     -webkit-font-smoothing:antialiased;letter-spacing:-0.022em;
+    word-break:keep-all;                 /* 한국어는 단어 단위로만 줄바꿈 — 전 영역 공통 */
   }
 
-  #deck{height:100dvh;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;}
+  /* 폭 상한 — 태블릿·PC에서도 폰 화면 비율 유지. 고정 오버레이 3종도 같은 상한 필수 */
+  #deck{
+    height:100dvh;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;
+    max-width:460px;margin:0 auto;box-shadow:0 0 44px rgba(18,48,92,.10);
+  }
   #deck::-webkit-scrollbar{display:none;}
   .slide{
     height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;
     position:relative;display:flex;flex-direction:column;
-    padding:calc(env(safe-area-inset-top) + 74px) 22px calc(env(safe-area-inset-bottom) + 62px);
+    padding:calc(env(safe-area-inset-top) + 90px) 22px calc(env(safe-area-inset-bottom) + 62px);
     overflow:hidden;text-align:center;
   }
   .slide--cover{
@@ -59,21 +65,21 @@
 
   /* 컴플라이언스 — 의도적으로 작게 */
   #comply-top{
-    position:fixed;top:0;left:0;right:0;z-index:70;
+    position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:460px;z-index:70;
     padding:calc(env(safe-area-inset-top) + 9px) 14px 8px;
-    font-size:9.5px;line-height:1.35;font-weight:400;letter-spacing:-0.02em;
+    font-size:11px;line-height:1.35;font-weight:400;letter-spacing:-0.02em;
     color:#9DA3AE;text-align:center;pointer-events:none;
     background:linear-gradient(180deg,rgba(255,255,255,.92) 60%,rgba(255,255,255,0) 100%);
   }
   #comply-bot{
-    position:fixed;bottom:0;left:0;right:0;z-index:70;
+    position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:460px;z-index:70;
     padding:10px 16px calc(env(safe-area-inset-bottom) + 10px);
     display:flex;justify-content:space-between;align-items:center;
-    font-size:10px;font-weight:400;color:#9DA3AE;pointer-events:none;
+    font-size:11px;font-weight:400;color:#9DA3AE;pointer-events:none;
     background:linear-gradient(0deg,rgba(255,255,255,.92) 55%,rgba(255,255,255,0) 100%);
   }
-  #progress{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;gap:4px;
-    padding:calc(env(safe-area-inset-top) + 31px) 22px 0;pointer-events:none;}
+  #progress{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:460px;z-index:60;display:flex;gap:4px;
+    padding:calc(env(safe-area-inset-top) + 48px) 22px 0;pointer-events:none;}  /* 컴플라이언스 2줄 아래로 */
   #progress .seg{flex:1;height:3px;border-radius:2px;background:rgba(18,48,92,.15);transition:background .45s ease;}
   #progress .seg.on{background:var(--navy);}
 
@@ -81,7 +87,7 @@
   .hero{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;z-index:2;}
   .eyebrow{
     display:inline-flex;align-items:center;gap:7px;
-    padding:9px 16px;margin-bottom:22px;border-radius:100px;
+    padding:9px 16px;margin-bottom:clamp(22px,4.5dvh,52px);border-radius:100px;
     background:rgba(255,255,255,.85);border:1px solid #F0D9C8;
     box-shadow:0 2px 10px rgba(212,98,31,.09);
     font-size:var(--fs-cap);font-weight:700;color:var(--orange);
@@ -94,17 +100,17 @@
   }
   .hero h1{
     font-size:clamp(40px,12.4vw,54px);font-weight:800;line-height:1.16;
-    letter-spacing:-0.05em;margin-bottom:18px;color:#0E1D33;text-wrap:balance;
+    letter-spacing:-0.05em;margin-bottom:clamp(18px,3.5dvh,40px);color:#0E1D33;text-wrap:balance;
   }
   .hero h1 .grad{
     background:linear-gradient(100deg,#D4621F 0%,#B3407A 55%,#5B4FD0 100%);
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   }
-  .hero .sub{font-size:var(--fs-body);line-height:1.66;color:var(--gray);font-weight:500;}
+  .hero .sub{font-size:21px;line-height:1.62;color:var(--gray);font-weight:500;letter-spacing:-0.03em;}
   .hero .sub b{color:#3A4150;}
 
   .agebar{
-    margin-top:30px;width:100%;
+    margin-top:clamp(30px,7dvh,76px);width:100%;
     border-radius:20px;padding:18px 16px;
     background:rgba(255,255,255,.82);border:1px solid #EFE0D6;
     box-shadow:0 4px 16px rgba(212,98,31,.07);
@@ -159,10 +165,9 @@
       -45deg,rgba(210,215,224,.13) 0 6px,transparent 6px 12px);
   }
   .ghost-bar .was{
-    position:absolute;top:-30px;left:50%;transform:translateX(-50%);
-    font-size:var(--fs-cap);font-weight:700;color:#A9AFBA;white-space:nowrap;
+    position:absolute;top:-36px;left:50%;transform:translateX(-50%);
+    font-size:20px;font-weight:800;color:#A9AFBA;white-space:nowrap;letter-spacing:-0.035em;
   }
-  .ghost-bar .was s{text-decoration-thickness:2px;}
   /* 실제 막대 = 현행 높이에서 시작해 변경 높이로 무너짐 */
   .bar{
     position:relative;width:100%;border-radius:14px 14px 0 0;
@@ -176,28 +181,29 @@
     position:absolute;top:-32px;left:50%;transform:translateX(-50%);
     font-size:20px;font-weight:800;color:var(--navy);white-space:nowrap;letter-spacing:-0.035em;
   }
-  /* 줄어든 만큼 = 붉은 잔상 라벨 */
+  /* 줄어든 만큼 — 박스 없이 환한 분홍 글씨, 최종 막대의 세로 가운데에 */
   .cut{
-    position:absolute;left:50%;transform:translateX(-50%);
-    background:#FFEDF0;border:1px solid #F8CFD8;color:#B03A56;
-    padding:4px 9px;border-radius:8px;
-    font-size:var(--fs-cap);font-weight:800;white-space:nowrap;
+    position:absolute;left:50%;transform:translateX(-50%);z-index:2;
+    color:#FF6B87;
+    font-size:36px;font-weight:800;white-space:nowrap;letter-spacing:-0.04em;
+    text-shadow:0 1px 8px rgba(0,0,0,.22);
     opacity:0;transition:opacity .5s ease .55s;
   }
-  .slide.in .cut{opacity:1;transition-delay:calc(var(--d,.45s) + 1.05s);}
+  .slide.in .cut{opacity:1;transition-delay:1.95s;}  /* 두 막대가 다 내려온 뒤 함께 등장 */
   .bar-col .label{
     margin-top:12px;font-size:16px;font-weight:700;color:#3A4150;
     line-height:1.3;text-align:center;
   }
-  .bar-col .label span{display:block;font-size:13px;font-weight:600;color:#9AA0AB;margin-top:3px;}
+  .bar-col .label span{display:block;font-size:15px;font-weight:600;color:#9AA0AB;margin-top:3px;}
 
   .case-note{
     position:relative;z-index:2;margin-top:14px;
     border-radius:18px;padding:14px 16px;
     background:#FFF6F1;border:1px solid #F5DFD0;
-    font-size:16px;font-weight:700;color:#8A4E22;line-height:1.5;
+    font-size:19px;font-weight:700;color:#8A4E22;line-height:1.4;letter-spacing:-0.035em;
   }
-  .case-note span{display:block;font-size:var(--fs-cap);font-weight:600;color:#A98362;margin-top:5px;}
+  .case-note b{display:block;font-size:27px;font-weight:800;color:var(--orange);margin:3px 0 4px;letter-spacing:-0.04em;}
+  .case-note span{display:block;font-size:var(--fs-cap);font-weight:600;color:#A98362;margin-top:5px;letter-spacing:-0.02em;}
 
   /* ═══ [3] 항목 탭 + 낙하 그래프 ═══ */
   .calc{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;}
@@ -206,11 +212,11 @@
   .item-tabs button{
     flex:1;border:1.5px solid #E1E6EE;cursor:pointer;
     padding:11px 4px;border-radius:16px;
-    font-family:inherit;font-size:15px;font-weight:800;letter-spacing:-0.04em;
+    font-family:inherit;font-size:16px;font-weight:800;letter-spacing:-0.04em;
     background:#fff;color:#8A909C;line-height:1.25;
     transition:all .32s cubic-bezier(.32,.72,0,1);
   }
-  .item-tabs button small{display:block;font-size:12px;font-weight:700;color:#B4BAC4;margin-top:3px;}
+  .item-tabs button small{display:block;font-size:15px;font-weight:700;color:#B4BAC4;margin-top:3px;}
   .item-tabs button.on{
     background:linear-gradient(140deg,#2A5596,#12305C);
     border-color:#12305C;color:#fff;
@@ -218,18 +224,19 @@
   }
   .item-tabs button.on small{color:#A9C0E4;}
 
-  .seg{
+  /* ⚠ 클래스명 주의: 진행바(#progress .seg)와 겹치면 padding·border가 새어 들어간다 */
+  .optseg{
     display:flex;gap:5px;padding:4px;border-radius:100px;
     background:#EEF1F6;border:1px solid #E1E6EE;margin-bottom:8px;
   }
-  .seg button{
+  .optseg button{
     flex:1;border:0;cursor:pointer;padding:9px 0;border-radius:100px;
     font-family:inherit;font-size:15px;font-weight:800;letter-spacing:-0.03em;
     background:transparent;color:#8A909C;
     transition:background .3s cubic-bezier(.32,.72,0,1),color .3s,box-shadow .3s;
   }
-  .seg button.on{background:#fff;color:var(--navy);box-shadow:0 2px 8px rgba(18,48,92,.13);}
-  .seg.age button.on{color:var(--orange);}
+  .optseg button.on{background:#fff;color:var(--navy);box-shadow:0 2px 8px rgba(18,48,92,.13);}
+  .optseg.age button.on{color:var(--orange);}
 
   /* 낙하 그래프 : 7월 → 8월 */
   .fall{
@@ -290,7 +297,7 @@
   .cutbar i{font-style:normal;color:#C3C9D3;font-weight:800;}
   .cutbar span{
     background:#8E2440;color:#fff;border-radius:20px;padding:3px 10px;
-    font-size:13px;font-weight:800;
+    font-size:15px;font-weight:800;
   }
 
   /* 결론 한 문장 — 숫자만 던지지 않고 무슨 일이 일어나는지 서술 */
@@ -310,33 +317,33 @@
 
   /* ═══ 표 ═══ */
   .tbl-wrap{
-    position:relative;z-index:2;flex:1;overflow-y:auto;
+    position:relative;z-index:2;
+    flex:0 1 auto;min-height:0;overflow-y:auto;   /* 내용만큼만 — 큰 화면에서 빈 박스로 늘어나지 않게 */
     border-radius:20px;border:1px solid #E4E9F1;background:#fff;
-    /* 아래에 더 있다는 신호 — 표가 잘려 보이지 않게 */
-    -webkit-mask-image:linear-gradient(180deg,#000 88%,rgba(0,0,0,.25) 100%);
-            mask-image:linear-gradient(180deg,#000 88%,rgba(0,0,0,.25) 100%);
   }
-  .tbl-hint{
-    position:relative;z-index:2;margin-top:7px;
-    font-size:13.5px;font-weight:600;color:#A2A7B2;
+  /* 스크롤이 실제로 필요한 화면에서만 하단 페이드로 "더 있다" 신호 (JS가 토글) */
+  .tbl-wrap.scrollable{
+    -webkit-mask-image:linear-gradient(180deg,#000 82%,rgba(0,0,0,.15) 100%);
+            mask-image:linear-gradient(180deg,#000 82%,rgba(0,0,0,.15) 100%);
   }
   .tbl-wrap::-webkit-scrollbar{display:none;}
   table{
-    width:100%;border-collapse:collapse;font-size:14px;table-layout:fixed;
+    width:100%;border-collapse:collapse;font-size:15px;table-layout:fixed;
     word-break:keep-all;                 /* 한국어는 단어 단위로만 줄바꿈 */
   }
   col.c-nm{width:27%;} col.c-old{width:23%;} col.c-new{width:25%;}
   thead th{
     position:sticky;top:0;z-index:1;
     background:#F1F4F9;color:#4A5160;font-weight:800;
-    padding:9px 5px;border-bottom:1px solid #E2E7EF;font-size:13.5px;
+    padding:12px 5px;border-bottom:1px solid #E2E7EF;font-size:15px;
   }
   thead th.chg{background:#FFF1E8;color:var(--orange);}
-  td{padding:9px 5px;border-bottom:1px solid #EFF2F6;text-align:center;vertical-align:middle;line-height:1.38;}
-  td.nm{text-align:left;font-weight:800;color:#2C323C;font-size:14.5px;padding-left:11px;}
-  td.old{color:#A2A8B3;font-weight:600;}
+  td{padding:16px 5px;border-bottom:1px solid #EFF2F6;text-align:center;vertical-align:middle;line-height:1.5;}
+  td.nm{font-weight:800;color:#2C323C;font-size:15.5px;}
+  td.old{color:var(--navy);font-weight:700;}
   td.new{font-weight:800;color:var(--navy);background:#FBFCFE;}
   td b{color:var(--orange);}
+  td .dn{color:#B03A56;font-weight:800;}   /* 감소분 — 시선이 여기로 */
   tr:last-child td{border-bottom:none;}
   .newline{
     position:relative;z-index:2;margin-top:11px;
@@ -346,14 +353,16 @@
   }
   .newline .chip{
     display:inline-block;margin-right:7px;padding:3px 8px;border-radius:7px;
-    background:var(--orange);color:#fff;font-size:13px;font-weight:800;
+    background:var(--orange);color:#fff;font-size:15px;font-weight:800;
   }
 
   /* ═══ 카드(왜/실행) ═══ */
-  .cards{position:relative;z-index:2;display:flex;flex-direction:column;gap:9px;text-align:left;}
+  /* 카드 간격·패딩은 화면 높이 비례 — 폰에선 촘촘히, 큰 화면에선 여유 있게 */
+  .cards{position:relative;z-index:2;display:flex;flex-direction:column;gap:clamp(9px,1.6dvh,22px);text-align:left;}
   .ncard{
     display:flex;gap:13px;align-items:flex-start;
-    background:var(--surface);border:1px solid #E8ECF3;border-radius:20px;padding:16px;
+    background:var(--surface);border:1px solid #E8ECF3;border-radius:20px;
+    padding:clamp(15px,2dvh,22px) 17px;
   }
   .ncard .n{
     flex:none;width:26px;height:26px;border-radius:9px;
@@ -363,11 +372,11 @@
   .ncard.hot{background:#FFF6F1;border-color:#F3DCCB;}
   .ncard.hot .n{background:linear-gradient(140deg,#E07A38,#C0551A);}
   .ncard .t{font-size:17px;font-weight:800;letter-spacing:-0.035em;line-height:1.35;}
-  .ncard .t span{display:block;font-size:var(--fs-cap);font-weight:600;color:var(--gray);margin-top:5px;line-height:1.5;}
+  .ncard .t span{display:block;font-size:var(--fs-cap);font-weight:600;color:var(--gray);margin-top:4px;line-height:1.45;}
 
   .callout{
     position:relative;z-index:2;margin-top:auto;
-    border-radius:20px;padding:15px 16px;text-align:left;
+    border-radius:20px;padding:13px 16px;text-align:left;
     background:linear-gradient(135deg,#FFFFFF 0%,#F5F7FB 100%);
     border:1px solid #E6EAF1;
     font-size:16px;font-weight:700;color:#3A4150;line-height:1.5;
@@ -396,23 +405,21 @@
 
   .tip-line{position:relative;z-index:2;margin-top:12px;font-size:var(--fs-cap);color:#A2A7B2;font-weight:500;line-height:1.5;}
 
-  /* 슬라이드 안내 배지 */
+  /* 슬라이드 안내 문구 — 정적. 시선은 탭이 가져간다 */
   .tap-hint{
     position:relative;z-index:3;
     display:inline-flex;align-items:center;gap:7px;align-self:center;
-    margin-bottom:10px;padding:9px 18px;border-radius:100px;
-    background:linear-gradient(135deg,#2A5596 0%,#12305C 100%);
-    border:none;color:#fff;
-    font-size:17px;font-weight:800;letter-spacing:-0.03em;
-    box-shadow:0 4px 14px rgba(18,48,92,.3);
-    animation:hintPulse 2.2s ease-in-out infinite;
+    margin-bottom:10px;
+    font-size:17px;font-weight:700;color:#7A8494;letter-spacing:-0.03em;
   }
-  @keyframes hintPulse{
-    0%,100%{transform:translateY(0) scale(1);   box-shadow:0 4px 14px rgba(18,48,92,.3);}
-    50%    {transform:translateY(-3px) scale(1.045);box-shadow:0 9px 24px rgba(18,48,92,.42);}
+  /* 담보 탭이 스스로 "눌러달라"고 말한다 — 비활성 탭만 울렁+깜빡, 시작점 어긋나게 */
+  @keyframes tabNudge{
+    0%,100%{transform:translateY(0) scale(1);   box-shadow:0 2px 6px rgba(18,48,92,.08);border-color:#E1E6EE;}
+    50%    {transform:translateY(-3px) scale(1.05);box-shadow:0 9px 20px rgba(18,48,92,.30);border-color:#7E97C4;}
   }
-  .tap-hint .fin{font-size:18px;animation:tapbob 1.4s ease-in-out infinite;}
-  @keyframes tapbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+  .item-tabs button:not(.on){animation:tabNudge 1.7s ease-in-out infinite;}
+  .item-tabs button:nth-child(2){animation-delay:.55s}
+  .item-tabs button:nth-child(3){animation-delay:1.15s}
 
   /* 모션 */
   .rise{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s cubic-bezier(.22,.8,.28,1);}
@@ -433,13 +440,17 @@
     .bar{transition:none!important;}
     .cut{opacity:1!important;transition:none!important;}
   }
+  /* 캡처용 ?still=1 — 모든 모션을 최종 상태로 고정 */
+  html.still *{animation:none!important;transition:none!important;}
+  html.still .rise,html.still .ncard,html.still .check{opacity:1!important;transform:none!important;}
+  html.still .cut{opacity:1!important;}
 </style>
 </head>
 <body>
 
 <div id="comply-top">본 자료는 교육용으로 온라인 매체(SNS등) 및 고객 설명, 광고자료로 활용 행위는 법으로 금지됩니다.</div>
 <div id="comply-bot">
-  <span>영업컨설팅파트 2607 - 04</span>
+  <span>영업컨설팅파트 2607 - 05</span>
   <span>모집인 / 교육용</span>
 </div>
 <div id="progress"></div>
@@ -452,9 +463,8 @@
     <div class="hero">
       <div class="eyebrow rise"><span class="live"></span>인수기준 변경 사전 안내</div>
       <h1 class="rise">여성·출산 담보,<br><span class="grad">8월부터 달라집니다.</span></h1>
-      <div class="sub rise">출산지원금 · 임신축하금 · 난임치료비<br><b>지원금 기준에 「나이」가 새로 들어옵니다.</b></div>
+      <div class="sub rise">출산지원금 · 임신축하금 · 난임치료비<br><b>연령 기준이 새로 생깁니다.</b></div>
       <div class="agebar rise">
-        <div class="k">새 기준선</div>
         <div class="v"><em>33세</em>를 넘으면<br>지원금이 달라집니다</div>
       </div>
     </div>
@@ -478,29 +488,29 @@
     <div class="drop">
       <div class="bar-col">
         <div class="bar-wrap">
-          <div class="ghost-bar" style="height:100%"><div class="was"><s>100만원</s></div></div>
+          <div class="ghost-bar" style="height:100%"><div class="was">100만원</div></div>
           <div class="bar" style="--h-now:100%;--h-new:50%;--d:.45s">
             <div class="now">50만원</div>
-            <div class="cut" style="bottom:calc(50% + 10px)">−50만</div>
           </div>
+          <div class="cut" style="bottom:calc(25% - 21px)">−50만</div>
         </div>
-        <div class="label">출산지원금<span>첫째</span></div>
+        <div class="label">출산지원금</div>
       </div>
 
       <div class="bar-col">
         <div class="bar-wrap">
-          <div class="ghost-bar" style="height:50%"><div class="was"><s>50만원</s></div></div>
+          <div class="ghost-bar" style="height:50%"><div class="was">50만원</div></div>
           <div class="bar" style="--h-now:50%;--h-new:30%;--d:.75s">
             <div class="now">30만원</div>
-            <div class="cut" style="bottom:calc(30% + 10px)">−20만</div>
           </div>
+          <div class="cut" style="bottom:calc(15% - 21px)">−20만</div>
         </div>
         <div class="label">임신축하금</div>
       </div>
     </div>
 
     <div class="case-note rise">
-      34세 · 프리미엄플랜 고객이라면<br><b>합계 150만원 → 80만원</b>
+      34세 · 프리미엄플랜 고객이라면<b>합계 150만원 → 80만원</b>
       <span>둘째·셋째 출산지원금(300만·500만)은 변경 없습니다.</span>
     </div>
   </section>
@@ -515,7 +525,7 @@
       <h2 class="rise">담보를 눌러보세요.</h2>
     </div>
 
-    <div class="tap-hint"><span class="fin">👆</span> 눌러서 8월 그래프 확인</div>
+    <div class="tap-hint">👆 눌러서 8월 그래프 확인</div>
 
     <div class="calc">
       <div class="item-tabs" role="tablist">
@@ -524,11 +534,11 @@
         <button id="t-inf" role="tab">난임치료비<small>기준연령</small></button>
       </div>
 
-      <div class="seg" id="seg-plan">
+      <div class="optseg" id="seg-plan">
         <button id="p-prem" class="on">프리미엄플랜</button>
         <button id="p-norm">일반플랜</button>
       </div>
-      <div class="seg age">
+      <div class="optseg age">
         <button id="a-low">33세 이하</button>
         <button id="a-high" class="on">34세 이상</button>
       </div>
@@ -556,6 +566,7 @@
       <div class="cutbar" id="cutbar" hidden>
         우대 기준연령 <b class="old">35세</b> <i>→</i> <b class="new">33세</b>
         <span>2년 축소</span>
+        <i style="color:#8A96A8;font-weight:600;font-size:15px;">36세 이상은 변경 없음</i>
       </div>
 
       <div class="total" id="total">
@@ -582,8 +593,8 @@
         </colgroup>
         <thead>
           <tr>
-            <th style="text-align:left;padding-left:11px">구분</th>
-            <th>현행</th>
+            <th>구분</th>
+            <th>현재</th>
             <th class="chg">프리미엄</th>
             <th class="chg">일반</th>
           </tr>
@@ -596,37 +607,29 @@
             <td class="new"><b>10만원</b><br>이상</td>
           </tr>
           <tr>
-            <td class="nm">출산지원금<br><span style="font-weight:600;color:#9AA0AB;font-size:13px">첫째</span></td>
+            <td class="nm">출산지원금<br><span style="font-weight:600;color:#9AA0AB;font-size:15px">첫째</span></td>
             <td class="old">프리미엄 100만<br>일반 50만</td>
-            <td class="new"><b>33세 이하</b><br>100만<br><span style="font-weight:700;color:#7A8494">34세 이상</span><br>50만</td>
-            <td class="new"><b>33세 이하</b><br>50만<br><span style="font-weight:700;color:#7A8494">34세 이상</span><br>30만</td>
-          </tr>
-          <tr>
-            <td class="nm">출산지원금<br><span style="font-weight:600;color:#9AA0AB;font-size:13px">둘째·셋째</span></td>
-            <td class="old">300만<br>500만</td>
-            <td class="new">전과<br>동일</td>
-            <td class="new">전과<br>동일</td>
+            <td class="new">33세 이하<br>100만<br><span class="dn">34세 이상<br>50만</span></td>
+            <td class="new">33세 이하<br>50만<br><span class="dn">34세 이상<br>30만</span></td>
           </tr>
           <tr>
             <td class="nm">임신<br>축하금</td>
             <td class="old">50만원</td>
-            <td class="new"><b>33세 이하</b><br>50만<br><span style="font-weight:700;color:#7A8494">34세 이상</span><br>30만</td>
-            <td class="new"><b>33세 이하</b><br>30만<br><span style="font-weight:700;color:#7A8494">34세 이상</span><br>20만</td>
+            <td class="new">33세 이하<br>50만<br><span class="dn">34세 이상<br>30만</span></td>
+            <td class="new"><span class="dn">33세 이하<br>30만<br>34세 이상<br>20만</span></td>
           </tr>
           <tr>
             <td class="nm">난임<br>치료비</td>
-            <td class="old">35세 기준<br>100·50만<br>50·30만</td>
-            <td class="new"><b>33세 기준</b><br>100·50만<br>50·30만</td>
-            <td class="new">동일</td>
+            <td class="old">35세 기준<br><span style="font-weight:600;color:#8A96A8;font-size:15px">금액은 그대로</span></td>
+            <td class="new"><b>33세 기준</b><br>이하 100만<br>초과 50만</td>
+            <td class="new"><b>33세 기준</b><br>이하 50만<br>초과 30만</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div class="tbl-hint">표를 위아래로 밀어서 전체를 확인하세요</div>
-
     <div class="newline">
-      <span class="chip">신설</span>모집 관리가 새로 생깁니다<br><span style="display:block;font-size:14px;font-weight:600;color:#A98362;margin-top:5px;">무리한 모집이 반복되면 판매가 제한될 수 있습니다.</span>
+      <span class="chip">신설</span>모집 관리가 새로 생깁니다<br><span style="display:block;font-size:15px;font-weight:600;color:#A98362;margin-top:5px;">고위험률 담보 위주로 집중판매 시 판매가 제한될 수 있습니다.</span>
     </div>
   </section>
 
@@ -644,7 +647,7 @@
     <div class="cards">
       <div class="ncard">
         <div class="n">1</div>
-        <div class="t">출산을 준비하는 분들이 주로 가입하십니다
+        <div class="t">출산을 준비하는 분들만 가입하십니다
           <span>보험료는 일반 통계로 정해지는데, 실제로는 출산 계획이 있는 분들이 집중해서 가입하십니다. 그래서 받는 보험료보다 나가는 보험금이 훨씬 커졌습니다.</span></div>
       </div>
       <div class="ncard">
@@ -654,7 +657,7 @@
       </div>
       <div class="ncard hot">
         <div class="n">3</div>
-        <div class="t">이 담보 하나가 계약 전체에 영향을 줍니다
+        <div class="t">이 담보 하나의 손해가 계약 전체에 큰 영향을 줄 정도입니다
           <span>담보 하나 때문에 계약 전체의 손익이 나빠집니다. 최저보험료가 함께 오르는 이유입니다.</span></div>
       </div>
     </div>
@@ -672,7 +675,7 @@
       <div class="cat-badge rise" style="--cb-bg:#FFF2EA;--cb-line:#F7DFCE;--cb-ic:linear-gradient(135deg,#E58A4E,#D4621F);--cb-tx:#B85A21;">
         <span class="ic" aria-hidden="true">✓</span><span class="tx">지금 하실 일</span>
       </div>
-      <h2 class="rise">고객이 놀라지 않게<br>미리 알려주세요.</h2>
+      <h2 class="rise">고객님께서 놀라시지 않게<br>미리 알려주세요.</h2>
       <p class="rise">고객에게 유리한 조건이 줄어듭니다.<br>먼저 알려드리는 것이 고객을 위한 일입니다.</p>
     </div>
 
@@ -685,7 +688,7 @@
       <div class="ncard">
         <div class="n">2</div>
         <div class="t">상담할 때 8월 조건도 같이 말씀드리기
-          <span>지금 조건과 8월 조건을 함께 설명해 주세요. 먼저 들은 고객이 마음도 빨리 정합니다.</span></div>
+          <span>지금 조건과 8월 조건을 함께 설명해 주세요. 먼저 들은 고객이 여유 있게 비교하고 결정할 수 있습니다.</span></div>
       </div>
       <div class="ncard hot">
         <div class="n">!</div>
@@ -694,10 +697,6 @@
       </div>
     </div>
 
-    <div class="callout">
-      <b>서두르지 않으셔도 됩니다.</b>
-      <span>하던 대로 상담하시되, 여성 고객께는 8월 변경을 한 번 짚어 주세요.</span>
-    </div>
   </section>
 
   <!-- ══ 7 · 체크포인트 ══ -->
@@ -712,26 +711,26 @@
     <div class="checks">
       <div class="check" tabindex="0" role="checkbox" aria-checked="false">
         <div class="box">✓</div>
-        <div class="ct">고객 나이가 33세를 넘는지 확인했다
+        <div class="ct">고객 나이가 33세를 넘는지 확인하셨나요?
           <span>34세부터 출산지원금과 임신축하금이 줄어듭니다</span></div>
       </div>
       <div class="check" tabindex="0" role="checkbox" aria-checked="false">
         <div class="box">✓</div>
-        <div class="ct">일반플랜은 33세 이하도 줄어듭니다
-          <span>임신축하금 50만원 → 30만원 (나이와 상관없이 줄어듭니다)</span></div>
+        <div class="ct">일반플랜 고객에게도 안내하셨나요?
+          <span>임신축하금 33세 이하 50만 → 30만원 · 34세 이상은 20만원</span></div>
       </div>
       <div class="check" tabindex="0" role="checkbox" aria-checked="false">
         <div class="box">✓</div>
-        <div class="ct">최저보험료 10만원을 안내했다
+        <div class="ct">최저보험료 10만원을 안내하셨나요?
           <span>7만원 → 10만원 (플랜·나이와 상관없이 오릅니다)</span></div>
       </div>
       <div class="check" tabindex="0" role="checkbox" aria-checked="false">
         <div class="box">✓</div>
-        <div class="ct">무리한 모집이 아닌지 돌아봤다
+        <div class="ct">무리한 모집이 아닌지 돌아보셨나요?
           <span>출산 예정 고객만 집중해서 모으면 판매가 제한될 수 있습니다</span></div>
       </div>
     </div>
-    <div class="tip-line">8월 시행 예정 — 세부 조건과 시행일은 확정되는 대로 다시 안내됩니다.<br>문의 : 영업컨설팅파트</div>
+    <div class="tip-line">8월 시행 예정 — 세부 조건과 시행일은 확정되는 대로 다시 안내드립니다.<br>문의: 영업컨설팅파트</div>
   </section>
 
 </div>
@@ -862,14 +861,31 @@ slides.forEach(s=>{
         const i=slides.indexOf(e.target);
         e.target.classList.add('in');
         segs.forEach((sg,n)=>sg.classList.toggle('on',n<=i));
+        if(e.target.querySelector('#fall')) render();   /* 낙하 그래프: 진입 시 크기 재계산 + 재생 */
+      }else{
+        e.target.classList.remove('in');                /* 나갔다 다시 오면 모션 재생 */
       }
     });
   },{root:deck,threshold:[.55]}).observe(s);
 });
 
-/* 캡처용 */
+/* 표: 스크롤 필요할 때만 하단 페이드 */
+const tw=document.querySelector('.tbl-wrap');
+function tblCue(){ if(tw) tw.classList.toggle('scrollable', tw.scrollHeight > tw.clientHeight + 4); }
+tblCue();
+
+/* 주소창 접힘 등으로 화면 높이가 바뀌면 막대 px가 어긋난다 → 재계산 */
+let rzT;
+window.addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{render();tblCue();},150);});
+window.addEventListener('load',tblCue);
+
+/* 캡처용 — ?s= 있을 때만. (전 슬라이드 강제 .in은 캡처 전용;
+   실사용에서 이걸 무조건 돌리면 입장 모션이 미리 소진되는 버그가 있었다) */
 const q=new URLSearchParams(location.search);
+if(q.get('still')) document.documentElement.classList.add('still');
 window.addEventListener('load',()=>{
+  render();                                  /* 폰트 로드 후 막대 크기 재계산 */
+  if(!q.has('s')) return;
   const s=parseInt(q.get('s')||'1',10);
   if(slides[s-1] && s>1) slides[s-1].scrollIntoView({block:'start'});
   slides.forEach(sl=>sl.classList.add('in'));
