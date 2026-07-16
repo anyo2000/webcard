@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
 <title>SI 경증질환 심사기준 변경 안내 (7.20 시행)</title>
+<meta name="wc-title" content="2607 SI 인수확대">
+<meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
   /* ═══════════════════════════════════════════════
@@ -860,7 +862,7 @@ function openSheet(key){
   sheet.classList.add('show'); dim.classList.add('show'); sheet.scrollTop=0;
 }
 function closeSheet(){sheet.classList.remove('show');dim.classList.remove('show');hidePop();}
-document.querySelectorAll('.item').forEach(el=>el.addEventListener('click',()=>openSheet(el.dataset.key)));
+document.querySelectorAll('.item').forEach(el=>el.addEventListener('click',()=>{if(window.wc)wc('tap',(DATA[el.dataset.key]&&DATA[el.dataset.key].name)||el.dataset.key);openSheet(el.dataset.key);}));
 dim.addEventListener('click',closeSheet);
 
 /* 체크포인트 토글 */
@@ -879,6 +881,7 @@ document.addEventListener('click',e=>{
   const t=e.target.closest('.term');
   if(!t){hidePop();return;}
   e.stopPropagation();
+  if(window.wc)wc('term',t.dataset.t);
   pop.innerHTML=`<span class="p-term">${t.textContent}</span>${TERMS[t.dataset.t]||''}`;
   pop.classList.add('show');
   const r=t.getBoundingClientRect(),pw=pop.offsetWidth,ph=pop.offsetHeight;
@@ -900,5 +903,6 @@ window.addEventListener('load',()=>{
   if(k&&DATA[k]) setTimeout(()=>openSheet(k),260);
 });
 </script>
+<script src="../../analytics/track.js"></script>
 </body>
 </html>

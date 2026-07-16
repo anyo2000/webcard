@@ -41,6 +41,7 @@ webcard/
 
 - **폴더명은 반드시 영문 슬러그.** 한글 경로는 카톡에서 `%EA%B2%BD...`로 깨져 링크가 흉해진다.
 - 새 자료 추가 시 `index.html` 목록에 카드 1개 추가하는 것을 잊지 말 것.
+- **사용측정**: 새 카드 `</body>` 직전에 `<script src="../../analytics/track.js"></script>` 삽입 + 탭 핸들러에 `if(window.wc)wc('tap','키')` 추가. 방문·슬라이드깊이·체류는 자동. 상세: `analytics/README.md` (수집처=회사 구글계정 Apps Script→시트, 대시보드는 웹앱 URL).
 
 ## 제작 규칙 (2607 si-uw에서 확립)
 
