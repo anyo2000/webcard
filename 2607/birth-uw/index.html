@@ -44,9 +44,12 @@
   .slide{
     height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;
     position:relative;display:flex;flex-direction:column;
-    padding:calc(env(safe-area-inset-top) + 90px) 22px calc(env(safe-area-inset-bottom) + 62px);
-    overflow:hidden;text-align:center;
+    padding:calc(env(safe-area-inset-top) + 90px) 22px calc(env(safe-area-inset-bottom) + 40px);
+    /* 내용이 화면보다 길면 슬라이드 안에서 먼저 스크롤 → 바닥 닿으면 다음 장으로 체이닝
+       (카톡 인앱 브라우저는 상·하단 바 때문에 실높이가 짧다) */
+    overflow-y:auto;overflow-x:hidden;text-align:center;
   }
+  .slide::-webkit-scrollbar{display:none;}
   .slide--cover{
     background:
       radial-gradient(ellipse 520px 380px at 15% 5%,  #FFE6D6 0%, transparent 60%),
@@ -319,22 +322,15 @@
   /* ═══ 표 ═══ */
   .tbl-wrap{
     position:relative;z-index:2;
-    flex:0 1 auto;min-height:0;overflow-y:auto;   /* 내용만큼만 — 큰 화면에서 빈 박스로 늘어나지 않게 */
+    flex:none;                                    /* 표는 제 높이대로 — 넘치면 슬라이드째 스크롤 */
     border-radius:20px;border:1px solid #E4E9F1;background:#fff;
   }
-  /* 스크롤이 실제로 필요한 화면에서만 하단 페이드로 "더 있다" 신호 (JS가 토글) */
-  .tbl-wrap.scrollable{
-    -webkit-mask-image:linear-gradient(180deg,#000 82%,rgba(0,0,0,.15) 100%);
-            mask-image:linear-gradient(180deg,#000 82%,rgba(0,0,0,.15) 100%);
-  }
-  .tbl-wrap::-webkit-scrollbar{display:none;}
   table{
     width:100%;border-collapse:collapse;font-size:15px;table-layout:fixed;
     word-break:keep-all;                 /* 한국어는 단어 단위로만 줄바꿈 */
   }
   col.c-nm{width:27%;} col.c-old{width:23%;} col.c-new{width:25%;}
   thead th{
-    position:sticky;top:0;z-index:1;
     background:#F1F4F9;color:#4A5160;font-weight:800;
     padding:12px 5px;border-bottom:1px solid #E2E7EF;font-size:15px;
   }
@@ -482,8 +478,7 @@
       <div class="cat-badge rise" style="--cb-bg:#FFF2EA;--cb-line:#F7DFCE;--cb-ic:linear-gradient(135deg,#E58A4E,#D4621F);--cb-tx:#B85A21;">
         <span class="ic" aria-hidden="true">↓</span><span class="tx">얼마나 줄어드나</span>
       </div>
-      <h2 class="rise">34세부터는<br>지원금이 <b style="color:#D4621F;">절반</b>이 됩니다.</h2>
-      <p class="rise">프리미엄플랜 · 첫째 출산 기준</p>
+      <h2 class="rise">34세부터는 <b style="color:#D4621F;">절반</b>이 됩니다.</h2>
     </div>
 
     <div class="drop">
@@ -512,8 +507,8 @@
 
     <div class="case-note rise">
       34세 · 프리미엄플랜 고객이라면<b>합계 150만원 → 80만원</b>
-      <span>둘째·셋째 출산지원금(300만·500만)은 변경 없습니다.</span>
     </div>
+    <div class="tip-line rise" style="text-align:center;margin-top:10px;">출산지원금 50만원은 7월 1일 시행중. 8월 임신축하금 축소 예정</div>
   </section>
 
   <!-- ══ 3 · 항목별 낙하 그래프 ══ -->
@@ -523,16 +518,13 @@
       <div class="cat-badge rise" style="--cb-bg:#EDF2FB;--cb-line:#DAE3F1;--cb-ic:linear-gradient(135deg,#4E7ACB,#12305C);--cb-tx:#2A5596;">
         <span class="ic" aria-hidden="true">↓</span><span class="tx">항목별로 보기</span>
       </div>
-      <h2 class="rise">담보를 눌러보세요.</h2>
     </div>
-
-    <div class="tap-hint">👆 눌러서 8월 그래프 확인</div>
 
     <div class="calc">
       <div class="item-tabs" role="tablist">
-        <button id="t-birth" class="on" role="tab">출산지원금<small>첫째</small></button>
-        <button id="t-preg" role="tab">임신축하금<small>&nbsp;</small></button>
-        <button id="t-inf" role="tab">난임치료비<small>기준연령</small></button>
+        <button id="t-birth" class="on" role="tab">출산지원금</button>
+        <button id="t-preg" role="tab">임신축하금</button>
+        <button id="t-inf" role="tab">난임치료비</button>
       </div>
 
       <div class="optseg" id="seg-plan">
@@ -583,8 +575,6 @@
       <div class="cat-badge rise" style="--cb-bg:#F2F0FE;--cb-line:#E2DDF9;--cb-ic:linear-gradient(135deg,#8C7BE0,#6255A8);--cb-tx:#6255A8;">
         <span class="ic" aria-hidden="true">≡</span><span class="tx">변경 내용</span>
       </div>
-      <h2 class="rise">최저보험료 <b>10만원</b>,<br>지원금은 <b>33세</b> 기준입니다.</h2>
-      <p class="rise">8월 시행 예정입니다.<br>세부 조건은 확정되는 대로 다시 안내드립니다.</p>
     </div>
 
     <div class="tbl-wrap">
@@ -629,9 +619,6 @@
       </table>
     </div>
 
-    <div class="newline">
-      <span class="chip">신설</span>모집 관리가 새로 생깁니다<br><span style="display:block;font-size:15px;font-weight:600;color:#A98362;margin-top:5px;">고위험률 담보 위주로 집중판매 시 판매가 제한될 수 있습니다.</span>
-    </div>
   </section>
 
   <!-- ══ 5 · 왜 줄어들까요 ══ -->
@@ -641,8 +628,7 @@
       <div class="cat-badge rise" style="--cb-bg:#EDF6F1;--cb-line:#D8EAE0;--cb-ic:linear-gradient(135deg,#54AD86,#357C5F);--cb-tx:#357C5F;">
         <span class="ic" aria-hidden="true">?</span><span class="tx">왜 줄어들까요?</span>
       </div>
-      <h2 class="rise">고객이 물으면<br>이렇게 말씀해 주세요.</h2>
-      <p class="rise">이유를 알면 고객도 이해합니다.</p>
+      <p class="rise">고객님께 이렇게 말씀해 주세요.</p>
     </div>
 
     <div class="cards">
@@ -871,15 +857,9 @@ slides.forEach(s=>{
   },{root:deck,threshold:[.55]}).observe(s);
 });
 
-/* 표: 스크롤 필요할 때만 하단 페이드 */
-const tw=document.querySelector('.tbl-wrap');
-function tblCue(){ if(tw) tw.classList.toggle('scrollable', tw.scrollHeight > tw.clientHeight + 4); }
-tblCue();
-
 /* 주소창 접힘 등으로 화면 높이가 바뀌면 막대 px가 어긋난다 → 재계산 */
 let rzT;
-window.addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{render();tblCue();},150);});
-window.addEventListener('load',tblCue);
+window.addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{render();},150);});
 
 /* 캡처용 — ?s= 있을 때만. (전 슬라이드 강제 .in은 캡처 전용;
    실사용에서 이걸 무조건 돌리면 입장 모션이 미리 소진되는 버그가 있었다) */
