@@ -508,7 +508,7 @@
     <div class="case-note rise">
       34세 · 프리미엄플랜 고객이라면<b>합계 150만원 → 80만원</b>
     </div>
-    <div class="tip-line rise" style="text-align:center;margin-top:10px;">출산지원금 50만원은 7월 1일 시행중. 8월 임신축하금 축소 예정</div>
+    <div class="tip-line rise" style="text-align:center;margin-top:10px;white-space:nowrap;">출산지원금 50만 7.1 시행중. 8월 임신축하금 축소예정</div>
   </section>
 
   <!-- ══ 3 · 항목별 낙하 그래프 ══ -->
@@ -842,20 +842,23 @@ const slides=[...document.querySelectorAll('.slide')];
 const bar=document.getElementById('progress');
 bar.innerHTML=slides.map(()=>'<div class="seg"></div>').join('');
 const segs=[...bar.children];
-slides.forEach(s=>{
-  new IntersectionObserver(es=>{
-    es.forEach(e=>{
-      if(e.intersectionRatio>.55){
-        const i=slides.indexOf(e.target);
-        e.target.classList.add('in');
-        segs.forEach((sg,n)=>sg.classList.toggle('on',n<=i));
-        if(e.target.querySelector('#fall')) render();   /* 낙하 그래프: 진입 시 크기 재계산 + 재생 */
-      }else{
-        e.target.classList.remove('in');                /* 나갔다 다시 오면 모션 재생 */
+/* 카톡 인앱(iOS 웹뷰)은 스와이프 중 JS가 멈춰 IntersectionObserver 타이밍이 어긋난다
+   → 스크롤이 "멈춘 뒤" 현재 슬라이드에서 모션을 시작해야 폰에서도 눈에 보인다 */
+function setActive(){
+  const i=Math.max(0,Math.min(slides.length-1,Math.round(deck.scrollTop/deck.clientHeight)));
+  slides.forEach((s,n)=>{
+    if(n===i){
+      if(!s.classList.contains('in')){
+        s.classList.add('in');
+        if(s.querySelector('#fall')) render();          /* 낙하 그래프: 진입 시 크기 재계산 + 재생 */
       }
-    });
-  },{root:deck,threshold:[.55]}).observe(s);
-});
+    }else s.classList.remove('in');                     /* 나갔다 다시 오면 모션 재생 */
+  });
+  segs.forEach((sg,n)=>sg.classList.toggle('on',n<=i));
+}
+let scT;
+deck.addEventListener('scroll',()=>{clearTimeout(scT);scT=setTimeout(setActive,90);});
+setActive();                                            /* 첫 화면: 진행바 1칸 + 표지 모션 */
 
 /* 주소창 접힘 등으로 화면 높이가 바뀌면 막대 px가 어긋난다 → 재계산 */
 let rzT;
