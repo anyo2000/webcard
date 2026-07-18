@@ -37,17 +37,15 @@
 
   /* 폭 상한 — 태블릿·PC에서도 폰 화면 비율 유지. 고정 오버레이 3종도 같은 상한 필수 */
   #deck{
-    height:100dvh;overflow-y:scroll;scroll-snap-type:y proximity;-webkit-overflow-scrolling:touch;
+    height:100dvh;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;
     max-width:460px;margin:0 auto;box-shadow:0 0 44px rgba(18,48,92,.10);
   }
   #deck::-webkit-scrollbar{display:none;}
-  /* 내용이 화면보다 길면 잘리지 않고 그 카드 안에서 스크롤되게: 고정높이(height) 대신 최소높이(min-height).
-     짧은 카드는 여전히 한 화면에 스냅, 긴 카드(그래프·표)만 아래로 이어짐. */
   .slide{
-    min-height:100dvh;scroll-snap-align:start;
+    height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;
     position:relative;display:flex;flex-direction:column;
     padding:calc(env(safe-area-inset-top) + 90px) 22px calc(env(safe-area-inset-bottom) + 62px);
-    overflow:visible;text-align:center;
+    overflow:hidden;text-align:center;
   }
   .slide--cover{
     background:
@@ -243,7 +241,7 @@
 
   /* 낙하 그래프 : 7월 → 8월 */
   .fall{
-    flex:1;min-height:210px;display:flex;align-items:flex-end;justify-content:center;gap:30px;
+    flex:1;display:flex;align-items:flex-end;justify-content:center;gap:30px;
     padding:40px 8px 0;
   }
   .fcol{flex:1;max-width:118px;display:flex;flex-direction:column;align-items:center;height:100%;}
@@ -318,17 +316,10 @@
   .total .v b{font-size:25px;font-weight:800;color:#3A8A5E;letter-spacing:-0.045em;}
   .total.cutdown .v b{color:#B03A56;}
 
-  /* 출산지원금이 왜 그래프에 없는지 — 지난 변화임을 담백하게 각주로 */
-  .pastnote{
-    margin-top:10px;font-size:15px;font-weight:500;line-height:1.45;
-    color:#9AA0AB;letter-spacing:-0.02em;text-align:center;
-  }
-  .pastnote b{font-weight:700;color:#6B7280;}
-
   /* ═══ 표 ═══ */
   .tbl-wrap{
     position:relative;z-index:2;
-    flex:none;overflow:visible;   /* 표 전체를 그대로 보여주고, 넘치면 카드가 스크롤된다 (마지막 줄 잘림 방지) */
+    flex:0 1 auto;min-height:0;overflow-y:auto;   /* 내용만큼만 — 큰 화면에서 빈 박스로 늘어나지 않게 */
     border-radius:20px;border:1px solid #E4E9F1;background:#fff;
   }
   /* 스크롤이 실제로 필요한 화면에서만 하단 페이드로 "더 있다" 신호 (JS가 토글) */
@@ -539,7 +530,8 @@
 
     <div class="calc">
       <div class="item-tabs" role="tablist">
-        <button id="t-preg" class="on" role="tab">임신축하금<small>&nbsp;</small></button>
+        <button id="t-birth" class="on" role="tab">출산지원금<small>첫째</small></button>
+        <button id="t-preg" role="tab">임신축하금<small>&nbsp;</small></button>
         <button id="t-inf" role="tab">난임치료비<small>기준연령</small></button>
       </div>
 
@@ -556,16 +548,16 @@
         <div class="fcol now">
           <div class="fwrap">
             <div class="fbar jul" id="bar-jul" style="height:100%">
-              <div class="amt" id="amt-jul">50만</div>
+              <div class="amt" id="amt-jul">100만</div>
             </div>
           </div>
           <div class="cap">7월</div>
         </div>
         <div class="fcol">
           <div class="fwrap">
-            <div class="gapmark" id="gapmark"><span class="tag" id="gaptag">-20만</span></div>
+            <div class="gapmark" id="gapmark"><span class="tag" id="gaptag">-50만</span></div>
             <div class="fbar aug" id="bar-aug" style="height:100%">
-              <div class="amt" id="amt-aug">30만</div>
+              <div class="amt" id="amt-aug">50만</div>
             </div>
           </div>
           <div class="cap">8월</div>
@@ -579,10 +571,8 @@
       </div>
 
       <div class="total" id="total">
-        <span class="v" id="t-v">임신축하금이 <b>20만원</b> 줄어듭니다</span>
+        <span class="v" id="t-v">출산지원금이 <b>50만원</b> 줄어듭니다</span>
       </div>
-
-      <div class="pastnote">출산지원금(첫째)은 <b>7월에 이미 100→50만원</b>으로 조정되었습니다.</div>
     </div>
   </section>
 
@@ -748,8 +738,7 @@
 
 <script>
 /* ══ 데이터 : 공식 변경(안) 표 그대로. 추측 없음 ══
-   ※ 출산지원금(첫째)은 그래프에서 제외 — 8월이 아니라 7월에 이미 100→50만원으로 조정 끝났음.
-      "8월 예고" 그래프에 과거 변화를 섞으면 오해되므로 임신축하금·난임만 남긴다.
+   출산지원금(첫째) 현행 : 프리미엄 100만 · 일반 50만 (나이 무관)
    임신축하금       현행 : 50만 (플랜·나이 무관)
    난임치료비       현행 : 기준연령 35세 → 변경 33세 (금액표는 그대로)
                     프리미엄 기준이하 100만 / 초과 50만, 일반 50만 / 30만
@@ -758,6 +747,10 @@
       36세 이상은 7월에도 이미 초과구간(50·30만)이라 변화가 없다.
       그래서 나이 버튼을 '34세 이상'이 아니라 '34~35세'로 부른다.        */
 const D = {
+  birth:{
+    premium:{ low:[100,100], high:[100,50] },
+    normal :{ low:[ 50, 50], high:[ 50,30] }
+  },
   preg:{
     premium:{ low:[50,50], high:[50,30] },
     normal :{ low:[50,30], high:[50,20] }
@@ -769,7 +762,7 @@ const D = {
 };
 const NAMES = { birth:'출산지원금', preg:'임신축하금', inf:'난임치료비' };
 
-let item='preg', plan='premium', age='high';
+let item='birth', plan='premium', age='high';
 const $ = id => document.getElementById(id);
 
 function render(){
@@ -841,8 +834,9 @@ function pick(on, offs, setter){
   if(window.wc){var L={'t-birth':'출산 탭','t-preg':'임신 탭','t-inf':'난임 탭','p-prem':'프리미엄','p-norm':'일반형','a-low':'저연령','a-high':'고연령'};wc('tap',L[on.id]||on.id);}
   setter(); render();
 }
-$('t-preg').onclick = ()=> pick($('t-preg'), [$('t-inf')], ()=> item='preg');
-$('t-inf') .onclick = ()=> pick($('t-inf'),  [$('t-preg')],()=> item='inf');
+$('t-birth').onclick = ()=> pick($('t-birth'),[$('t-preg'),$('t-inf')], ()=> item='birth');
+$('t-preg') .onclick = ()=> pick($('t-preg'), [$('t-birth'),$('t-inf')],()=> item='preg');
+$('t-inf')  .onclick = ()=> pick($('t-inf'),  [$('t-birth'),$('t-preg')],()=>item='inf');
 $('p-prem').onclick = ()=> pick($('p-prem'),[$('p-norm')], ()=> plan='premium');
 $('p-norm').onclick = ()=> pick($('p-norm'),[$('p-prem')], ()=> plan='normal');
 $('a-low') .onclick = ()=> pick($('a-low'), [$('a-high')],()=> age='low');
