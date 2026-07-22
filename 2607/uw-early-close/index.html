@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<title>7.23(목) 인수 심사 16시 조기 종료 안내</title>
+<meta name="wc-title" content="2607 인수심사 조기종료">
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  /* ═══════════════════════════════════════════════
+     최소 폰트 규약 (50대 이상 가독성)
+       본문 18px · 캡션 15px · 그 아래 금지
+     ═══════════════════════════════════════════════ */
+  :root{
+    --navy:#12305C;
+    --navy-2:#2A5596;
+    --ink:#111318;
+    --gray:#6B6F78;
+    --line:#E6E8EE;
+    --surface:#F4F6FA;
+
+    --fs-body:18px;
+    --fs-cap:15px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;overflow:hidden;}
+  body{
+    font-family:'Pretendard','Pretendard Variable',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;letter-spacing:-0.022em;
+  }
+
+  .slide{
+    height:100dvh;position:relative;display:flex;flex-direction:column;
+    padding:calc(env(safe-area-inset-top) + 52px) 22px calc(env(safe-area-inset-bottom) + 58px);
+    overflow:hidden;text-align:center;
+    background:
+      radial-gradient(ellipse 520px 380px at 18% 6%,  #DCE6FF 0%, transparent 62%),
+      radial-gradient(ellipse 460px 400px at 92% 24%, #EADDFF 0%, transparent 60%),
+      radial-gradient(ellipse 500px 360px at 50% 104%,#DFF0FF 0%, transparent 66%),
+      linear-gradient(175deg,#F7F9FF 0%,#EFF3FC 100%);
+  }
+
+  /* 배경 고스트 숫자 */
+  .ghost{
+    position:absolute;font-weight:800;letter-spacing:-0.06em;
+    pointer-events:none;user-select:none;line-height:1;
+    color:rgba(18,48,92,.045);
+    font-size:150px;left:50%;transform:translateX(-50%);bottom:40px;white-space:nowrap;
+  }
+
+  /* ── 컴플라이언스 문구 (의도적으로 작게 — 최소폰트 규약 예외) ── */
+  #comply-top{
+    position:fixed;top:0;left:0;right:0;z-index:70;
+    padding:calc(env(safe-area-inset-top) + 9px) 14px 8px;
+    font-size:9.5px;line-height:1.35;font-weight:400;letter-spacing:-0.02em;
+    color:#9DA3AE;text-align:center;pointer-events:none;
+    background:linear-gradient(180deg,rgba(255,255,255,.92) 60%,rgba(255,255,255,0) 100%);
+  }
+  #comply-bot{
+    position:fixed;bottom:0;left:0;right:0;z-index:70;
+    padding:10px 16px calc(env(safe-area-inset-bottom) + 10px);
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:10px;font-weight:400;letter-spacing:0;color:#9DA3AE;
+    pointer-events:none;
+    background:linear-gradient(0deg,rgba(255,255,255,.92) 55%,rgba(255,255,255,0) 100%);
+  }
+
+  .hero{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;z-index:2;min-height:0;}
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:9px 16px;margin-bottom:20px;border-radius:100px;
+    background:rgba(255,255,255,.82);
+    border:1px solid #D7DEEE;
+    box-shadow:0 2px 10px rgba(18,48,92,.06);
+    font-size:var(--fs-cap);font-weight:700;color:var(--navy);letter-spacing:-0.01em;
+  }
+  .eyebrow .live{width:7px;height:7px;border-radius:50%;background:#3B72D9;
+    animation:pulse 2s infinite;}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(59,114,217,.5)}
+    70%{box-shadow:0 0 0 8px rgba(59,114,217,0)}
+    100%{box-shadow:0 0 0 0 rgba(59,114,217,0)}
+  }
+
+  .hero h1{
+    font-size:clamp(36px,10.5vw,46px);font-weight:800;line-height:1.18;
+    letter-spacing:-0.05em;margin-bottom:6px;color:#0E1D33;
+  }
+  .hero h1 .grad{
+    background:linear-gradient(100deg,#2A5596 0%,#5B4FD0 55%,#C4568C 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+
+  /* 주인공 숫자 */
+  .big-time{
+    font-size:clamp(88px,27vw,118px);font-weight:800;line-height:1.05;
+    letter-spacing:-0.06em;margin:6px 0 10px;
+    background:linear-gradient(140deg,#2A5596 0%,#5B4FD0 70%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .big-time small{font-size:.34em;font-weight:800;letter-spacing:-0.03em;}
+
+  .hero .sub{font-size:var(--fs-body);line-height:1.62;color:var(--gray);font-weight:500;}
+  .hero .sub b{color:#3A4150;font-weight:700;}
+
+  /* 행동 안내 */
+  .acts{display:flex;flex-direction:column;gap:9px;width:100%;margin-top:26px;text-align:left;}
+  .act{
+    display:flex;align-items:center;gap:13px;
+    background:rgba(255,255,255,.82);border:1px solid #E1E7F2;
+    border-radius:20px;padding:16px 17px;
+    box-shadow:0 4px 16px rgba(18,48,92,.05);
+    backdrop-filter:blur(10px);
+  }
+  .act .ai{
+    flex:none;width:42px;height:42px;border-radius:14px;
+    display:grid;place-items:center;font-size:20px;
+    background:linear-gradient(145deg,#2A5596,#12305C);color:#fff;
+    box-shadow:0 5px 14px rgba(18,48,92,.24);
+  }
+  .act.calm .ai{background:linear-gradient(145deg,#6B5FC0,#3E3480);box-shadow:0 5px 14px rgba(80,64,160,.22);}
+  .act .at{flex:1;font-size:var(--fs-body);font-weight:800;letter-spacing:-0.03em;line-height:1.35;}
+  .act .at span{display:block;font-size:var(--fs-cap);font-weight:600;color:var(--gray);margin-top:4px;letter-spacing:-0.02em;}
+  .act .at .pt{color:var(--navy-2);}
+
+  .tip-line{position:relative;z-index:2;margin-top:16px;font-size:var(--fs-cap);color:#A2A7B2;font-weight:500;line-height:1.55;}
+
+  /* 모션 */
+  .rise{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s cubic-bezier(.22,.8,.28,1);}
+  .slide.in .rise{opacity:1;transform:none;}
+  .slide.in .rise:nth-child(1){transition-delay:.05s}
+  .slide.in .rise:nth-child(2){transition-delay:.13s}
+  .slide.in .rise:nth-child(3){transition-delay:.21s}
+  .slide.in .rise:nth-child(4){transition-delay:.29s}
+  .slide.in .rise:nth-child(5){transition-delay:.37s}
+  .no-anim .rise{opacity:1!important;transform:none!important;transition:none!important;}
+
+  /* 좁은 세로(카톡 인앱 등) 대응 */
+  @media (max-height:660px){
+    .big-time{margin:2px 0 6px;}
+    .acts{margin-top:16px;}
+    .ghost{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div id="comply-top">본 자료는 교육용으로 온라인 매체(SNS등) 및 고객 설명, 광고자료로 활용 행위는 법으로 금지됩니다.</div>
+<div id="comply-bot">
+  <span>영업컨설팅파트 2607 - 06</span>
+  <span>모집인 / 교육용</span>
+</div>
+
+<section class="slide in">
+  <div class="ghost">7.23</div>
+  <div class="hero">
+    <div class="eyebrow rise"><span class="live"></span>하루만 · 7월 23일 (목)</div>
+    <h1 class="rise">인수 심사는<br><span class="grad">4시에 문 닫습니다</span></h1>
+    <div class="big-time rise">16<small>:00</small></div>
+    <div class="sub rise">인보험 계약심사 업무 <b>조기 종료</b><br>심사 직원 전원이 의학세미나에 참석합니다</div>
+    <div class="acts rise">
+      <div class="act">
+        <div class="ai">⏰</div>
+        <div class="at">심사가 필요한 급한 건
+          <span>→ <b class="pt">23일(목) 16시 전</b>에 접수하세요</span></div>
+      </div>
+      <div class="act calm">
+        <div class="ai">🌤</div>
+        <div class="at">급하지 않으면
+          <span>→ <b class="pt">다음날</b>로 미루세요</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="tip-line">영업현장에서 혼란이 없도록 미리 안내해 주세요.<br>문의 : 장기UW파트</div>
+</section>
+
+<script>
+/* 목업 캡처용 */
+const q=new URLSearchParams(location.search);
+if(q.get('still')) document.body.classList.add('no-anim');
+</script>
+<script src="../../analytics/track.js"></script>
+</body>
+</html>
