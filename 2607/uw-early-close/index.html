@@ -69,39 +69,14 @@
 
   .hero{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;z-index:2;min-height:0;}
 
-  .eyebrow{
-    display:inline-flex;align-items:center;gap:7px;
-    padding:9px 16px;margin-bottom:20px;border-radius:100px;
-    background:rgba(255,255,255,.82);
-    border:1px solid #D7DEEE;
-    box-shadow:0 2px 10px rgba(18,48,92,.06);
-    font-size:var(--fs-cap);font-weight:700;color:var(--navy);letter-spacing:-0.01em;
-  }
-  .eyebrow .live{width:7px;height:7px;border-radius:50%;background:#3B72D9;
-    animation:pulse 2s infinite;}
-  @keyframes pulse{
-    0%{box-shadow:0 0 0 0 rgba(59,114,217,.5)}
-    70%{box-shadow:0 0 0 8px rgba(59,114,217,0)}
-    100%{box-shadow:0 0 0 0 rgba(59,114,217,0)}
-  }
-
   .hero h1{
-    font-size:clamp(36px,10.5vw,46px);font-weight:800;line-height:1.18;
-    letter-spacing:-0.05em;margin-bottom:6px;color:#0E1D33;
+    font-size:clamp(29px,8.4vw,36px);font-weight:800;line-height:1.28;
+    letter-spacing:-0.05em;margin-bottom:16px;color:#0E1D33;white-space:nowrap;
   }
   .hero h1 .grad{
     background:linear-gradient(100deg,#2A5596 0%,#5B4FD0 55%,#C4568C 100%);
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   }
-
-  /* 주인공 숫자 */
-  .big-time{
-    font-size:clamp(88px,27vw,118px);font-weight:800;line-height:1.05;
-    letter-spacing:-0.06em;margin:6px 0 10px;
-    background:linear-gradient(140deg,#2A5596 0%,#5B4FD0 70%);
-    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  }
-  .big-time small{font-size:.34em;font-weight:800;letter-spacing:-0.03em;}
 
   .hero .sub{font-size:var(--fs-body);line-height:1.62;color:var(--gray);font-weight:500;}
   .hero .sub b{color:#3A4150;font-weight:700;}
@@ -157,9 +132,7 @@
 <section class="slide in">
   <div class="ghost">7.23</div>
   <div class="hero">
-    <div class="eyebrow rise"><span class="live"></span>하루만 · 7월 23일 (목)</div>
-    <h1 class="rise">인수 심사는<br><span class="grad">4시에 문 닫습니다</span></h1>
-    <div class="big-time rise">16<small>:00</small></div>
+    <h1 class="rise">7월 23일(목) 인수심사는<br><span class="grad">16:00에 종료됩니다</span></h1>
     <div class="sub rise">인보험 계약심사 업무 <b>조기 종료</b><br>심사 직원 전원이 의학세미나에 참석합니다</div>
     <div class="acts rise">
       <div class="act">
@@ -169,12 +142,17 @@
       </div>
       <div class="act calm">
         <div class="ai">🌤</div>
-        <div class="at">급하지 않으면
-          <span>→ <b class="pt">다음날</b>로 미루세요</span></div>
+        <div class="at">급하지 않은 건
+          <span>→ <b class="pt">다음날</b> 올려주세요</span></div>
+      </div>
+      <div class="act">
+        <div class="ai">📢</div>
+        <div class="at">영업현장에는
+          <span>→ 혼란이 없도록 <b class="pt">미리 안내</b>해 주세요</span></div>
       </div>
     </div>
   </div>
-  <div class="tip-line">영업현장에서 혼란이 없도록 미리 안내해 주세요.<br>문의 : 장기UW파트</div>
+  <div class="tip-line">문의 : 장기UW파트</div>
 </section>
 
 <script>
