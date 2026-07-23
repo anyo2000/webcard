@@ -12,6 +12,8 @@
   const q = new URLSearchParams(location.search);
   const p = q.get('p') || '2607/birth-uw/';
   q.delete('p');
+  const h = q.get('h'); q.delete('h');            /* ?h=611 → 카톡 인앱 등 짧은 뷰포트 시뮬 */
+  if(h) document.getElementById('f').style.height = h + 'px';
   document.getElementById('f').src = '/' + p + 'index.html?' + q.toString();
 </script>
 </body>
