@@ -128,6 +128,16 @@
   }
   .stat .l{font-size:var(--fs-cap);color:#7A7F8A;font-weight:600;line-height:1.4;}
 
+  /* 한시 강조 배지 — 표지 통계 아래 */
+  .limited{
+    display:inline-flex;align-items:center;
+    margin-top:18px;padding:12px 30px;border-radius:100px;
+    background:linear-gradient(135deg,#F97316 0%,#EA580C 100%);color:#fff;
+    font-size:21px;font-weight:800;letter-spacing:-0.02em;
+    box-shadow:0 6px 20px rgba(234,88,12,.38);
+    animation:hintPulse 2.2s ease-in-out infinite;
+  }
+
   .scroll-cue{
     position:relative;z-index:2;
     display:flex;flex-direction:column;align-items:center;gap:7px;
@@ -166,7 +176,7 @@
   .item:active{transform:scale(.972);}
   .item .txt{flex:1;min-width:0;}
   .item .name{font-size:21.5px;font-weight:800;letter-spacing:-0.035em;margin-bottom:7px;line-height:1.28;}
-  .item .tags{display:flex;gap:5px;flex-wrap:wrap;}
+  .item .tags{display:flex;flex-direction:column;align-items:flex-start;gap:5px;}
   .item .tag{
     font-size:16px;font-weight:700;
     padding:5px 9px;border-radius:10px;background:#fff;color:#6B6F78;border:1px solid #E4E8EF;
@@ -187,6 +197,10 @@
   .daybox.save{background:linear-gradient(145deg,#2E8467 0%,#175A43 100%);box-shadow:0 6px 18px rgba(23,90,67,.22);}
   .daybox.save .u1,.daybox.save .u2{color:#9FD8C3;}
   .daybox.save .d{font-size:25px;}
+  /* 남성(20%대)은 회색·작게 — 여성 절감이 시각적으로 앞서게 */
+  .daybox.gray{background:linear-gradient(145deg,#9AA3B5 0%,#7A8496 100%);box-shadow:0 4px 12px rgba(122,132,150,.2);width:80px;padding:8px 4px;}
+  .daybox.gray .u1,.daybox.gray .u2{color:#E4E8F0;}
+  .daybox.gray .d{font-size:19px;}
 
   /* ═══ 탭 유도 — 화살표 + 파장 ═══ */
   .chev{
@@ -254,7 +268,8 @@
   }
   .wchip b{color:var(--navy);font-weight:800;}
   .big-age{
-    font-size:clamp(84px,25vw,104px);font-weight:800;letter-spacing:-0.06em;line-height:1;
+    font-size:clamp(72px,21vw,90px);font-weight:800;letter-spacing:-0.05em;line-height:1;
+    padding:0 8px;
     background:linear-gradient(100deg,#2A5596 0%,#5B4FD0 55%,#C4568C 100%);
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   }
@@ -271,18 +286,18 @@
   /* ═══ 체크포인트 ═══ */
   .checks{position:relative;z-index:2;display:flex;flex-direction:column;gap:10px;text-align:left;}
   .check{
-    display:flex;align-items:flex-start;gap:13px;
-    background:#fff;border:1px solid #E6EAF1;border-radius:20px;padding:13px 16px;
+    display:flex;align-items:flex-start;gap:14px;
+    background:#fff;border:1px solid #E6EAF1;border-radius:20px;padding:19px 18px;
     cursor:pointer;transition:all .3s cubic-bezier(.32,.72,0,1);
   }
   .check .box{
-    flex:none;width:30px;height:30px;border-radius:10px;
+    flex:none;width:33px;height:33px;border-radius:11px;
     border:2px solid #CBD3E0;background:#fff;
     display:grid;place-items:center;color:#fff;font-size:14px;font-weight:800;
     transition:all .28s cubic-bezier(.32,.72,0,1);
   }
-  .check .ct{font-size:19.5px;font-weight:800;line-height:1.4;padding-top:3px;}
-  .check .ct span{display:block;font-size:var(--fs-cap);font-weight:500;color:var(--gray);margin-top:5px;line-height:1.5;}
+  .check .ct{font-size:23px;font-weight:800;line-height:1.35;padding-top:2px;}
+  .check .ct span{display:block;font-size:18px;font-weight:500;color:var(--gray);margin-top:7px;line-height:1.5;}
   .check.on{background:#F0F5FF;border-color:#C4D6F5;}
   .check.on .box{background:linear-gradient(140deg,#2A5596,#12305C);border-color:#12305C;}
   .check.on .ct{color:var(--navy);}
@@ -429,9 +444,8 @@
     .her-box{margin-top:15px;}
     .scroll-cue{gap:3px;}
   }
-  /* 콘텐츠가 화면보다 길면 그 장만 내부 스크롤 (스냅 유지) */
-  .slide.scrolly{overflow-y:auto;justify-content:flex-start;}
-  .slide.scrolly::-webkit-scrollbar{display:none;}
+  /* 콘텐츠가 화면보다 길면 그 장을 늘려서 이어서 스크롤 (스냅은 장 시작점만) */
+  .slide.scrolly{height:auto;min-height:100dvh;overflow:visible;justify-content:flex-start;}
 </style>
 </head>
 <body>
@@ -451,13 +465,14 @@
     <div class="ghost ghost--hero">7.24</div>
     <div class="hero">
       <div class="eyebrow rise"><span class="live"></span>SI상품 인수기준 완화 · 7월 말일까지</div>
-      <h1 class="rise">간병일당 20만<br><span class="grad">문턱이<br>낮아집니다</span></h1>
+      <h1 class="rise">유병자<br><span class="grad">인수기준 완화</span></h1>
       <div class="sub rise">프리미엄플랜 필수가입조건에<br><b style="color:#3A4150;">새로운 선택지</b>가 생겼습니다</div>
       <div class="hero-stats rise">
-        <div class="stat"><div class="n">▼53%</div><div class="l">필수담보<br>보험료 (최대)</div></div>
-        <div class="stat"><div class="n">40~65</div><div class="l">세 유병자<br>고객</div></div>
-        <div class="stat"><div class="n">7.24</div><div class="l">시행 —<br>7월 말일까지</div></div>
+        <div class="stat"><div class="n">▼53%</div><div class="l">연계보험료</div></div>
+        <div class="stat"><div class="n">40~65</div><div class="l">유병자</div></div>
+        <div class="stat"><div class="n">7.24</div><div class="l">시행</div></div>
       </div>
+      <div class="limited rise">한시적 허용</div>
     </div>
     <div class="scroll-cue">
       <svg width="17" height="10" viewBox="0 0 15 9" fill="none"><path d="M1.5 1.5L7.5 7L13.5 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -465,15 +480,48 @@
     </div>
   </section>
 
-  <!-- ══ 2 · 무엇이 바뀌나 ══ -->
+  <!-- ══ 2 · 현재 기준 ══ -->
   <section class="slide slide--light">
     <div class="ghost ghost--cat">01</div>
+    <div class="cat-head">
+      <div class="cat-badge rise" style="--cb-bg:#F0F4FB;--cb-line:#DCE3F0;--cb-ic:linear-gradient(135deg,#7A8496,#5A6478);--cb-tx:#4E5A78;">
+        <span class="ic">✓</span><span class="tx">현재 기준</span>
+      </div>
+      <h2 class="rise">프리미엄플랜 가입 방법,<br><span style="color:#2A5596;">지금은 두 가지입니다.</span></h2>
+    </div>
+    <div class="list" style="margin-top:10px;">
+      <div class="item" style="cursor:default;">
+        <div class="txt">
+          <div class="name">사망담보 기준</div>
+          <div class="tags">
+            <span class="tag">상해사망 2억</span>
+            <span class="tag">질병사망 5천만</span>
+          </div>
+        </div>
+        <div class="daybox"><div class="u1">50세 남성</div><div class="d" style="font-size:25px;">11.9만</div><div class="u2">원/월</div></div>
+      </div>
+      <div class="item" style="cursor:default;">
+        <div class="txt">
+          <div class="name">중환자실 기준</div>
+          <div class="tags">
+            <span class="tag">상해중환자실 100만</span>
+            <span class="tag">질병중환자실 30만 (여 50만)</span>
+          </div>
+        </div>
+        <div class="daybox"><div class="u1">50세 남성</div><div class="d">1.4만</div><div class="u2">원/월</div></div>
+      </div>
+    </div>
+    <div class="tip-line" style="margin-top:auto;">월납 예시는 3N5(세만기) 50세 남성 기준이며,<br>여성은 중환자실 기준 월 1.7만 원(질병중 50만)입니다.</div>
+  </section>
+
+  <!-- ══ 3 · 무엇이 바뀌나 ══ -->
+  <section class="slide slide--tint">
+    <div class="ghost ghost--cat">02</div>
     <div class="cat-head">
       <div class="cat-badge rise" style="--cb-bg:#F0F4FB;--cb-line:#DCE3F0;--cb-ic:linear-gradient(135deg,#4E7ACB,#7E6BD8);--cb-tx:#3A5C97;">
         <span class="ic">✦</span><span class="tx">무엇이 바뀌나</span>
       </div>
-      <h2 class="rise">프리미엄플랜으로 가는 길이<br><span style="color:#2A5596;">셋으로 늘었습니다.</span></h2>
-      <p class="rise"><b>셋 중 하나만</b> 충족하시면 됩니다.<br>대상 : 여성간편 · 3N5(세) · 더경증(세)</p>
+      <h2 class="rise">이제 <span style="color:#2A5596;">셋 중 하나</span>만<br>선택하세요.</h2>
     </div>
     <div class="tap-hint rise"><span class="fin">👆</span> 탭하여 조건 확인</div>
     <div class="list">
@@ -481,8 +529,8 @@
         <div class="txt">
           <div class="name">조건① 사망담보</div>
           <div class="tags">
-            <span class="tag no">질병사망 5천 삭제</span>
             <span class="tag yes">상해사망 2억</span>
+            <span class="tag no">질병사망 5천 삭제</span>
           </div>
         </div>
         <div class="daybox"><div class="u1">50세 남성</div><div class="d">1.9만</div><div class="u2">원/월</div></div>
@@ -492,8 +540,8 @@
         <div class="txt">
           <div class="name">조건② 중환자실</div>
           <div class="tags">
-            <span class="tag">변경 없음</span>
-            <span class="tag">상해중 100 + 질병중 30(여 50)</span>
+            <span class="tag yes">상해중환자실 100만</span>
+            <span class="tag yes">질병중환자실 30만 (여 50)</span>
           </div>
         </div>
         <div class="daybox"><div class="u1">50세 남성</div><div class="d">1.4만</div><div class="u2">원/월</div></div>
@@ -503,7 +551,8 @@
         <div class="txt">
           <div class="name">조건③ 신설</div>
           <div class="tags">
-            <span class="tag hot">상해사망 5천 + 상해중 50</span>
+            <span class="tag hot">상해사망 5천만</span>
+            <span class="tag hot">상해중환자실 50만</span>
             <span class="tag">65세 이하</span>
           </div>
         </div>
@@ -514,9 +563,9 @@
     <div class="tip-line" style="margin-top:auto;">월납 예시는 3N5(세만기) 50세 남성 기준이며,<br>5천만·50만 담보는 가입금액 비례 환산치입니다.</div>
   </section>
 
-  <!-- ══ 3 · 얼마나 싸지나 ══ -->
-  <section class="slide slide--tint">
-    <div class="ghost ghost--cat">02</div>
+  <!-- ══ 4 · 얼마나 싸지나 ══ -->
+  <section class="slide slide--light">
+    <div class="ghost ghost--cat">03</div>
     <div class="cat-head">
       <div class="cat-badge rise" style="--cb-bg:#EDF6F1;--cb-line:#D8EAE0;--cb-ic:linear-gradient(135deg,#54AD86,#5FB8B0);--cb-tx:#357C5F;">
         <span class="ic">₩</span><span class="tx">얼마나 싸지나</span>
@@ -526,7 +575,7 @@
     </div>
     <div class="tap-hint rise"><span class="fin">👆</span> 탭하여 상세 비교</div>
     <div class="list">
-      <div class="item" data-key="c1">
+      <div class="item" data-key="c1" style="background:#EFF7F2;border-color:#D8EAE0;">
         <div class="txt">
           <div class="name">3N5(세) 50세 여성</div>
           <div class="tags"><span class="tag yes">17,000 → 8,250원</span></div>
@@ -534,7 +583,7 @@
         <div class="daybox save"><div class="u1">절감</div><div class="d">▼51%</div></div>
         <div class="chev"><svg width="8" height="13" viewBox="0 0 7 11" fill="none"><path d="M1.5 1L5.5 5.5L1.5 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
-      <div class="item" data-key="c2">
+      <div class="item" data-key="c2" style="background:#EFF7F2;border-color:#D8EAE0;">
         <div class="txt">
           <div class="name">더경증 50세 여성</div>
           <div class="tags"><span class="tag yes">14,750 → 6,900원</span></div>
@@ -547,7 +596,7 @@
           <div class="name">3N5(세) 50세 남성</div>
           <div class="tags"><span class="tag yes">14,220 → 10,450원</span></div>
         </div>
-        <div class="daybox save"><div class="u1">절감</div><div class="d">▼27%</div></div>
+        <div class="daybox gray"><div class="u1">절감</div><div class="d">▼27%</div></div>
         <div class="chev"><svg width="8" height="13" viewBox="0 0 7 11" fill="none"><path d="M1.5 1L5.5 5.5L1.5 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="item" data-key="c4">
@@ -555,16 +604,16 @@
           <div class="name">더경증 50세 남성</div>
           <div class="tags"><span class="tag yes">11,930 → 8,650원</span></div>
         </div>
-        <div class="daybox save"><div class="u1">절감</div><div class="d">▼27%</div></div>
+        <div class="daybox gray"><div class="u1">절감</div><div class="d">▼27%</div></div>
         <div class="chev"><svg width="8" height="13" viewBox="0 0 7 11" fill="none"><path d="M1.5 1L5.5 5.5L1.5 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
     </div>
     <div class="tip-line">여성 조건②는 질병중환자실 50만 기준, 환산 보험료 포함.<br>실제 보험료는 설계 화면에서 확인해 주십시오.</div>
   </section>
 
-  <!-- ══ 4 · 누구에게 ══ -->
-  <section class="slide slide--light">
-    <div class="ghost ghost--cat">03</div>
+  <!-- ══ 5 · 누구에게 ══ -->
+  <section class="slide slide--tint">
+    <div class="ghost ghost--cat">04</div>
     <div class="cat-head">
       <div class="cat-badge rise" style="--cb-bg:#FDF0F4;--cb-line:#F7DDE5;--cb-ic:linear-gradient(135deg,#E2809F,#E8A98C);--cb-tx:#B85476;">
         <span class="ic">◎</span><span class="tx">누구에게</span>
@@ -577,8 +626,8 @@
         <span class="wchip">신설 조건③ : <b>65세까지</b></span>
       </div>
       <div class="big-age rise">40~65<span class="se">세</span></div>
-      <div class="big-cap rise">간편심사(유병자) 고객이 대상입니다.<br>간병일당 20만 제안 리스트를<br>그대로 활용하시면 됩니다.</div>
-      <div class="her-box rise">여성 고객 절감폭 <b>51~53%</b><span>상해담보 보험료가 낮은 데다 기존 조건(질병중환자실 50만) 부담이 더 컸던 만큼 체감 차이가 가장 큽니다</span></div>
+      <div class="big-cap rise">유병자 고객에게 우선 제안하세요.</div>
+      <div class="her-box rise" style="text-align:center;">여성고객 의무보험료 <b>50% ↓</b></div>
     </div>
   </section>
 
@@ -588,8 +637,6 @@
       <div class="cat-badge rise" style="--cb-bg:#FFFFFFCC;--cb-line:#D7DEEE;--cb-ic:linear-gradient(135deg,#2A5596,#12305C);--cb-tx:#2A5596;">
         <span class="ic">✓</span><span class="tx">최종 체크포인트</span>
       </div>
-      <h2 class="rise">청약 전, 다섯 가지만<br>확인해 주십시오.</h2>
-      <p class="rise">탭하여 하나씩 점검해 보십시오.</p>
     </div>
     <div class="checks">
       <div class="check">
@@ -605,17 +652,12 @@
       <div class="check">
         <div class="box">✓</div>
         <div class="ct">연령 확인
-          <span>조건③은 65세 이하 · 66세 이상은 조건①·②</span></div>
+          <span>조건③은 65세 이하만</span></div>
       </div>
       <div class="check">
         <div class="box">✓</div>
         <div class="ct">누적예외 확인
-          <span>조건③ 상해중환자실 50만은 인수한도 누적 합산 제외</span></div>
-      </div>
-      <div class="check">
-        <div class="box">✓</div>
-        <div class="ct">보험료 확인
-          <span>본 자료 수치는 50세 기준 예시</span></div>
+          <span>조건③은 누적한도 제외</span></div>
       </div>
     </div>
     <div class="tip-line">출처 : 인수기획파트 「SI상품 인수기준 완화」 (2026.7.23)<br>세부 기준은 공문을 함께 확인해 주십시오.</div>
@@ -790,7 +832,7 @@ function openSheet(key){
   sheet.classList.add('show'); dim.classList.add('show'); sheet.scrollTop=0;
 }
 function closeSheet(){sheet.classList.remove('show');dim.classList.remove('show');hidePop();}
-document.querySelectorAll('.item').forEach(el=>el.addEventListener('click',()=>{if(window.wc)wc('tap',(DATA[el.dataset.key]&&DATA[el.dataset.key].name)||el.dataset.key);openSheet(el.dataset.key);}));
+document.querySelectorAll('.item[data-key]').forEach(el=>el.addEventListener('click',()=>{if(window.wc)wc('tap',(DATA[el.dataset.key]&&DATA[el.dataset.key].name)||el.dataset.key);openSheet(el.dataset.key);}));
 dim.addEventListener('click',closeSheet);
 
 /* 체크포인트 토글 */
@@ -819,9 +861,12 @@ document.addEventListener('click',e=>{
   pop.style.left=x+'px'; pop.style.top=y+'px';
 });
 
-/* 넘치는 장만 내부 스크롤 허용 (24px 초과 시) */
+/* 넘치는 장만 늘려서 스크롤 허용 (24px 초과 시) */
 function fitCheck(){
-  slides.forEach(sl=>sl.classList.toggle('scrolly', sl.scrollHeight - sl.clientHeight > 24));
+  slides.forEach(sl=>{
+    sl.classList.remove('scrolly');
+    if(sl.scrollHeight - sl.clientHeight > 24) sl.classList.add('scrolly');
+  });
 }
 window.addEventListener('resize',fitCheck);
 window.addEventListener('load',fitCheck);
