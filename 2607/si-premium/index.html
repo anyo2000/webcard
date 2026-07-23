@@ -297,7 +297,7 @@
     transition:all .28s cubic-bezier(.32,.72,0,1);
   }
   .check .ct{font-size:23px;font-weight:800;line-height:1.35;padding-top:2px;}
-  .check .ct span{display:block;font-size:18px;font-weight:500;color:var(--gray);margin-top:7px;line-height:1.5;}
+  .check .ct span{display:block;font-size:22px;font-weight:800;color:#EA580C;margin-top:8px;line-height:1.45;letter-spacing:-0.03em;}
   .check.on{background:#F0F5FF;border-color:#C4D6F5;}
   .check.on .box{background:linear-gradient(140deg,#2A5596,#12305C);border-color:#12305C;}
   .check.on .ct{color:var(--navy);}
@@ -305,7 +305,8 @@
   /* ═══ 하단 시트 ═══ */
   #dim{position:fixed;inset:0;z-index:80;background:rgba(14,29,51,.4);
     backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
-    opacity:0;pointer-events:none;transition:opacity .38s ease;}
+    opacity:0;pointer-events:none;transition:opacity .38s ease;
+    touch-action:none;}
   #dim.show{opacity:1;pointer-events:auto;}
   #sheet{
     position:fixed;left:0;right:0;bottom:0;z-index:90;background:#fff;
@@ -314,6 +315,7 @@
     transform:translateY(101%);
     transition:transform .46s cubic-bezier(.32,.72,0,1);
     max-height:86dvh;overflow-y:auto;
+    overscroll-behavior:contain;   /* 시트 끝에서 뒷페이지로 스크롤 전파 차단 */
     box-shadow:0 -10px 44px rgba(14,29,51,.18);
     text-align:left;
   }
@@ -627,7 +629,7 @@
       </div>
       <div class="big-age rise">40~65<span class="se">세</span></div>
       <div class="big-cap rise">유병자 고객에게 우선 제안하세요.</div>
-      <div class="her-box rise" style="text-align:center;">여성고객 의무보험료 <b>50% ↓</b></div>
+      <div class="her-box rise" style="text-align:center;">여성고객 의무보험료 <b>50% 인하</b></div>
     </div>
   </section>
 
@@ -642,7 +644,7 @@
       <div class="check">
         <div class="box">✓</div>
         <div class="ct">대상 상품 확인
-          <span>여성간편 · 3N5(세) · 더경증(세)</span></div>
+          <span>여성간편·3N5(세)·더경증(세)</span></div>
       </div>
       <div class="check">
         <div class="box">✓</div>
@@ -830,8 +832,9 @@ function openSheet(key){
   document.getElementById('s-body').innerHTML=body;
   document.getElementById('s-warn').innerHTML=d.warn?`<div class="warn"><div class="h">⚠ 반드시 함께 확인하세요</div><div class="t">${d.warn}</div></div>`:'';
   sheet.classList.add('show'); dim.classList.add('show'); sheet.scrollTop=0;
+  deck.style.overflow='hidden';              /* 시트 열림 동안 뒷페이지 스크롤 잠금 */
 }
-function closeSheet(){sheet.classList.remove('show');dim.classList.remove('show');hidePop();}
+function closeSheet(){sheet.classList.remove('show');dim.classList.remove('show');hidePop();deck.style.overflow='';}
 document.querySelectorAll('.item[data-key]').forEach(el=>el.addEventListener('click',()=>{if(window.wc)wc('tap',(DATA[el.dataset.key]&&DATA[el.dataset.key].name)||el.dataset.key);openSheet(el.dataset.key);}));
 dim.addEventListener('click',closeSheet);
 
