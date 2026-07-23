@@ -147,7 +147,7 @@
   @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(6px);opacity:1}}
 
   /* ═══ 카테고리 헤더 ═══ */
-  .cat-head{position:relative;z-index:2;margin-bottom:17px;}
+  .cat-head{position:relative;z-index:2;margin-bottom:13px;}
   .cat-badge{
     display:inline-flex;align-items:center;gap:11px;
     padding:10px 20px 10px 11px;margin-bottom:14px;border-radius:100px;
@@ -166,7 +166,7 @@
   .cat-head p{font-size:17.5px;line-height:1.55;color:var(--gray);font-weight:500;}
 
   /* ═══ 항목 카드 ═══ */
-  .list{position:relative;z-index:2;display:flex;flex-direction:column;gap:8px;text-align:left;}
+  .list{position:relative;z-index:2;display:flex;flex-direction:column;gap:7px;text-align:left;}
   .item{
     position:relative;background:var(--surface);border:1px solid #E8ECF3;
     border-radius:20px;padding:12px 14px;cursor:pointer;
@@ -184,6 +184,22 @@
   .item .tag.yes{background:#E9F0FF;color:#2A5596;border-color:#D6E2F7;}
   .item .tag.no{background:#FFECF0;color:#B84A68;border-color:#F7D8E0;}
   .item .tag.hot{background:#FFF0E4;color:#B5641C;border-color:#F8DFC6;}
+  /* 삭제 태그 강조 모션 */
+  .item .tag.flash{animation:delFlash 1.6s ease-in-out infinite;transform-origin:left center;}
+  @keyframes delFlash{
+    0%,100%{transform:scale(1);background:#FFECF0;box-shadow:0 0 0 0 rgba(184,74,104,0);}
+    50%{transform:scale(1.07);background:#FFDCE4;box-shadow:0 3px 10px rgba(184,74,104,.25);}
+  }
+  /* 조건③ 신설 — 박스 전체 주황 강조 */
+  .item.hot-item{
+    background:linear-gradient(135deg,#FFF9F1 0%,#FFF1E2 100%);
+    border:2px solid #F9A85D;
+    animation:hotGlow 2.2s ease-in-out infinite;
+  }
+  @keyframes hotGlow{
+    0%,100%{box-shadow:0 6px 18px rgba(234,88,12,.14);border-color:#F9A85D;}
+    50%{box-shadow:0 10px 28px rgba(234,88,12,.34);border-color:#F97316;}
+  }
   .daybox{
     flex:none;width:92px;padding:10px 5px;border-radius:18px;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -529,10 +545,10 @@
     <div class="list">
       <div class="item" data-key="r1">
         <div class="txt">
-          <div class="name">조건① 사망담보</div>
+          <div class="name">조건① 사망담보 <span style="font-size:16.5px;color:#B84A68;vertical-align:1px;">(변경)</span></div>
           <div class="tags">
             <span class="tag yes">상해사망 2억</span>
-            <span class="tag no">질병사망 5천 삭제</span>
+            <span class="tag no flash">질병사망 5천 삭제</span>
           </div>
         </div>
         <div class="daybox"><div class="u1">50세 남성</div><div class="d">1.9만</div><div class="u2">원/월</div></div>
@@ -543,19 +559,20 @@
           <div class="name">조건② 중환자실</div>
           <div class="tags">
             <span class="tag yes">상해중환자실 100만</span>
-            <span class="tag yes">질병중환자실 30만 (여 50)</span>
+            <span class="tag yes">질병중환자실 30만</span>
+            <span class="tag">여성은 질병중 50만</span>
           </div>
         </div>
         <div class="daybox"><div class="u1">50세 남성</div><div class="d">1.4만</div><div class="u2">원/월</div></div>
         <div class="chev"><svg width="8" height="13" viewBox="0 0 7 11" fill="none"><path d="M1.5 1L5.5 5.5L1.5 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
-      <div class="item" data-key="r3">
+      <div class="item hot-item" data-key="r3">
         <div class="txt">
           <div class="name">조건③ 신설</div>
           <div class="tags">
             <span class="tag hot">상해사망 5천만</span>
             <span class="tag hot">상해중환자실 50만</span>
-            <span class="tag">65세 이하</span>
+            <span class="tag">65세 이하 · 누적예외</span>
           </div>
         </div>
         <div class="daybox free"><div class="u1">50세 남성</div><div class="d">1.0만</div><div class="u2">원/월</div></div>
