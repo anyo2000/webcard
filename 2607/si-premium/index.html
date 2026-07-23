@@ -190,6 +190,11 @@
     0%,100%{transform:scale(1);background:#FFECF0;box-shadow:0 0 0 0 rgba(184,74,104,0);}
     50%{transform:scale(1.07);background:#FFDCE4;box-shadow:0 3px 10px rgba(184,74,104,.25);}
   }
+  /* 조건③ 우상단 누적예외 주석 */
+  .cum-note{
+    position:absolute;top:13px;right:16px;z-index:1;
+    font-size:15px;font-weight:800;color:#EA580C;letter-spacing:-0.03em;white-space:nowrap;
+  }
   /* 조건③ 신설 — 박스 전체 주황 강조 */
   .item.hot-item{
     background:linear-gradient(135deg,#FFF9F1 0%,#FFF1E2 100%);
@@ -567,15 +572,16 @@
         <div class="chev"><svg width="8" height="13" viewBox="0 0 7 11" fill="none"><path d="M1.5 1L5.5 5.5L1.5 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
       <div class="item hot-item" data-key="r3">
+        <div class="cum-note">상해중환자실 누적예외</div>
         <div class="txt">
           <div class="name">조건③ 신설</div>
           <div class="tags">
             <span class="tag hot">상해사망 5천만</span>
             <span class="tag hot">상해중환자실 50만</span>
-            <span class="tag">65세 이하 · 누적예외</span>
+            <span class="tag">65세 이하</span>
           </div>
         </div>
-        <div class="daybox free"><div class="u1">50세 남성</div><div class="d">1.0만</div><div class="u2">원/월</div></div>
+        <div class="daybox free" style="margin-top:30px;"><div class="u1">50세 남성</div><div class="d">1.0만</div><div class="u2">원/월</div></div>
         <div class="chev"><svg width="8" height="13" viewBox="0 0 7 11" fill="none"><path d="M1.5 1L5.5 5.5L1.5 10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
     </div>
