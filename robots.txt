@@ -1,2 +1,8 @@
+User-agent: kakaotalk-scrap
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
 User-agent: *
 Disallow: /
