@@ -90,7 +90,7 @@ FP는 "누를 수 있다"는 걸 모른다. 세 겹으로 걸 것:
 1. 표지와 같은 팔레트로 가로형 컴포지션 HTML 작성 (800×418, eyebrow 배지 + 큰 제목 2줄 + 스탯 알약 + 고스트 텍스트 — si-premium/si-point og.png 참고)
 2. headless Chrome `--window-size=800,418 --force-device-scale-factor=2` 로 `og.png`(1600×836) 캡처 → 카드 폴더에 저장
 3. `<head>`에 og:title / og:description / og:url / og:image(+width/height) 삽입
-4. 이미 카톡에 뿌려진 링크는 카카오가 OG를 캐시함 — https://developers.kakao.com/tool/debugger/sharing 에서 캐시 초기화 안내
+4. 이미 카톡에 뿌려진 링크의 OG를 바꿨으면 — **`?v=2` 쿼리를 붙인 URL로 재공유**가 제일 쉬움 (카카오 캐시는 URL 단위 → 새 URL로 인식, 페이지는 동일하게 열림). 카카오 디버거(developers.kakao.com/tool/debugger/sharing) 초기화나 별칭 폴더(care20 방식)는 차선책
 
 ## 완성 후 자동 미리보기 (2026-07-24 지시)
 카드를 **최종 완성하면** 묻지 말고 자동으로 브라우저에 띄운다:
