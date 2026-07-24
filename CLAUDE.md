@@ -85,6 +85,13 @@ FP는 "누를 수 있다"는 걸 모른다. 세 겹으로 걸 것:
 - 원문에 없는 결과 표현("인수 가능" vs "인수 검토")을 임의로 단정하지 말 것
 - 제작 후 **공문과 1:1 대조**하고, FP가 해야 할 행동(기재 의무 등)이 빠지지 않았는지 확인
 
+## 카톡 썸네일(OG) — 새 카드마다 필수 (2026-07-24 지시)
+새 카드를 만들면 **항상** OG 썸네일을 함께 만든다 (빼먹으면 카톡 미리보기가 빈 링크로 보임):
+1. 표지와 같은 팔레트로 가로형 컴포지션 HTML 작성 (800×418, eyebrow 배지 + 큰 제목 2줄 + 스탯 알약 + 고스트 텍스트 — si-premium/si-point og.png 참고)
+2. headless Chrome `--window-size=800,418 --force-device-scale-factor=2` 로 `og.png`(1600×836) 캡처 → 카드 폴더에 저장
+3. `<head>`에 og:title / og:description / og:url / og:image(+width/height) 삽입
+4. 이미 카톡에 뿌려진 링크는 카카오가 OG를 캐시함 — https://developers.kakao.com/tool/debugger/sharing 에서 캐시 초기화 안내
+
 ## 완성 후 자동 미리보기 (2026-07-24 지시)
 카드를 **최종 완성하면** 묻지 말고 자동으로 브라우저에 띄운다:
 `python3 -m http.server 8899` (이미 떠 있으면 재사용) → `open "http://localhost:8899/{YYMM}/{슬러그}/"`
