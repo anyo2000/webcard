@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<title>올인원플랜 청약포인트 인하 (7.24 시행)</title>
+<meta name="wc-title" content="2607 올인원 청약P인하">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="올인원플랜도, 절반의 포인트로 열립니다">
+<meta property="og:description" content="올인원플랜 청약포인트 인하 (40~80세 10P→5P) · 7.24 시행 — 7월 말일까지">
+<meta property="og:url" content="https://anyo2000.github.io/webcard/2607/si-point/">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  /* ═══════════════════════════════════════════════
+     최소 폰트 규약 (50대 이상 가독성)
+       본문 18px · 캡션 15px · 그 아래 금지
+     ═══════════════════════════════════════════════ */
+  :root{
+    --navy:#12305C;
+    --navy-2:#2A5596;
+    --teal:#1F7F63;
+    --ink:#111318;
+    --gray:#6B6F78;
+    --line:#E6E8EE;
+    --surface:#F4F6FA;
+
+    --fs-body:19px;
+    --fs-cap:16px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;overflow:hidden;}
+  body{
+    font-family:'Pretendard','Pretendard Variable',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    color:var(--ink);background:#F7FAF8;
+    -webkit-font-smoothing:antialiased;letter-spacing:-0.022em;
+  }
+
+  #deck{height:100dvh;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;}
+  #deck::-webkit-scrollbar{display:none;}
+  .slide{
+    height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;
+    position:relative;display:flex;flex-direction:column;
+    padding:calc(env(safe-area-inset-top) + 74px) 22px calc(env(safe-area-inset-bottom) + 62px);
+    overflow:hidden;
+    text-align:center;
+  }
+
+  /* 표지 — 시리즈와 같은 형태, 색만 민트·틸 톤으로 */
+  .slide--cover{
+    background:
+      radial-gradient(ellipse 520px 380px at 18% 6%,  #D2F0E2 0%, transparent 62%),
+      radial-gradient(ellipse 460px 400px at 92% 24%, #DCF2FA 0%, transparent 60%),
+      radial-gradient(ellipse 500px 360px at 50% 104%,#E9F7E9 0%, transparent 66%),
+      linear-gradient(175deg,#F6FBF8 0%,#EEF6F1 100%);
+  }
+  .slide--light{background:#FFFFFF;}
+  .slide--tint{background:linear-gradient(180deg,#FBFDFC 0%,#F3F8F5 100%);}
+
+  .ghost{
+    position:absolute;font-weight:800;letter-spacing:-0.06em;
+    pointer-events:none;user-select:none;line-height:1;
+    color:rgba(23,90,67,.05);
+  }
+  .ghost--hero{font-size:190px;left:50%;transform:translateX(-50%);bottom:44px;white-space:nowrap;}
+  .ghost--cat{font-size:190px;right:-10px;top:30px;color:rgba(18,48,92,.04);}
+
+  #comply-top{
+    position:fixed;top:0;left:0;right:0;z-index:70;
+    padding:calc(env(safe-area-inset-top) + 9px) 14px 8px;
+    font-size:9.5px;line-height:1.35;font-weight:400;letter-spacing:-0.02em;
+    color:#9DA3AE;text-align:center;pointer-events:none;
+    background:linear-gradient(180deg,rgba(255,255,255,.92) 60%,rgba(255,255,255,0) 100%);
+  }
+  #comply-bot{
+    position:fixed;bottom:0;left:0;right:0;z-index:70;
+    padding:10px 16px calc(env(safe-area-inset-bottom) + 10px);
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:10px;font-weight:400;letter-spacing:0;color:#9DA3AE;
+    pointer-events:none;
+    background:linear-gradient(0deg,rgba(255,255,255,.92) 55%,rgba(255,255,255,0) 100%);
+  }
+
+  #progress{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;gap:4px;
+    padding:calc(env(safe-area-inset-top) + 31px) 22px 0;pointer-events:none;}
+  #progress .seg{flex:1;height:3px;border-radius:2px;background:rgba(23,90,67,.16);transition:background .45s ease;}
+  #progress .seg.on{background:var(--teal);}
+
+  /* ═══ 표지 ═══ */
+  .hero{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;z-index:2;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:9px 16px;margin-bottom:24px;border-radius:100px;
+    background:rgba(255,255,255,.82);
+    border:1px solid #CFE5DA;
+    box-shadow:0 2px 10px rgba(23,90,67,.07);
+    font-size:var(--fs-cap);font-weight:700;color:#175A43;letter-spacing:-0.01em;
+  }
+  .eyebrow .live{width:7px;height:7px;border-radius:50%;background:#2E9E7E;animation:pulse 2s infinite;}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(46,158,126,.5)}
+    70%{box-shadow:0 0 0 8px rgba(46,158,126,0)}
+    100%{box-shadow:0 0 0 0 rgba(46,158,126,0)}
+  }
+  .hero h1{
+    font-size:clamp(38px,11vw,52px);font-weight:800;line-height:1.16;
+    letter-spacing:-0.05em;margin-bottom:20px;color:#0E2A20;
+  }
+  .hero h1 .grad{
+    background:linear-gradient(100deg,#1F7F63 0%,#2A8FA0 55%,#2A5596 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .hero .sub{font-size:var(--fs-body);line-height:1.66;color:var(--gray);font-weight:500;}
+
+  .hero-stats{display:flex;gap:10px;margin-top:34px;width:100%;}
+  .stat{
+    flex:1;padding:17px 8px;border-radius:18px;
+    background:rgba(255,255,255,.78);
+    border:1px solid #D9EAE1;
+    box-shadow:0 4px 16px rgba(23,90,67,.05);
+    backdrop-filter:blur(10px);
+  }
+  .stat .n{
+    font-size:31px;font-weight:800;letter-spacing:-0.045em;line-height:1;margin-bottom:7px;
+    background:linear-gradient(140deg,#1F7F63,#2A6FA8);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .stat .l{font-size:var(--fs-cap);color:#7A7F8A;font-weight:600;line-height:1.4;}
+
+  /* 한시 강조 배지 — 표지 통계 아래 (si-premium과 동일) */
+  .limited{
+    display:inline-flex;align-items:center;
+    margin-top:18px;padding:12px 30px;border-radius:100px;
+    background:linear-gradient(135deg,#F97316 0%,#EA580C 100%);color:#fff;
+    font-size:21px;font-weight:800;letter-spacing:-0.02em;
+    box-shadow:0 6px 20px rgba(234,88,12,.38);
+    animation:hintPulse 2.2s ease-in-out infinite;
+  }
+
+  .scroll-cue{
+    position:relative;z-index:2;
+    display:flex;flex-direction:column;align-items:center;gap:7px;
+    font-size:var(--fs-cap);color:#9BA1AD;font-weight:600;
+  }
+  .scroll-cue svg{animation:bob 1.9s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(6px);opacity:1}}
+
+  /* ═══ 카테고리 헤더 ═══ */
+  .cat-head{position:relative;z-index:2;margin-bottom:13px;}
+  .cat-badge{
+    display:inline-flex;align-items:center;gap:11px;
+    padding:10px 20px 10px 11px;margin-bottom:14px;border-radius:100px;
+    border:1.5px solid var(--cb-line,#DCE3F0);
+    background:var(--cb-bg,#F0F4FB);
+    box-shadow:0 4px 14px var(--cb-sh,rgba(18,48,92,.07));
+  }
+  .cat-badge .ic{
+    width:32px;height:32px;border-radius:50%;
+    background:var(--cb-ic,linear-gradient(135deg,#4E7ACB,#7E6BD8));
+    display:grid;place-items:center;color:#fff;font-size:17px;font-weight:800;
+    box-shadow:0 2px 7px rgba(0,0,0,.13);
+  }
+  .cat-badge .tx{font-size:24px;font-weight:800;color:var(--cb-tx,#3A5C97);letter-spacing:-0.04em;}
+  .cat-head h2{font-size:30px;font-weight:800;line-height:1.22;letter-spacing:-0.045em;margin-bottom:9px;}
+  .cat-head p{font-size:17.5px;line-height:1.55;color:var(--gray);font-weight:500;}
+
+  /* ═══ 2장 · 지금까지는 — +10P 대형 강조 + 가점담보 예시 ═══ */
+  .past{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;z-index:2;}
+  .big-pt{
+    font-size:clamp(84px,25vw,104px);font-weight:800;letter-spacing:-0.055em;line-height:1;
+    padding:0 8px;
+    background:linear-gradient(140deg,#2A5596 0%,#12305C 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .big-pt-cap{margin-top:14px;font-size:18.5px;line-height:1.6;font-weight:700;color:#3A4150;}
+  .pt-list{
+    margin-top:26px;width:100%;border-radius:20px;overflow:hidden;
+    background:var(--surface);border:1px solid #E8ECF3;text-align:left;
+  }
+  .pt-list .h{
+    padding:13px 17px 11px;font-size:var(--fs-cap);font-weight:800;color:#7A7F8A;
+    border-bottom:1px solid #E8ECF3;
+  }
+  .pt-list .pr{
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+    padding:14px 17px;background:#fff;border-top:1px solid #EEF1F6;
+  }
+  .pt-list .pr:nth-of-type(2){border-top:none;}
+  .pt-list .pr .nm{font-size:19px;font-weight:700;color:#2B3242;}
+  .pt-list .pr .pv{
+    font-size:16px;font-weight:800;color:#2A5596;
+    padding:6px 12px;border-radius:100px;background:#E9F0FF;border:1px solid #D6E2F7;white-space:nowrap;
+  }
+  .pt-list .ft{padding:11px 17px;font-size:15px;font-weight:600;color:#9AA0AB;line-height:1.5;}
+
+  /* ═══ 3장 · 연령 구간 — 40~80세만 크게, 자동 강조 ═══ */
+  .ages{position:relative;z-index:2;display:flex;flex-direction:column;gap:9px;margin-top:6px;}
+  .age-minor{
+    display:flex;justify-content:space-between;align-items:center;
+    background:#EEF1F5;border:1px solid #E0E4EB;border-radius:18px;
+    padding:15px 19px;
+  }
+  .age-minor .a{font-size:20px;font-weight:800;color:#3A4150;letter-spacing:-0.03em;}
+  .age-minor .p{
+    font-size:17.5px;font-weight:800;color:#5A6070;
+    padding:6px 13px;border-radius:100px;background:#fff;border:1px solid #DDE2EA;white-space:nowrap;
+  }
+  .age-major{
+    position:relative;border-radius:26px;padding:24px 16px 22px;
+    background:linear-gradient(140deg,#F0FBF6 0%,#DFF4EA 100%);
+    border:2px solid #7FC9AC;
+    opacity:0;transform:scale(.94);
+    transition:opacity .7s ease,transform .7s cubic-bezier(.22,.8,.28,1);
+  }
+  .slide.in .age-major{
+    opacity:1;transform:none;transition-delay:.25s;
+    animation:pointGlow 2.4s ease-in-out 1.6s infinite;
+  }
+  @keyframes pointGlow{
+    0%,100%{box-shadow:0 8px 22px rgba(31,127,99,.14);border-color:#7FC9AC;}
+    50%{box-shadow:0 12px 34px rgba(31,127,99,.36);border-color:#2E9E7E;}
+  }
+  .age-major .a-label{
+    display:inline-block;margin-bottom:10px;padding:7px 16px;border-radius:100px;
+    background:linear-gradient(140deg,#1F7F63,#175A43);color:#fff;
+    font-size:20px;font-weight:800;letter-spacing:-0.02em;
+    box-shadow:0 4px 12px rgba(23,90,67,.28);
+  }
+  .a-nums{display:flex;align-items:center;justify-content:center;gap:13px;}
+  .a-old{
+    position:relative;font-size:31px;font-weight:800;color:#9AA0AB;letter-spacing:-0.04em;
+  }
+  .a-old::after{
+    content:'';position:absolute;left:-5%;top:50%;height:3px;width:0;
+    background:#D9636B;border-radius:2px;transform:rotate(-7deg);
+    transition:width .45s cubic-bezier(.22,.8,.28,1) .9s;
+  }
+  .slide.in .a-old::after{width:110%;}
+  .a-arr{font-size:25px;font-weight:800;color:#7FC9AC;}
+  .a-new{
+    font-size:clamp(64px,19vw,80px);font-weight:800;letter-spacing:-0.05em;line-height:1;
+    background:linear-gradient(120deg,#1F7F63 0%,#2A8FA0 70%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    opacity:0;transform:scale(.55);
+    transition:opacity .55s ease 1.1s,transform .55s cubic-bezier(.3,1.6,.4,1) 1.1s;
+  }
+  .slide.in .a-new{opacity:1;transform:none;}
+  .a-sub{margin-top:10px;font-size:18px;font-weight:700;color:#175A43;}
+
+  .raw-btn{
+    position:relative;z-index:2;align-self:center;
+    display:inline-flex;align-items:center;gap:8px;
+    margin-top:16px;padding:11px 20px;border-radius:100px;border:none;
+    background:linear-gradient(135deg,#2A5596 0%,#12305C 100%);color:#fff;
+    font-family:inherit;font-size:17.5px;font-weight:800;letter-spacing:-0.02em;cursor:pointer;
+    box-shadow:0 4px 14px rgba(18,48,92,.3);
+    animation:hintPulse 2.2s ease-in-out infinite;
+  }
+  @keyframes hintPulse{
+    0%,100%{transform:translateY(0) scale(1);   box-shadow:0 4px 14px rgba(18,48,92,.3);}
+    50%    {transform:translateY(-3px) scale(1.045);box-shadow:0 9px 24px rgba(18,48,92,.42);}
+  }
+
+  /* ═══ 항목 카드 (4장 · 대상 상품) ═══ */
+  .list{position:relative;z-index:2;display:flex;flex-direction:column;gap:7px;text-align:left;}
+  .item{
+    position:relative;background:var(--surface);border:1px solid #E8ECF3;
+    border-radius:20px;padding:12px 14px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .item .txt{flex:1;min-width:0;}
+  .item .name{font-size:21.5px;font-weight:800;letter-spacing:-0.035em;margin-bottom:7px;line-height:1.28;}
+  .item .tags{display:flex;flex-wrap:wrap;align-items:center;gap:5px;}
+  .item .tag{
+    font-size:16px;font-weight:700;
+    padding:5px 9px;border-radius:10px;background:#fff;color:#6B6F78;border:1px solid #E4E8EF;
+  }
+  .item .tag.yes{background:#E7F5EE;color:#1F7F63;border-color:#CFE9DC;}
+  .item .tag.no{background:#FFECF0;color:#B84A68;border-color:#F7D8E0;}
+  .item.off{opacity:.72;}
+  .item.off .name{color:#8A8F9A;}
+  .daybox{
+    flex:none;width:152px;padding:11px 8px;border-radius:18px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:linear-gradient(145deg,#2E8467 0%,#175A43 100%);
+    color:#fff;box-shadow:0 6px 18px rgba(23,90,67,.22);
+  }
+  .daybox .u1{font-size:var(--fs-cap);font-weight:700;color:#9FD8C3;line-height:1;margin-bottom:6px;}
+  .daybox .d{font-size:29px;font-weight:800;letter-spacing:-0.05em;line-height:1;}
+  .daybox .u2{font-size:var(--fs-cap);font-weight:700;color:#9FD8C3;margin-top:6px;line-height:1;}
+  .daybox.gray{background:linear-gradient(145deg,#9AA3B5 0%,#7A8496 100%);box-shadow:0 4px 12px rgba(122,132,150,.2);}
+  .daybox.gray .u1,.daybox.gray .u2{color:#E4E8F0;}
+  .daybox.gray .d{font-size:21px;}
+
+  .tip-line{position:relative;z-index:2;margin-top:14px;font-size:var(--fs-cap);color:#A2A7B2;font-weight:500;}
+
+  /* ═══ 5장 · 누구에게 ═══ */
+  .who{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;z-index:2;}
+  .who-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:26px;}
+  .wchip{
+    padding:10px 16px;border-radius:100px;
+    background:#F2F7F4;border:1px solid #DCEAE2;
+    font-size:17px;font-weight:700;color:#5A6070;
+  }
+  .wchip b{color:#175A43;font-weight:800;}
+  .big-age{
+    font-size:clamp(72px,21vw,90px);font-weight:800;letter-spacing:-0.05em;line-height:1;
+    padding:0 8px;
+    background:linear-gradient(100deg,#1F7F63 0%,#2A8FA0 55%,#2A5596 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .big-age .se{font-size:.38em;}
+  .big-cap{margin-top:18px;font-size:19.5px;line-height:1.6;font-weight:700;color:#3A4150;}
+  .link-card{
+    margin-top:26px;width:100%;border-radius:20px;padding:18px 19px;
+    background:linear-gradient(140deg,#EEF3FE,#E4EDFB);border:1.5px solid #C9D9F2;
+  }
+  .link-card .t{font-size:17px;font-weight:600;color:#4A5A78;line-height:1.55;}
+  .link-card a{
+    display:inline-flex;align-items:center;gap:7px;margin-top:12px;
+    padding:12px 22px;border-radius:100px;text-decoration:none;
+    background:linear-gradient(135deg,#2A5596 0%,#12305C 100%);color:#fff;
+    font-size:18px;font-weight:800;letter-spacing:-0.02em;
+    box-shadow:0 5px 16px rgba(18,48,92,.3);
+  }
+
+  /* ═══ 체크포인트 ═══ */
+  .checks{position:relative;z-index:2;display:flex;flex-direction:column;gap:10px;text-align:left;}
+  .check{
+    display:flex;align-items:flex-start;gap:14px;
+    background:#fff;border:1px solid #E1EDE6;border-radius:20px;padding:19px 18px;
+    cursor:pointer;transition:all .3s cubic-bezier(.32,.72,0,1);
+  }
+  .check .box{
+    flex:none;width:33px;height:33px;border-radius:11px;
+    border:2px solid #CBD3E0;background:#fff;
+    display:grid;place-items:center;color:#fff;font-size:14px;font-weight:800;
+    transition:all .28s cubic-bezier(.32,.72,0,1);
+  }
+  .check .ct{font-size:23px;font-weight:800;line-height:1.35;padding-top:2px;}
+  .check .ct span{display:block;font-size:22px;font-weight:800;color:#1F7F63;margin-top:8px;line-height:1.45;letter-spacing:-0.03em;}
+  .check.on{background:#EFF9F4;border-color:#BCE2D0;}
+  .check.on .box{background:linear-gradient(140deg,#2E8467,#175A43);border-color:#175A43;}
+  .check.on .ct{color:#175A43;}
+
+  /* ═══ 하단 시트 ═══ */
+  #dim{position:fixed;inset:0;z-index:80;background:rgba(14,29,51,.4);
+    backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+    opacity:0;pointer-events:none;transition:opacity .38s ease;
+    touch-action:none;}
+  #dim.show{opacity:1;pointer-events:auto;}
+  #sheet{
+    position:fixed;left:0;right:0;bottom:0;z-index:90;background:#fff;
+    border-radius:30px 30px 0 0;
+    padding:12px 22px calc(env(safe-area-inset-bottom) + 26px);
+    transform:translateY(101%);
+    transition:transform .46s cubic-bezier(.32,.72,0,1);
+    max-height:86dvh;overflow-y:auto;
+    overscroll-behavior:contain;   /* 시트 끝에서 뒷페이지로 스크롤 전파 차단 */
+    box-shadow:0 -10px 44px rgba(14,29,51,.18);
+    text-align:left;
+  }
+  #sheet::-webkit-scrollbar{display:none;}
+  #sheet.show{transform:translateY(0);}
+  .grabber{width:40px;height:5px;border-radius:3px;background:#DDE1E9;margin:0 auto 20px;}
+
+  .s-hero{
+    position:relative;overflow:hidden;border-radius:24px;padding:22px;margin-bottom:18px;
+    background:linear-gradient(140deg,#175A43 0%,#1F7F63 55%,#2A8FA0 100%);color:#fff;
+  }
+  .s-hero .glow{position:absolute;width:200px;height:200px;border-radius:50%;
+    top:-76px;right:-56px;filter:blur(40px);
+    background:radial-gradient(circle,#8FE8C8 0%,transparent 70%);opacity:.5;}
+  .s-hero .s-name{font-size:26px;font-weight:800;letter-spacing:-0.04em;margin-bottom:15px;position:relative;line-height:1.3;}
+  .s-hero .s-num{display:flex;align-items:baseline;gap:7px;position:relative;flex-wrap:wrap;}
+  .s-hero .s-num .lead{font-size:17px;font-weight:700;color:#B7E4D3;}
+  .s-hero .s-num .big{font-size:46px;font-weight:800;letter-spacing:-0.055em;line-height:1;}
+  .s-hero .s-num .unit{font-size:19px;font-weight:700;color:#C4EBDC;}
+  .s-hero .s-chips{display:flex;gap:6px;margin-top:16px;position:relative;flex-wrap:wrap;}
+  .s-hero .chip{
+    font-size:var(--fs-cap);font-weight:700;padding:7px 11px;border-radius:10px;
+    background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.16);
+  }
+
+  .ba{display:flex;align-items:stretch;gap:9px;margin-bottom:18px;}
+  .ba .cell{flex:1;border-radius:18px;padding:15px 13px;text-align:center;}
+  .ba .before{background:#F5F6F8;border:1px solid #E6E8EE;}
+  .ba .after{background:linear-gradient(140deg,#EAF7F1,#DFF2E9);border:1px solid #C6E5D6;}
+  .ba .k{font-size:var(--fs-cap);font-weight:700;color:#9AA0AB;margin-bottom:7px;}
+  .ba .after .k{color:#2E8467;}
+  .ba .v{font-size:19px;font-weight:800;letter-spacing:-0.035em;line-height:1.55;}
+  .ba .before .v{color:#9AA0AB;}
+  .ba .after .v{color:#175A43;}
+  .ba .arrow{align-self:center;font-size:19px;color:#B6BECC;font-weight:800;}
+
+  .verdict{background:var(--surface);border:1px solid #E8ECF3;border-radius:20px;padding:18px;margin-bottom:18px;}
+  .verdict .txt{font-size:19px;line-height:1.62;font-weight:600;}
+  .verdict .txt b{font-weight:800;color:var(--navy);}
+
+  .conds{margin-bottom:18px;}
+  .conds .h{font-size:var(--fs-cap);font-weight:800;color:#7A7F8A;margin-bottom:10px;}
+  .cond-row{display:flex;gap:11px;align-items:flex-start;padding:13px 0;border-top:1px solid var(--line);}
+  .cond-row:last-child{border-bottom:1px solid var(--line);}
+  .cond-row .num{
+    flex:none;width:22px;height:22px;border-radius:50%;
+    background:linear-gradient(140deg,#2E8467,#175A43);color:#fff;
+    font-size:12px;font-weight:800;display:grid;place-items:center;margin-top:2px;
+  }
+  .cond-row .c-txt{font-size:18.5px;line-height:1.5;font-weight:600;}
+  .cond-row .c-txt .raw{display:block;font-size:var(--fs-cap);color:#9AA0AB;margin-top:4px;font-weight:500;}
+
+  .warn{border:1px solid #F2DFC0;background:linear-gradient(135deg,#FEFAF2 0%,#FDF4E7 100%);
+    border-radius:20px;padding:17px;margin-bottom:18px;}
+  .warn .h{font-size:var(--fs-cap);font-weight:800;color:#96681B;margin-bottom:8px;}
+  .warn .t{font-size:17.5px;line-height:1.58;color:#5B4926;font-weight:600;}
+
+  .src{font-size:var(--fs-cap);color:#A2A7B2;line-height:1.55;font-weight:500;}
+
+  .term{border-bottom:2px dotted #C0A26E;cursor:pointer;font-weight:800;}
+  #pop{
+    position:fixed;z-index:100;background:#16181D;color:#fff;
+    border-radius:14px;padding:14px 15px;
+    font-size:15.5px;line-height:1.52;font-weight:500;max-width:262px;
+    opacity:0;transform:translateY(5px) scale(.96);pointer-events:none;
+    transition:opacity .22s ease,transform .22s cubic-bezier(.32,.72,0,1);
+    box-shadow:0 10px 32px rgba(0,0,0,.32);
+  }
+  #pop.show{opacity:1;transform:none;}
+  #pop .p-term{display:block;font-weight:800;margin-bottom:5px;color:#8CE0BF;font-size:var(--fs-cap);}
+
+  /* 모션 */
+  .rise{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s cubic-bezier(.22,.8,.28,1);}
+  .slide.in .rise{opacity:1;transform:none;}
+  .slide.in .rise:nth-child(1){transition-delay:.05s}
+  .slide.in .rise:nth-child(2){transition-delay:.13s}
+  .slide.in .rise:nth-child(3){transition-delay:.21s}
+  .slide.in .rise:nth-child(4){transition-delay:.29s}
+  .list .item,.checks .check{opacity:0;transform:translateY(22px);transition:opacity .75s ease,transform .75s cubic-bezier(.22,.8,.28,1);}
+  .slide.in .list .item:nth-child(1),.slide.in .checks .check:nth-child(1){opacity:1;transform:none;transition-delay:.2s}
+  .slide.in .list .item:nth-child(2),.slide.in .checks .check:nth-child(2){opacity:1;transform:none;transition-delay:.28s}
+  .slide.in .list .item:nth-child(3),.slide.in .checks .check:nth-child(3){opacity:1;transform:none;transition-delay:.36s}
+  .slide.in .list .item:nth-child(4),.slide.in .checks .check:nth-child(4){opacity:1;transform:none;transition-delay:.44s}
+  .no-anim .rise,.no-anim .item,.no-anim .check,.no-anim .age-major,.no-anim .a-new{opacity:1!important;transform:none!important;transition:none!important;animation:none!important;}
+  .no-anim .a-old::after{width:110%!important;transition:none!important;}
+
+  /* ═══ 짧은 뷰포트 대응 — 카톡 인앱 브라우저 ═══ */
+  @media (max-height:740px){
+    .slide{padding:calc(env(safe-area-inset-top) + 52px) 18px calc(env(safe-area-inset-bottom) + 44px);}
+    #progress{padding-top:calc(env(safe-area-inset-top) + 24px);}
+    #comply-top{padding-top:calc(env(safe-area-inset-top) + 5px);}
+    #comply-bot{padding-bottom:calc(env(safe-area-inset-bottom) + 6px);}
+    .ghost--hero{font-size:110px;bottom:22px;}
+    .ghost--cat{font-size:110px;}
+    .hero h1{margin-bottom:12px;}
+    .eyebrow{margin-bottom:13px;}
+    .hero-stats{margin-top:16px;gap:8px;}
+    .stat{padding:11px 6px;}
+    .cat-head{margin-bottom:7px;}
+    .cat-badge{padding:6px 13px 6px 7px;margin-bottom:7px;}
+    .cat-head h2{margin-bottom:5px;}
+    .pt-list{margin-top:14px;}
+    .pt-list .pr{padding:11px 15px;}
+    .big-pt{font-size:clamp(68px,20vw,84px);}
+    .ages{gap:7px;}
+    .age-major{padding:16px 14px 15px;}
+    .raw-btn{margin-top:10px;}
+    .list{gap:6px;}
+    .item{padding:10px 12px;}
+    .tip-line{margin-top:7px;}
+    .checks{gap:6px;}
+    .check{padding:11px 14px;}
+    .who-chips{margin-bottom:14px;}
+    .big-cap{margin-top:12px;}
+    .link-card{margin-top:15px;}
+    .scroll-cue{gap:3px;}
+  }
+  /* 콘텐츠가 화면보다 길면 그 장을 늘려서 이어서 스크롤 (스냅은 장 시작점만) */
+  .slide.scrolly{height:auto;min-height:100dvh;overflow:visible;justify-content:flex-start;}
+</style>
+</head>
+<body>
+
+<div id="comply-top">본 자료는 교육용으로 온라인 매체(SNS등) 및 고객 설명, 광고자료로 활용 행위는 법으로 금지됩니다.</div>
+<div id="comply-bot">
+  <span>영업컨설팅파트 2607 - 08</span>
+  <span>모집인 / 교육용</span>
+</div>
+
+<div id="progress"></div>
+
+<div id="deck">
+
+  <!-- ══ 1 · 표지 ══ -->
+  <section class="slide slide--cover">
+    <div class="ghost ghost--hero">5P</div>
+    <div class="hero">
+      <div class="eyebrow rise"><span class="live"></span>SI상품 인수기준 완화 · 두 번째</div>
+      <h1 class="rise">올인원플랜도,<br><span class="grad">40~80세<br>청약포인트 인하</span></h1>
+      <div class="sub rise">필요 포인트가 <b style="color:#175A43;">10P에서 5P로</b>,<br>절반이 됩니다</div>
+      <div class="hero-stats rise">
+        <div class="stat"><div class="n">10→5P</div><div class="l">청약포인트</div></div>
+        <div class="stat"><div class="n">40~80</div><div class="l">세 대상</div></div>
+        <div class="stat"><div class="n">7.24</div><div class="l">시행</div></div>
+      </div>
+      <div class="limited rise">7월 한시적 허용</div>
+    </div>
+    <div class="scroll-cue">
+      <svg width="17" height="10" viewBox="0 0 15 9" fill="none"><path d="M1.5 1.5L7.5 7L13.5 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      밀어서 보기
+    </div>
+  </section>
+
+  <!-- ══ 2 · 지금까지는 ══ -->
+  <section class="slide slide--light">
+    <div class="ghost ghost--cat">01</div>
+    <div class="cat-head">
+      <div class="cat-badge rise" style="--cb-bg:#F0F4FB;--cb-line:#DCE3F0;--cb-ic:linear-gradient(135deg,#7A8496,#5A6478);--cb-tx:#4E5A78;">
+        <span class="ic">✓</span><span class="tx">지금까지는</span>
+      </div>
+      <h2 class="rise">이만큼의 <span class="term" data-t="청약포인트">청약포인트</span>가<br>필요했습니다.</h2>
+    </div>
+    <div class="past">
+      <div class="big-pt rise">+10P</div>
+      <div class="big-pt-cap rise">담보마다 정해진 포인트를 합산해<br>10P를 채워야 청약할 수 있었습니다</div>
+      <div class="pt-list rise">
+        <div class="h">청약우대담보 예시</div>
+        <div class="pr"><span class="nm">일반상해사망</span><span class="pv">가점 담보</span></div>
+        <div class="pr"><span class="nm">중환자실입원 (상해·질병)</span><span class="pv">가점 담보</span></div>
+        <div class="ft">담보별 가점·감점은 상품별 기준표를 따릅니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 3 · 무엇이 바뀌나 ══ -->
+  <section class="slide slide--tint">
+    <div class="ghost ghost--cat">02</div>
+    <div class="cat-head">
+      <div class="cat-badge rise" style="--cb-bg:#EDF6F1;--cb-line:#D8EAE0;--cb-ic:linear-gradient(135deg,#54AD86,#5FB8B0);--cb-tx:#357C5F;">
+        <span class="ic">✦</span><span class="tx">무엇이 바뀌나</span>
+      </div>
+      <h2 class="rise">40~80세<br><span style="color:#1F7F63;">청약포인트 인수완화</span></h2>
+    </div>
+    <div class="ages">
+      <div class="age-minor">
+        <span class="a">39세 이하</span>
+        <span class="p">10P 그대로</span>
+      </div>
+      <div class="age-major">
+        <div class="a-label">40세 ~ 80세</div>
+        <div class="a-nums">
+          <span class="a-old">10P</span>
+          <span class="a-arr">→</span>
+          <span class="a-new">5P</span>
+        </div>
+        <div class="a-sub">필요 포인트가 감소합니다.</div>
+      </div>
+      <div class="age-minor">
+        <span class="a">80세 초과</span>
+        <span class="p">3P 그대로</span>
+      </div>
+    </div>
+    <button class="raw-btn" data-key="raw">👆 세부내용</button>
+    <div class="tip-line" style="margin-top:auto;">39세 이하와 80세 초과 고객은 변경없음</div>
+  </section>
+
+  <!-- ══ 4 · 대상 상품 ══ -->
+  <section class="slide slide--light">
+    <div class="ghost ghost--cat">03</div>
+    <div class="cat-head">
+      <div class="cat-badge rise" style="--cb-bg:#F0F4FB;--cb-line:#DCE3F0;--cb-ic:linear-gradient(135deg,#4E7ACB,#7E6BD8);--cb-tx:#3A5C97;">
+        <span class="ic">◎</span><span class="tx">대상 상품</span>
+      </div>
+      <h2 class="rise">다섯 상품의<br><span style="color:#2A5596;">올인원플랜이 대상입니다.</span></h2>
+    </div>
+    <div class="list" style="margin-top:10px;">
+      <div class="item">
+        <div class="txt">
+          <div class="name">여성간편</div>
+          <div class="tags"><span class="tag yes">올인원플랜</span></div>
+        </div>
+        <div class="daybox"><div class="u1">40~80세</div><div class="d">5P</div><div class="u2">청약포인트</div></div>
+      </div>
+      <div class="item">
+        <div class="txt">
+          <div class="name">3N5</div>
+          <div class="tags"><span class="tag yes">연만기</span><span class="tag yes">세만기</span></div>
+        </div>
+        <div class="daybox"><div class="u1">40~80세</div><div class="d">5P</div><div class="u2">청약포인트</div></div>
+      </div>
+      <div class="item">
+        <div class="txt">
+          <div class="name">더경증</div>
+          <div class="tags"><span class="tag yes">연만기</span><span class="tag yes">세만기</span></div>
+        </div>
+        <div class="daybox"><div class="u1">40~80세</div><div class="d">5P</div><div class="u2">청약포인트</div></div>
+      </div>
+      <div class="item off">
+        <div class="txt">
+          <div class="name">311올인원</div>
+          <div class="tags"><span class="tag no">이번 인하 제외</span></div>
+        </div>
+        <div class="daybox gray"><div class="u1">종전 기준</div><div class="d">유지</div></div>
+      </div>
+    </div>
+    <div class="tip-line" style="margin-top:auto;">대상상품 총 5종 : 여성간편, 3N5(연/세), 더경증(연/세)</div>
+  </section>
+
+  <!-- ══ 5 · 누구에게 ══ -->
+  <section class="slide slide--tint">
+    <div class="ghost ghost--cat">04</div>
+    <div class="cat-head">
+      <div class="cat-badge rise" style="--cb-bg:#EDF6F1;--cb-line:#D8EAE0;--cb-ic:linear-gradient(135deg,#54AD86,#5FB8B0);--cb-tx:#357C5F;">
+        <span class="ic">◎</span><span class="tx">누구에게</span>
+      </div>
+      <h2 class="rise">40~80세 유병자 고객,<br><span style="color:#1F7F63;">가볍게 설계하세요.</span></h2>
+    </div>
+    <div class="who">
+      <div class="who-chips rise">
+        <span class="wchip">청약포인트 5P : <b>40~80세</b></span>
+        <span class="wchip">시행 : <b>7.24(금)</b></span>
+      </div>
+      <div class="big-age rise">40~80<span class="se">세</span></div>
+      <div class="big-cap rise">포인트를 채우기 위한 담보 없이,<br>필요한 담보 중심으로 제안하세요.</div>
+      <div class="link-card rise">
+        <div class="t">어제 안내드린 <b style="color:#2A5596;">프리미엄플랜 완화</b>와<br>함께 시행됩니다 (7.24 시행)</div>
+        <a href="../si-premium/" id="go-prem">💰 프리미엄플랜 내용 확인</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 6 · 체크포인트 ══ -->
+  <section class="slide slide--cover">
+    <div class="cat-head">
+      <div class="cat-badge rise" style="--cb-bg:#FFFFFFCC;--cb-line:#CFE5DA;--cb-ic:linear-gradient(135deg,#2E8467,#175A43);--cb-tx:#175A43;">
+        <span class="ic">✓</span><span class="tx">최종 체크포인트</span>
+      </div>
+    </div>
+    <div class="checks">
+      <div class="check">
+        <div class="box">✓</div>
+        <div class="ct">대상 상품 확인
+          <span>여성간편 · 3N5(연/세) · 더경증(연/세)</span></div>
+      </div>
+      <div class="check">
+        <div class="box">✓</div>
+        <div class="ct">연령 확인
+          <span>5P는 40~80세만 (39세 이하 10P)</span></div>
+      </div>
+      <div class="check">
+        <div class="box">✓</div>
+        <div class="ct">제외 상품 확인
+          <span>311올인원은 이번 인하 제외</span></div>
+      </div>
+      <div class="check">
+        <div class="box">✓</div>
+        <div class="ct">적용 기간 확인
+          <span>7.24(금) 시행 — 7월 말일까지</span></div>
+      </div>
+    </div>
+    <div class="tip-line">출처 : 인수기획파트 「SI상품 인수기준 완화」 (2026.7.23)<br>세부 기준은 공문을 함께 확인해 주십시오.</div>
+  </section>
+
+</div>
+
+<div id="dim"></div>
+<div id="sheet">
+  <div class="grabber"></div>
+  <div class="s-hero">
+    <div class="glow"></div>
+    <div class="s-name" id="s-name"></div>
+    <div class="s-num">
+      <span class="lead" id="s-lead"></span>
+      <span class="big" id="s-big"></span><span class="unit" id="s-unit"></span>
+    </div>
+    <div class="s-chips" id="s-chips"></div>
+  </div>
+  <div id="s-ba"></div>
+  <div class="verdict">
+    <div class="txt" id="s-verdict"></div>
+  </div>
+  <div id="s-body"></div>
+  <div id="s-warn"></div>
+  <div class="src">출처 : 인수기획파트 「SI상품 인수기준 완화」 (2026.7.23 · 7.24 시행)<br>세부 기준은 공문을 함께 확인해 주십시오.</div>
+</div>
+
+<div id="pop"></div>
+
+<script>
+/* ══ 데이터 : 공문 원문 표 그대로 ══ */
+const DATA = {
+  raw:{
+    name:'공문 원문 — [올인원플랜] 청약포인트 인하',
+    lead:'40~80세', big:'10P → 5P', unit:'',
+    chips:['7.24(금) 시행','7월 말일까지','311 제외'],
+    ba:{b:'80세 이하) 10P<br>80세 초과) 3P', a:'39세 이하) 10P<br>40세~80세) <b>5P</b><br>80세 초과) 3P'},
+    verdict:'대상상품 : <b>여성간편, 3N5(연/세), 더경증(연/세)</b> — 총 5개 상품의 올인원플랜입니다. <b>311올인원은 제외</b>됩니다.',
+    conds:[
+      ['39세 이하 — 10P','변경없음'],
+      ['40세~80세 — 10P → 5P','이번에 인하되는 구간'],
+      ['80세 초과 — 3P','변경없음']
+    ],
+    warn:'<b>7월 말일까지</b> 적용됩니다. 8월 이후 기준은 별도 안내를 확인해 주십시오.'
+  }
+};
+
+const TERMS = {
+  '청약포인트':'담보마다 정해진 가점·감점을 합산한 점수입니다. 합산 점수가 <b style="color:#fff;font-weight:700;">기준 이상</b>이어야 올인원플랜 청약이 가능합니다.'
+};
+
+/* 진행바 */
+const deck=document.getElementById('deck');
+const slides=[...document.querySelectorAll('.slide')];
+const bar=document.getElementById('progress');
+bar.innerHTML=slides.map(()=>'<div class="seg"></div>').join('');
+const segs=[...bar.children];
+
+slides.forEach(s=>{
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.intersectionRatio>.55){
+        const i=slides.indexOf(e.target);
+        e.target.classList.add('in');
+        segs.forEach((sg,n)=>sg.classList.toggle('on',n<=i));
+      }
+    });
+  },{root:deck,threshold:[.55]});
+  io.observe(s);
+});
+
+const sheet=document.getElementById('sheet'), dim=document.getElementById('dim');
+function openSheet(key){
+  const d=DATA[key]; if(!d) return;
+  document.getElementById('s-name').textContent=d.name;
+  document.getElementById('s-lead').textContent=d.lead||'';
+  document.getElementById('s-big').textContent=d.big;
+  document.getElementById('s-unit').textContent=d.unit||'';
+  document.getElementById('s-chips').innerHTML=d.chips.map(c=>`<span class="chip">${c}</span>`).join('');
+  document.getElementById('s-ba').innerHTML = d.ba ? `
+    <div class="ba">
+      <div class="cell before"><div class="k">변경 전</div><div class="v">${d.ba.b}</div></div>
+      <div class="arrow">→</div>
+      <div class="cell after"><div class="k">7.24부터</div><div class="v">${d.ba.a}</div></div>
+    </div>` : '';
+  document.getElementById('s-verdict').innerHTML=d.verdict;
+  let body='';
+  if(d.conds){
+    body+=`<div class="conds"><div class="h">연령 구간별 기준</div>
+      ${d.conds.map((c,i)=>`<div class="cond-row"><div class="num">${i+1}</div>
+        <div class="c-txt">${c[0]}${c[1]?`<span class="raw">${c[1]}</span>`:''}</div></div>`).join('')}
+    </div>`;
+  }
+  document.getElementById('s-body').innerHTML=body;
+  document.getElementById('s-warn').innerHTML=d.warn?`<div class="warn"><div class="h">⚠ 반드시 함께 확인하세요</div><div class="t">${d.warn}</div></div>`:'';
+  sheet.classList.add('show'); dim.classList.add('show'); sheet.scrollTop=0;
+  deck.style.overflow='hidden';              /* 시트 열림 동안 뒷페이지 스크롤 잠금 */
+}
+function closeSheet(){sheet.classList.remove('show');dim.classList.remove('show');hidePop();deck.style.overflow='';}
+document.querySelectorAll('[data-key]').forEach(el=>el.addEventListener('click',()=>{if(window.wc)wc('tap',(DATA[el.dataset.key]&&DATA[el.dataset.key].name)||el.dataset.key);openSheet(el.dataset.key);}));
+dim.addEventListener('click',closeSheet);
+
+/* 프리미엄 카드 링크 트래킹 */
+const gp=document.getElementById('go-prem');
+if(gp)gp.addEventListener('click',()=>{if(window.wc)wc('tap','프리미엄카드로 이동');});
+
+/* 체크포인트 토글 */
+document.querySelectorAll('.check').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+
+/* 시트 드래그 닫기 */
+let sy=0,dy=0,drag=false;
+sheet.addEventListener('touchstart',e=>{if(sheet.scrollTop>0)return;sy=e.touches[0].clientY;drag=true;sheet.style.transition='none';},{passive:true});
+sheet.addEventListener('touchmove',e=>{if(!drag)return;dy=e.touches[0].clientY-sy;if(dy>0)sheet.style.transform=`translateY(${dy}px)`;},{passive:true});
+sheet.addEventListener('touchend',()=>{if(!drag)return;drag=false;sheet.style.transition='';sheet.style.transform='';if(dy>90)closeSheet();dy=0;});
+
+/* 용어 툴팁 */
+const pop=document.getElementById('pop');
+function hidePop(){pop.classList.remove('show');}
+document.addEventListener('click',e=>{
+  const t=e.target.closest('.term');
+  if(!t){hidePop();return;}
+  e.stopPropagation();
+  if(window.wc)wc('term',t.dataset.t);
+  pop.innerHTML=`<span class="p-term">${t.textContent}</span>${TERMS[t.dataset.t]||''}`;
+  pop.classList.add('show');
+  const r=t.getBoundingClientRect(),pw=pop.offsetWidth,ph=pop.offsetHeight;
+  let x=r.left+r.width/2-pw/2;
+  x=Math.max(12,Math.min(x,innerWidth-pw-12));
+  let y=r.top-ph-9; if(y<12) y=r.bottom+9;
+  pop.style.left=x+'px'; pop.style.top=y+'px';
+});
+
+/* 넘치는 장만 늘려서 스크롤 허용 (24px 초과 시) */
+function fitCheck(){
+  slides.forEach(sl=>{
+    sl.classList.remove('scrolly');
+    if(sl.scrollHeight - sl.clientHeight > 24) sl.classList.add('scrolly');
+  });
+}
+window.addEventListener('resize',fitCheck);
+window.addEventListener('load',fitCheck);
+
+/* 목업 캡처용 */
+const q=new URLSearchParams(location.search);
+if(q.get('still')) document.body.classList.add('no-anim');
+window.addEventListener('load',()=>{
+  const s=parseInt(q.get('s')||'1',10);
+  const target=slides[s-1];
+  if(target && s>1) target.scrollIntoView({block:'start'});
+  slides.forEach(sl=>sl.classList.add('in'));
+  const k=q.get('sheet');
+  if(k&&DATA[k]) setTimeout(()=>openSheet(k),260);
+});
+</script>
+<script src="../../analytics/track.js"></script>
+</body>
+</html>
