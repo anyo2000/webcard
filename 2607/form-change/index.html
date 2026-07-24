@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<title>8.1 청약서 변경 — 7월 설계는 7월 안에 (2607-09)</title>
+<meta name="wc-title" content="2607 청약서변경">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="7월 설계는 7월 안에 청약하세요">
+<meta property="og:description" content="유효기간이 연장되지 않습니다">
+<meta property="og:url" content="https://anyo2000.github.io/webcard/2607/form-change/">
+<meta property="og:image" content="https://anyo2000.github.io/webcard/2607/form-change/og.png">
+<meta property="og:image:width" content="1600">
+<meta property="og:image:height" content="836">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  /* ═══════════════════════════════════════════════
+     최소 폰트 규약 (50대 이상 가독성)
+       본문 18px · 캡션 15px · 그 아래 금지
+     ═══════════════════════════════════════════════ */
+  :root{
+    --navy:#12305C;
+    --navy-2:#2A5596;
+    --amber:#B45309;
+    --amber-d:#92400E;
+    --red:#C0392B;
+    --ink:#111318;
+    --gray:#6B6F78;
+    --line:#E6E8EE;
+    --surface:#F4F6FA;
+
+    --fs-body:19px;
+    --fs-cap:16px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;overflow:hidden;}
+  body{
+    font-family:'Pretendard','Pretendard Variable',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    color:var(--ink);background:#FBF8F4;
+    -webkit-font-smoothing:antialiased;letter-spacing:-0.022em;
+  }
+
+  #deck{height:100dvh;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;}
+  #deck::-webkit-scrollbar{display:none;}
+  .slide{
+    height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;
+    position:relative;display:flex;flex-direction:column;
+    padding:calc(env(safe-area-inset-top) + 74px) 22px calc(env(safe-area-inset-bottom) + 62px);
+    overflow:hidden;
+    text-align:center;
+  }
+
+  /* 표지 — 시리즈와 같은 형태, 색은 데드라인 웜톤(앰버·피치) */
+  .slide--cover{
+    background:
+      radial-gradient(ellipse 520px 380px at 18% 6%,  #FFE7CE 0%, transparent 62%),
+      radial-gradient(ellipse 460px 400px at 92% 24%, #FFF1D4 0%, transparent 60%),
+      radial-gradient(ellipse 500px 360px at 50% 104%,#FDE7DC 0%, transparent 66%),
+      linear-gradient(175deg,#FFFBF5 0%,#FAF2E9 100%);
+  }
+  .slide--light{background:#FFFFFF;}
+  .slide--tint{background:linear-gradient(180deg,#FDFBF8 0%,#F7F3EE 100%);}
+
+  .ghost{
+    position:absolute;font-weight:800;letter-spacing:-0.06em;
+    pointer-events:none;user-select:none;line-height:1;
+    color:rgba(146,64,14,.055);
+  }
+  .ghost--hero{font-size:150px;left:50%;transform:translateX(-50%);bottom:44px;white-space:nowrap;}
+  .ghost--cat{font-size:190px;right:-10px;top:30px;color:rgba(18,48,92,.04);}
+
+  #comply-top{
+    position:fixed;top:0;left:0;right:0;z-index:70;
+    padding:calc(env(safe-area-inset-top) + 9px) 14px 8px;
+    font-size:9.5px;line-height:1.35;font-weight:400;letter-spacing:-0.02em;
+    color:#9DA3AE;text-align:center;pointer-events:none;
+    background:linear-gradient(180deg,rgba(255,255,255,.92) 60%,rgba(255,255,255,0) 100%);
+  }
+  #comply-bot{
+    position:fixed;bottom:0;left:0;right:0;z-index:70;
+    padding:10px 16px calc(env(safe-area-inset-bottom) + 10px);
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:10px;font-weight:400;letter-spacing:0;color:#9DA3AE;
+    pointer-events:none;
+    background:linear-gradient(0deg,rgba(255,255,255,.92) 55%,rgba(255,255,255,0) 100%);
+  }
+
+  #progress{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;gap:4px;
+    padding:calc(env(safe-area-inset-top) + 31px) 22px 0;pointer-events:none;}
+  #progress .seg{flex:1;height:3px;border-radius:2px;background:rgba(146,64,14,.16);transition:background .45s ease;}
+  #progress .seg.on{background:var(--amber);}
+
+  /* ═══ 표지 ═══ */
+  .hero{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;z-index:2;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:9px 16px;margin-bottom:24px;border-radius:100px;
+    background:rgba(255,255,255,.85);
+    border:1px solid #F0DFC8;
+    box-shadow:0 2px 10px rgba(146,64,14,.07);
+    font-size:var(--fs-cap);font-weight:700;color:#92400E;letter-spacing:-0.01em;
+  }
+  .eyebrow .live{width:7px;height:7px;border-radius:50%;background:#EA580C;animation:pulse 2s infinite;}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(234,88,12,.5)}
+    70%{box-shadow:0 0 0 8px rgba(234,88,12,0)}
+    100%{box-shadow:0 0 0 0 rgba(234,88,12,0)}
+  }
+  .hero h1{
+    font-size:clamp(38px,11vw,52px);font-weight:800;line-height:1.16;
+    letter-spacing:-0.05em;margin-bottom:20px;color:#2E1A08;
+  }
+  .hero h1 .grad{
+    background:linear-gradient(100deg,#C2410C 0%,#D97706 55%,#B85476 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .hero .sub{font-size:var(--fs-body);line-height:1.66;color:var(--gray);font-weight:500;}
+  .hero .sub b{color:#92400E;}
+
+  .hero-stats{display:flex;gap:10px;margin-top:34px;width:100%;}
+  .stat{
+    flex:1;padding:17px 8px;border-radius:18px;
+    background:rgba(255,255,255,.8);
+    border:1px solid #F0E2CC;
+    box-shadow:0 4px 16px rgba(146,64,14,.05);
+    backdrop-filter:blur(10px);
+  }
+  .stat .n{
+    font-size:29px;font-weight:800;letter-spacing:-0.045em;line-height:1;margin-bottom:7px;
+    background:linear-gradient(140deg,#C2410C,#B45309);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .stat .l{font-size:var(--fs-cap);color:#7A7F8A;font-weight:600;line-height:1.4;}
+
+  .scroll-cue{
+    position:relative;z-index:2;
+    display:flex;flex-direction:column;align-items:center;gap:7px;
+    font-size:var(--fs-cap);color:#9BA1AD;font-weight:600;
+  }
+  .scroll-cue svg{animation:bob 1.9s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(6px);opacity:1}}
+
+  /* ═══ 카테고리 헤더 ═══ */
+  .cat-head{position:relative;z-index:2;margin-bottom:13px;}
+  .cat-badge{
+    display:inline-flex;align-items:center;gap:11px;
+    padding:10px 20px 10px 11px;margin-bottom:14px;border-radius:100px;
+    border:1.5px solid var(--cb-line,#DCE3F0);
+    background:var(--cb-bg,#F0F4FB);
+    box-shadow:0 4px 14px var(--cb-sh,rgba(18,48,92,.07));
+  }
+  .cat-badge .ic{
+    width:32px;height:32px;border-radius:50%;
+    background:var(--cb-ic,linear-gradient(135deg,#4E7ACB,#7E6BD8));
+    display:grid;place-items:center;color:#fff;font-size:17px;font-weight:800;
+    box-shadow:0 2px 7px rgba(0,0,0,.13);
+  }
+  .cat-badge .tx{font-size:24px;font-weight:800;color:var(--cb-tx,#3A5C97);letter-spacing:-0.04em;}
+  .cat-head h2{font-size:30px;font-weight:800;line-height:1.22;letter-spacing:-0.045em;margin-bottom:9px;}
+  .cat-head p{font-size:17.5px;line-height:1.55;color:var(--gray);font-weight:500;}
+
+  /* ═══ 2장 · 그룹 재분류 ═══ */
+  .regroup{position:relative;z-index:2;display:flex;flex-direction:column;gap:8px;}
+  .rg-before{
+    width:100%;padding:11px 13px 10px;border-radius:20px;
+    background:#F1F3F6;border:1.5px solid #E0E4EB;
+  }
+  .rg-before .rb-label{font-size:16px;font-weight:800;color:#7A7F8A;margin-bottom:7px;text-align:left;}
+  .rg-before .rb-pills{display:flex;gap:8px;}
+  .rg-before .rb-pills span{
+    flex:1;padding:9px 4px;border-radius:13px;text-align:center;
+    background:#fff;border:1px solid #DDE2EA;
+    font-size:19px;font-weight:800;color:#5A6070;letter-spacing:-0.03em;
+  }
+  .rg-arrow{font-size:22px;font-weight:800;color:#C9A87C;line-height:1;}
+  .rg-cols{display:flex;gap:9px;align-items:stretch;}
+  .rg-box{flex:1;border-radius:20px;padding:12px 10px;text-align:left;}
+  .rg-box.low{background:#F2F7F3;border:1.5px solid #D8E8DC;}
+  .rg-box.high{background:#FDF3EC;border:1.5px solid #F3D9C4;}
+  .rg-box .bh{font-size:18px;font-weight:800;margin-bottom:9px;letter-spacing:-0.03em;}
+  .rg-box.low .bh{color:#2E6B4F;}
+  .rg-box.high .bh{color:#B45309;}
+  .rg-box .bh small{font-size:15px;font-weight:700;opacity:.75;}
+  .rg-chips{display:flex;flex-wrap:wrap;gap:4px;}
+  .rg-chips .c{
+    font-size:15px;font-weight:600;line-height:1.3;
+    padding:5px 8px;border-radius:9px;background:#fff;color:#5A6070;border:1px solid rgba(0,0,0,.06);
+  }
+  .rg-chips .c.mv{
+    background:#C2410C;color:#fff;font-weight:800;border-color:#C2410C;
+    animation:mvPulse 2.2s ease-in-out infinite;
+  }
+  @keyframes mvPulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(194,65,12,.0);}
+    50%{box-shadow:0 3px 12px rgba(194,65,12,.4);}
+  }
+  .rg-note{
+    border-radius:18px;padding:12px 15px;text-align:left;
+    background:var(--surface);border:1px solid #E8ECF3;
+    font-size:17.5px;line-height:1.55;font-weight:600;color:#3A4150;
+  }
+  .rg-note b{color:#C2410C;font-weight:800;}
+  .rg-note mark{
+    background:linear-gradient(transparent 52%, #FFDCB0 52%);
+    color:#92400E;font-weight:800;padding:0 1px;
+  }
+
+  .raw-btn{
+    position:relative;z-index:2;align-self:center;
+    display:inline-flex;align-items:center;gap:8px;
+    margin-top:9px;padding:11px 20px;border-radius:100px;border:none;
+    background:linear-gradient(135deg,#2A5596 0%,#12305C 100%);color:#fff;
+    font-family:inherit;font-size:17.5px;font-weight:800;letter-spacing:-0.02em;cursor:pointer;
+    box-shadow:0 4px 14px rgba(18,48,92,.3);
+    animation:hintPulse 2.2s ease-in-out infinite;
+  }
+  @keyframes hintPulse{
+    0%,100%{transform:translateY(0) scale(1);   box-shadow:0 4px 14px rgba(18,48,92,.3);}
+    50%    {transform:translateY(-3px) scale(1.045);box-shadow:0 9px 24px rgba(18,48,92,.42);}
+  }
+
+  /* ═══ 3장 · 마감 ═══ */
+  .deadline{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;z-index:2;}
+  .big-date{
+    font-size:clamp(80px,24vw,100px);font-weight:800;letter-spacing:-0.055em;line-height:1;
+    background:linear-gradient(110deg,#C2410C 0%,#D97706 80%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .big-date-cap{margin-top:12px;font-size:19px;font-weight:700;color:#3A4150;}
+  .acts{display:flex;flex-direction:column;gap:9px;width:100%;margin-top:24px;text-align:left;}
+  .act{
+    display:flex;gap:13px;align-items:flex-start;
+    background:#fff;border:1px solid #EEE6D8;border-radius:18px;padding:15px 16px;
+    box-shadow:0 3px 12px rgba(146,64,14,.05);
+  }
+  .act .n{
+    flex:none;width:28px;height:28px;border-radius:50%;margin-top:1px;
+    background:linear-gradient(140deg,#C2410C,#92400E);color:#fff;
+    font-size:15px;font-weight:800;display:grid;place-items:center;
+  }
+  .act .t{font-size:18.5px;line-height:1.45;font-weight:700;color:#2B3242;}
+  .act .t b{color:#C2410C;font-weight:800;}
+
+  .tip-line{position:relative;z-index:2;margin-top:14px;font-size:var(--fs-cap);color:#A2A7B2;font-weight:500;}
+
+  /* 3장 하단 대상 강조 박스 */
+  .target-box{
+    position:relative;z-index:2;margin-top:16px;
+    border-radius:18px;padding:15px 17px;
+    background:linear-gradient(140deg,#FDF3EC,#FBEBDD);border:1.5px solid #F0D5BC;
+    font-size:19px;line-height:1.5;font-weight:700;color:#6B4A26;
+  }
+  .target-box b{color:#B45309;font-weight:800;}
+
+  /* ═══ 체크포인트 ═══ */
+  .checks{position:relative;z-index:2;display:flex;flex-direction:column;gap:10px;text-align:left;}
+  .check{
+    display:flex;align-items:flex-start;gap:14px;
+    background:#fff;border:1px solid #EFE4D3;border-radius:20px;padding:19px 18px;
+    cursor:pointer;transition:all .3s cubic-bezier(.32,.72,0,1);
+  }
+  .check .box{
+    flex:none;width:33px;height:33px;border-radius:11px;
+    border:2px solid #CBD3E0;background:#fff;
+    display:grid;place-items:center;color:#fff;font-size:14px;font-weight:800;
+    transition:all .28s cubic-bezier(.32,.72,0,1);
+  }
+  .check .ct{font-size:23px;font-weight:800;line-height:1.35;padding-top:2px;}
+  .check .ct span{display:block;font-size:22px;font-weight:800;color:#C2410C;margin-top:8px;line-height:1.45;letter-spacing:-0.03em;}
+  .check.on{background:#FDF6EC;border-color:#EED9B8;}
+  .check.on .box{background:linear-gradient(140deg,#C2410C,#92400E);border-color:#92400E;}
+  .check.on .ct{color:#92400E;}
+
+  /* ═══ 하단 시트 ═══ */
+  #dim{position:fixed;inset:0;z-index:80;background:rgba(46,26,8,.4);
+    backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+    opacity:0;pointer-events:none;transition:opacity .38s ease;
+    touch-action:none;}
+  #dim.show{opacity:1;pointer-events:auto;}
+  #sheet{
+    position:fixed;left:0;right:0;bottom:0;z-index:90;background:#fff;
+    border-radius:30px 30px 0 0;
+    padding:12px 22px calc(env(safe-area-inset-bottom) + 26px);
+    transform:translateY(101%);
+    transition:transform .46s cubic-bezier(.32,.72,0,1);
+    max-height:86dvh;overflow-y:auto;
+    overscroll-behavior:contain;   /* 시트 끝에서 뒷페이지로 스크롤 전파 차단 */
+    box-shadow:0 -10px 44px rgba(46,26,8,.18);
+    text-align:left;
+  }
+  #sheet::-webkit-scrollbar{display:none;}
+  #sheet.show{transform:translateY(0);}
+  .grabber{width:40px;height:5px;border-radius:3px;background:#DDE1E9;margin:0 auto 20px;}
+
+  .s-hero{
+    position:relative;overflow:hidden;border-radius:24px;padding:22px;margin-bottom:18px;
+    background:linear-gradient(140deg,#92400E 0%,#C2410C 55%,#D97706 100%);color:#fff;
+  }
+  .s-hero .glow{position:absolute;width:200px;height:200px;border-radius:50%;
+    top:-76px;right:-56px;filter:blur(40px);
+    background:radial-gradient(circle,#FFD9A8 0%,transparent 70%);opacity:.5;}
+  .s-hero .s-name{font-size:26px;font-weight:800;letter-spacing:-0.04em;margin-bottom:15px;position:relative;line-height:1.3;}
+  .s-hero .s-num{display:flex;align-items:baseline;gap:7px;position:relative;flex-wrap:wrap;}
+  .s-hero .s-num .lead{font-size:17px;font-weight:700;color:#F5CFA8;}
+  .s-hero .s-num .big{font-size:44px;font-weight:800;letter-spacing:-0.055em;line-height:1;}
+  .s-hero .s-num .unit{font-size:19px;font-weight:700;color:#F8DDBE;}
+  .s-hero .s-chips{display:flex;gap:6px;margin-top:16px;position:relative;flex-wrap:wrap;}
+  .s-hero .chip{
+    font-size:var(--fs-cap);font-weight:700;padding:7px 11px;border-radius:10px;
+    background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.16);
+  }
+
+  .verdict{background:var(--surface);border:1px solid #E8ECF3;border-radius:20px;padding:18px;margin-bottom:18px;}
+  .verdict .txt{font-size:19px;line-height:1.62;font-weight:600;}
+  .verdict .txt b{font-weight:800;color:#92400E;}
+
+  .conds{margin-bottom:18px;}
+  .conds .h{font-size:var(--fs-cap);font-weight:800;color:#7A7F8A;margin-bottom:10px;}
+  .cond-row{display:flex;gap:11px;align-items:flex-start;padding:13px 0;border-top:1px solid var(--line);}
+  .cond-row:last-child{border-bottom:1px solid var(--line);}
+  .cond-row .num{
+    flex:none;width:22px;height:22px;border-radius:50%;
+    background:linear-gradient(140deg,#C2410C,#92400E);color:#fff;
+    font-size:12px;font-weight:800;display:grid;place-items:center;margin-top:2px;
+  }
+  .cond-row .c-txt{font-size:18.5px;line-height:1.5;font-weight:700;}
+  .cond-row .c-txt .raw{display:block;font-size:var(--fs-cap);color:#7A7F8A;margin-top:4px;font-weight:500;line-height:1.55;}
+
+  .warn{border:1px solid #F2DFC0;background:linear-gradient(135deg,#FEFAF2 0%,#FDF4E7 100%);
+    border-radius:20px;padding:17px;margin-bottom:18px;}
+  .warn .h{font-size:var(--fs-cap);font-weight:800;color:#96681B;margin-bottom:8px;}
+  .warn .t{font-size:17.5px;line-height:1.58;color:#5B4926;font-weight:600;}
+
+  .src{font-size:var(--fs-cap);color:#A2A7B2;line-height:1.55;font-weight:500;}
+
+  .term{border-bottom:2px dotted #C0A26E;cursor:pointer;font-weight:800;}
+  #pop{
+    position:fixed;z-index:100;background:#16181D;color:#fff;
+    border-radius:14px;padding:14px 15px;
+    font-size:15.5px;line-height:1.52;font-weight:500;max-width:262px;
+    opacity:0;transform:translateY(5px) scale(.96);pointer-events:none;
+    transition:opacity .22s ease,transform .22s cubic-bezier(.32,.72,0,1);
+    box-shadow:0 10px 32px rgba(0,0,0,.32);
+  }
+  #pop.show{opacity:1;transform:none;}
+  #pop .p-term{display:block;font-weight:800;margin-bottom:5px;color:#FFC98A;font-size:var(--fs-cap);}
+
+  /* 모션 */
+  .rise{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s cubic-bezier(.22,.8,.28,1);}
+  .slide.in .rise{opacity:1;transform:none;}
+  .slide.in .rise:nth-child(1){transition-delay:.05s}
+  .slide.in .rise:nth-child(2){transition-delay:.13s}
+  .slide.in .rise:nth-child(3){transition-delay:.21s}
+  .slide.in .rise:nth-child(4){transition-delay:.29s}
+  .slide.in .rise:nth-child(5){transition-delay:.37s}
+  .acts .act,.checks .check{opacity:0;transform:translateY(22px);transition:opacity .75s ease,transform .75s cubic-bezier(.22,.8,.28,1);}
+  .slide.in .acts .act:nth-child(1),.slide.in .checks .check:nth-child(1){opacity:1;transform:none;transition-delay:.2s}
+  .slide.in .acts .act:nth-child(2),.slide.in .checks .check:nth-child(2){opacity:1;transform:none;transition-delay:.28s}
+  .slide.in .acts .act:nth-child(3),.slide.in .checks .check:nth-child(3){opacity:1;transform:none;transition-delay:.36s}
+  .slide.in .checks .check:nth-child(4){opacity:1;transform:none;transition-delay:.44s}
+  .no-anim .rise,.no-anim .act,.no-anim .check{opacity:1!important;transform:none!important;transition:none!important;animation:none!important;}
+
+  /* ═══ 짧은 뷰포트 대응 — 카톡 인앱 브라우저 ═══ */
+  @media (max-height:740px){
+    .slide{padding:calc(env(safe-area-inset-top) + 52px) 18px calc(env(safe-area-inset-bottom) + 44px);}
+    #progress{padding-top:calc(env(safe-area-inset-top) + 24px);}
+    #comply-top{padding-top:calc(env(safe-area-inset-top) + 5px);}
+    #comply-bot{padding-bottom:calc(env(safe-area-inset-bottom) + 6px);}
+    .ghost--hero{font-size:96px;bottom:22px;}
+    .ghost--cat{font-size:110px;}
+    .hero h1{margin-bottom:12px;}
+    .eyebrow{margin-bottom:13px;}
+    .hero-stats{margin-top:16px;gap:8px;}
+    .stat{padding:11px 6px;}
+    .cat-head{margin-bottom:7px;}
+    .cat-badge{padding:6px 13px 6px 7px;margin-bottom:7px;}
+    .cat-head h2{margin-bottom:5px;}
+    .regroup{gap:7px;}
+    .rg-box{padding:11px 9px;}
+    .raw-btn{margin-top:9px;}
+    .big-date{font-size:clamp(64px,19vw,80px);}
+    .acts{margin-top:14px;gap:7px;}
+    .act{padding:12px 13px;}
+    .tip-line{margin-top:7px;}
+    .checks{gap:6px;}
+    .check{padding:11px 14px;}
+    .scroll-cue{gap:3px;}
+  }
+  /* 콘텐츠가 화면보다 길면 그 장을 늘려서 이어서 스크롤 (스냅은 장 시작점만) */
+  .slide.scrolly{height:auto;min-height:100dvh;overflow:visible;justify-content:flex-start;}
+</style>
+</head>
+<body>
+
+<div id="comply-top">본 자료는 교육용으로 온라인 매체(SNS등) 및 고객 설명, 광고자료로 활용 행위는 법으로 금지됩니다.</div>
+<div id="comply-bot">
+  <span>영업컨설팅파트 2607 - 09</span>
+  <span>모집인 / 교육용</span>
+</div>
+
+<div id="progress"></div>
+
+<div id="deck">
+
+  <!-- ══ 1 · 표지 ══ -->
+  <section class="slide slide--cover">
+    <div class="ghost ghost--hero">7/31</div>
+    <div class="hero">
+      <div class="eyebrow rise"><span class="live"></span>8.1 청약서 변경 안내</div>
+      <h1 class="rise">7월 설계는,<br><span class="grad">7월 안에<br>청약하세요</span></h1>
+      <div class="sub rise">8월 1일, 청약서가 변경됩니다<br><b>기존 청약서는 연장되지 않습니다</b></div>
+      <div class="hero-stats rise">
+        <div class="stat"><div class="n">~7/31</div><div class="l">청약 가능</div></div>
+        <div class="stat"><div class="n">8.1</div><div class="l">새 청약서</div></div>
+        <div class="stat"><div class="n">전체</div><div class="l">건강보험</div></div>
+      </div>
+    </div>
+    <div class="scroll-cue">
+      <svg width="17" height="10" viewBox="0 0 15 9" fill="none"><path d="M1.5 1.5L7.5 7L13.5 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      밀어서 보기
+    </div>
+  </section>
+
+  <!-- ══ 2 · 왜 바뀌나 ══ -->
+  <section class="slide slide--light">
+    <div class="ghost ghost--cat">01</div>
+    <div class="cat-head">
+      <div class="cat-badge rise" style="--cb-bg:#F0F4FB;--cb-line:#DCE3F0;--cb-ic:linear-gradient(135deg,#7A8496,#5A6478);--cb-tx:#4E5A78;">
+        <span class="ic">✦</span><span class="tx">왜 바뀌나</span>
+      </div>
+      <h2 class="rise" style="margin-bottom:4px;"><span class="term" data-t="통합암진단비">통합암진단비</span> 그룹이<br><span style="color:#B45309;">다시 나뉩니다.</span></h2>
+    </div>
+    <div class="regroup rise">
+      <div class="rg-before">
+        <div class="rb-label">변경 전 — 3개 그룹</div>
+        <div class="rb-pills"><span>1그룹</span><span>2그룹</span><span>3그룹</span></div>
+      </div>
+      <div class="rg-arrow">↓ 8.1부터 두 그룹으로</div>
+      <div class="rg-cols">
+        <div class="rg-box low">
+          <div class="bh">1그룹 <small>低위험</small></div>
+          <div class="rg-chips">
+            <span class="c">소화기관암</span><span class="c">폐암</span><span class="c">호흡기암</span>
+            <span class="c">중추/내분비암</span><span class="c">뼈/관절/피부</span><span class="c">혈액암</span>
+          </div>
+        </div>
+        <div class="rg-box high">
+          <div class="bh">2그룹 <small>高위험</small></div>
+          <div class="rg-chips">
+            <span class="c">입술/구강/인두</span><span class="c mv">대장암</span><span class="c mv">유방암</span>
+            <span class="c mv">자궁암</span><span class="c">난소암</span><span class="c">생식기암</span><span class="c">요로암</span>
+          </div>
+        </div>
+      </div>
+      <div class="rg-note">이 재분류로 8월 1일,<br><mark>통합암이 포함된</mark> <b>전체 건강보험의 청약서가 변경</b>됩니다.</div>
+    </div>
+    <button class="raw-btn" data-key="raw">👆 세부내용</button>
+    <div class="tip-line" style="margin-top:auto;">붉은 표시 = 1그룹에서 2그룹(高위험)으로 이동한 암종</div>
+  </section>
+
+  <!-- ══ 3 · 그래서 할 일 ══ -->
+  <section class="slide slide--tint">
+    <div class="ghost ghost--cat">02</div>
+    <div class="cat-head">
+      <div class="cat-badge rise" style="--cb-bg:#FDF3EC;--cb-line:#F3D9C4;--cb-ic:linear-gradient(135deg,#E08A3C,#C2410C);--cb-tx:#B45309;">
+        <span class="ic">!</span><span class="tx">꼭 지켜주세요</span>
+      </div>
+      <h2 class="rise">기존 청약서는<br><span style="color:#C2410C;">8월로 연장되지 않습니다.</span></h2>
+    </div>
+    <div class="deadline">
+      <div class="big-date rise">7/31</div>
+      <div class="big-date-cap rise">까지만 지금 청약서로 청약할 수 있습니다</div>
+      <div class="acts rise">
+        <div class="act"><div class="n">1</div><div class="t">7월에 설계한 건은 <b>7/31까지 청약 완료</b></div></div>
+        <div class="act"><div class="n">2</div><div class="t">8/1부터는 <b>새 청약서로 재설계</b> 후 청약</div></div>
+        <div class="act"><div class="n">3</div><div class="t">진행 중인 계약 건, <b>오늘 점검</b>하세요</div></div>
+      </div>
+    </div>
+    <div class="target-box">대상 : <b>통합암진단비가 포함된<br>전체 건강보험</b></div>
+  </section>
+
+  <!-- ══ 4 · 체크포인트 ══ -->
+  <section class="slide slide--cover">
+    <div class="cat-head">
+      <div class="cat-badge rise" style="--cb-bg:#FFFFFFCC;--cb-line:#F0DFC8;--cb-ic:linear-gradient(135deg,#C2410C,#92400E);--cb-tx:#92400E;">
+        <span class="ic">✓</span><span class="tx">최종 체크포인트</span>
+      </div>
+    </div>
+    <div class="checks">
+      <div class="check">
+        <div class="box">✓</div>
+        <div class="ct">마감일 확인
+          <span>7월 설계분은 7/31까지 청약</span></div>
+      </div>
+      <div class="check">
+        <div class="box">✓</div>
+        <div class="ct">청약서 확인
+          <span>8/1부터 기존 청약서 사용 불가</span></div>
+      </div>
+      <div class="check">
+        <div class="box">✓</div>
+        <div class="ct">대상 확인
+          <span>통합암 포함 전체 건강보험</span></div>
+      </div>
+      <div class="check">
+        <div class="box">✓</div>
+        <div class="ct">변경 원인 확인
+          <span>통합암진단비 그룹 재분류 (8.1)</span></div>
+      </div>
+    </div>
+    <div class="tip-line">출처 : 인수기획파트 「'26.8월 1차 인수기준 운영방안」 (8.1 시행)<br>세부 기준은 공문을 함께 확인해 주십시오.</div>
+  </section>
+
+</div>
+
+<div id="dim"></div>
+<div id="sheet">
+  <div class="grabber"></div>
+  <div class="s-hero">
+    <div class="glow"></div>
+    <div class="s-name" id="s-name"></div>
+    <div class="s-num">
+      <span class="lead" id="s-lead"></span>
+      <span class="big" id="s-big"></span><span class="unit" id="s-unit"></span>
+    </div>
+    <div class="s-chips" id="s-chips"></div>
+  </div>
+  <div class="verdict">
+    <div class="txt" id="s-verdict"></div>
+  </div>
+  <div id="s-body"></div>
+  <div id="s-warn"></div>
+  <div class="src">출처 : 인수기획파트 「'26.8월 1차 인수기준 운영방안」 (8.1 시행)<br>청약서 사용기한 안내 : 영업컨설팅파트</div>
+</div>
+
+<div id="pop"></div>
+
+<script>
+/* ══ 데이터 : 공문 원문(라.1 통합암진단비 그룹 재분류) 그대로 ══ */
+const DATA = {
+  raw:{
+    name:'공문 원문 — 통합암진단비 그룹 재분류',
+    lead:'', big:'3그룹 → 2그룹', unit:'',
+    chips:['8.1 시행','2개 그룹 재분류'],
+    verdict:'2개 그룹으로 재분류되며, <b>高위험그룹 가입금액은 低위험그룹 이내</b>로 가입 가능합니다 (1그룹 ≥ 2그룹). 이 재분류로 통합암이 포함된 전체 건강보험의 청약서가 8월 1일 변경됩니다.',
+    conds:[
+      ['변경 전 1그룹','소화기관암 · 대장암 · 유방암 · 자궁암'],
+      ['변경 전 2그룹','난소암 · 생식기암 · 폐암 · 호흡기암 · 입술/구강/인두 · 요로암 · 중추/내분비암'],
+      ['변경 전 3그룹','뼈/관절/피부 · 혈액암 (1그룹 ≥ 2그룹 ≥ 3그룹)'],
+      ['변경 후 1그룹 (低위험)','소화기관암 · 폐암 · 호흡기암 · 중추/내분비암 · 뼈/관절/피부 · 혈액암'],
+      ['변경 후 2그룹 (高위험)','입술/구강/인두 · 대장암 · 유방암 · 자궁암 · 난소암 · 생식기암 · 요로암 (1그룹 ≥ 2그룹)']
+    ],
+    warn:'7월에 설계·발행한 기존 청약서는 <b>8월에 사용할 수 없습니다</b>. 7/31까지 청약을 완료해 주십시오.'
+  }
+};
+
+const TERMS = {
+  '통합암진단비':'암을 부위별 그룹으로 나눠, 그룹별로 가입금액을 정해 보장하는 암진단비 담보입니다. 이번에 그 그룹 구성이 바뀝니다.'
+};
+
+/* 진행바 */
+const deck=document.getElementById('deck');
+const slides=[...document.querySelectorAll('.slide')];
+const bar=document.getElementById('progress');
+bar.innerHTML=slides.map(()=>'<div class="seg"></div>').join('');
+const segs=[...bar.children];
+
+slides.forEach(s=>{
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.intersectionRatio>.55){
+        const i=slides.indexOf(e.target);
+        e.target.classList.add('in');
+        segs.forEach((sg,n)=>sg.classList.toggle('on',n<=i));
+      }
+    });
+  },{root:deck,threshold:[.55]});
+  io.observe(s);
+});
+
+const sheet=document.getElementById('sheet'), dim=document.getElementById('dim');
+function openSheet(key){
+  const d=DATA[key]; if(!d) return;
+  document.getElementById('s-name').textContent=d.name;
+  document.getElementById('s-lead').textContent=d.lead||'';
+  document.getElementById('s-big').textContent=d.big;
+  document.getElementById('s-unit').textContent=d.unit||'';
+  document.getElementById('s-chips').innerHTML=d.chips.map(c=>`<span class="chip">${c}</span>`).join('');
+  document.getElementById('s-verdict').innerHTML=d.verdict;
+  let body='';
+  if(d.conds){
+    body+=`<div class="conds"><div class="h">그룹 구성 (공문 표 그대로)</div>
+      ${d.conds.map((c,i)=>`<div class="cond-row"><div class="num">${i+1}</div>
+        <div class="c-txt">${c[0]}${c[1]?`<span class="raw">${c[1]}</span>`:''}</div></div>`).join('')}
+    </div>`;
+  }
+  document.getElementById('s-body').innerHTML=body;
+  document.getElementById('s-warn').innerHTML=d.warn?`<div class="warn"><div class="h">⚠ 반드시 함께 확인하세요</div><div class="t">${d.warn}</div></div>`:'';
+  sheet.classList.add('show'); dim.classList.add('show'); sheet.scrollTop=0;
+  deck.style.overflow='hidden';              /* 시트 열림 동안 뒷페이지 스크롤 잠금 */
+}
+function closeSheet(){sheet.classList.remove('show');dim.classList.remove('show');hidePop();deck.style.overflow='';}
+document.querySelectorAll('[data-key]').forEach(el=>el.addEventListener('click',()=>{if(window.wc)wc('tap',(DATA[el.dataset.key]&&DATA[el.dataset.key].name)||el.dataset.key);openSheet(el.dataset.key);}));
+dim.addEventListener('click',closeSheet);
+
+/* 체크포인트 토글 */
+document.querySelectorAll('.check').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('on')));
+
+/* 시트 드래그 닫기 */
+let sy=0,dy=0,drag=false;
+sheet.addEventListener('touchstart',e=>{if(sheet.scrollTop>0)return;sy=e.touches[0].clientY;drag=true;sheet.style.transition='none';},{passive:true});
+sheet.addEventListener('touchmove',e=>{if(!drag)return;dy=e.touches[0].clientY-sy;if(dy>0)sheet.style.transform=`translateY(${dy}px)`;},{passive:true});
+sheet.addEventListener('touchend',()=>{if(!drag)return;drag=false;sheet.style.transition='';sheet.style.transform='';if(dy>90)closeSheet();dy=0;});
+
+/* 용어 툴팁 */
+const pop=document.getElementById('pop');
+function hidePop(){pop.classList.remove('show');}
+document.addEventListener('click',e=>{
+  const t=e.target.closest('.term');
+  if(!t){hidePop();return;}
+  e.stopPropagation();
+  if(window.wc)wc('term',t.dataset.t);
+  pop.innerHTML=`<span class="p-term">${t.textContent}</span>${TERMS[t.dataset.t]||''}`;
+  pop.classList.add('show');
+  const r=t.getBoundingClientRect(),pw=pop.offsetWidth,ph=pop.offsetHeight;
+  let x=r.left+r.width/2-pw/2;
+  x=Math.max(12,Math.min(x,innerWidth-pw-12));
+  let y=r.top-ph-9; if(y<12) y=r.bottom+9;
+  pop.style.left=x+'px'; pop.style.top=y+'px';
+});
+
+/* 넘치는 장만 늘려서 스크롤 허용 (24px 초과 시) */
+function fitCheck(){
+  slides.forEach(sl=>{
+    sl.classList.remove('scrolly');
+    if(sl.scrollHeight - sl.clientHeight > 24) sl.classList.add('scrolly');
+  });
+}
+window.addEventListener('resize',fitCheck);
+window.addEventListener('load',fitCheck);
+
+/* 목업 캡처용 */
+const q=new URLSearchParams(location.search);
+if(q.get('still')) document.body.classList.add('no-anim');
+window.addEventListener('load',()=>{
+  const s=parseInt(q.get('s')||'1',10);
+  const target=slides[s-1];
+  if(target && s>1) target.scrollIntoView({block:'start'});
+  slides.forEach(sl=>sl.classList.add('in'));
+  const k=q.get('sheet');
+  if(k&&DATA[k]) setTimeout(()=>openSheet(k),260);
+});
+</script>
+<script src="../../analytics/track.js"></script>
+</body>
+</html>
