@@ -509,7 +509,7 @@
           <span>통합암진단비 그룹 재분류 (8.1)</span></div>
       </div>
     </div>
-    <div class="tip-line">출처 : 인수기획파트 「'26.8월 1차 인수기준 운영방안」 (8.1 시행)<br>세부 기준은 공문을 함께 확인해 주십시오.</div>
+    <div class="tip-line">정확한 정보는 공지문서를 확인하세요.</div>
   </section>
 
 </div>
@@ -531,7 +531,7 @@
   </div>
   <div id="s-body"></div>
   <div id="s-warn"></div>
-  <div class="src">출처 : 인수기획파트 「'26.8월 1차 인수기준 운영방안」 (8.1 시행)<br>청약서 사용기한 안내 : 영업컨설팅파트</div>
+  <div class="src">정확한 정보는 공지문서를 확인하세요.</div>
 </div>
 
 <div id="pop"></div>
@@ -540,7 +540,7 @@
 /* ══ 데이터 : 공문 원문(라.1 통합암진단비 그룹 재분류) 그대로 ══ */
 const DATA = {
   raw:{
-    name:'공문 원문 — 통합암진단비 그룹 재분류',
+    name:'통합암진단비 그룹 재분류',
     lead:'', big:'3그룹 → 2그룹', unit:'',
     chips:['8.1 시행','2개 그룹 재분류'],
     verdict:'2개 그룹으로 재분류되며, <b>高위험그룹 가입금액은 低위험그룹 이내</b>로 가입 가능합니다 (1그룹 ≥ 2그룹). 이 재분류로 통합암이 포함된 전체 건강보험의 청약서가 8월 1일 변경됩니다.',
@@ -590,7 +590,7 @@ function openSheet(key){
   document.getElementById('s-verdict').innerHTML=d.verdict;
   let body='';
   if(d.conds){
-    body+=`<div class="conds"><div class="h">그룹 구성 (공문 표 그대로)</div>
+    body+=`<div class="conds"><div class="h">그룹 구성</div>
       ${d.conds.map((c,i)=>`<div class="cond-row"><div class="num">${i+1}</div>
         <div class="c-txt">${c[0]}${c[1]?`<span class="raw">${c[1]}</span>`:''}</div></div>`).join('')}
     </div>`;
