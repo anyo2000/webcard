@@ -199,6 +199,17 @@
   }
   .slide.in .cut{opacity:1;animation:cutIn .5s ease 1.95s both;}  /* 두 막대가 다 내려온 뒤 함께 등장 */
   @keyframes cutIn{from{opacity:0}to{opacity:1}}
+  .cut.sm{font-size:24px;}
+  .slide.in .cut.d2{animation-delay:2.4s;}       /* 2단 낙하 막대는 다 내려온 뒤에 */
+  /* 7.1 기시행 지점 — 잔상(100만)과 최종(30만) 사이의 중간 눈금 */
+  .midline{position:absolute;left:-6px;right:-6px;z-index:2;border-top:2px dashed #A8B4C6;}
+  .midline span{
+    position:absolute;top:-24px;left:50%;transform:translateX(-50%);
+    font-size:15px;font-weight:700;color:#8A96A8;white-space:nowrap;
+  }
+  /* 출산지원금 막대 — 100 → 50(7월, 잠시 멈춤) → 30(8월) 두 번 떨어진다 */
+  @keyframes barFall2{0%{height:var(--h-now)}42%,60%{height:var(--h-mid)}100%{height:var(--h-new)}}
+  .slide.in .bar.two{animation:barFall2 1.9s cubic-bezier(.66,0,.24,1) var(--d,.45s) both;}
   .bar-col .label{
     margin-top:12px;font-size:16px;font-weight:700;color:#3A4150;
     line-height:1.3;text-align:center;
@@ -334,13 +345,13 @@
     width:100%;border-collapse:collapse;font-size:15px;table-layout:fixed;
     word-break:keep-all;                 /* 한국어는 단어 단위로만 줄바꿈 */
   }
-  col.c-nm{width:27%;} col.c-old{width:23%;} col.c-new{width:25%;}
+  col.c-nm{width:24%;} col.c-old{width:26%;} col.c-new{width:25%;}
   thead th{
     background:#F1F4F9;color:#4A5160;font-weight:800;
     padding:12px 5px;border-bottom:1px solid #E2E7EF;font-size:15px;
   }
   thead th.chg{background:#FFF1E8;color:var(--orange);}
-  td{padding:16px 5px;border-bottom:1px solid #EFF2F6;text-align:center;vertical-align:middle;line-height:1.5;}
+  td{padding:12px 4px;border-bottom:1px solid #EFF2F6;text-align:center;vertical-align:middle;line-height:1.4;}
   td.nm{font-weight:800;color:#2C323C;font-size:15.5px;}
   td.old{color:var(--navy);font-weight:700;}
   td.new{font-weight:800;color:var(--navy);background:#FBFCFE;}
@@ -465,7 +476,7 @@
     <div class="hero">
       <div class="eyebrow rise"><span class="live"></span>인수기준 변경 사전 안내</div>
       <h1 class="rise">여성·출산 담보,<br><span class="grad">8월부터 달라집니다.</span></h1>
-      <div class="sub rise">출산지원금 · 임신축하금 · 난임치료비<br><b>연령 기준이 새로 생깁니다.</b></div>
+      <div class="sub rise">출산지원금 · 임신지원금 · 난임치료비<br><b>연령 기준이 새로 생깁니다.</b></div>
       <div class="agebar rise">
         <div class="v"><em>33세</em>를 넘으면<br>지원금이 달라집니다</div>
       </div>
@@ -483,17 +494,19 @@
       <div class="cat-badge rise" style="--cb-bg:#FFF2EA;--cb-line:#F7DFCE;--cb-ic:linear-gradient(135deg,#E58A4E,#D4621F);--cb-tx:#B85A21;">
         <span class="ic" aria-hidden="true">↓</span><span class="tx">얼마나 줄어드나</span>
       </div>
-      <h2 class="rise">34세부터는 <b style="color:#D4621F;">절반</b>이 됩니다.</h2>
+      <h2 class="rise">7월에 절반,<br><b style="color:#D4621F;">8월에 또</b> 감소합니다.</h2>
+      <p class="rise">34세 이상 · 프리미엄플랜 기준</p>
     </div>
 
     <div class="drop">
       <div class="bar-col">
         <div class="bar-wrap">
           <div class="ghost-bar" style="height:100%"><div class="was">100만원</div></div>
-          <div class="bar" style="--h-now:100%;--h-new:50%;--d:.45s">
-            <div class="now">50만원</div>
+          <div class="midline" style="bottom:50%"><span>7.1 −50만 시행중</span></div>
+          <div class="bar two" style="--h-now:100%;--h-mid:50%;--h-new:30%;--d:.45s">
+            <div class="now">30만원</div>
           </div>
-          <div class="cut" style="bottom:calc(25% - 21px)">−50만</div>
+          <div class="cut sm d2" style="bottom:calc(15% - 12px)">8월 −20만</div>
         </div>
         <div class="label">출산지원금</div>
       </div>
@@ -504,16 +517,16 @@
           <div class="bar" style="--h-now:50%;--h-new:30%;--d:.75s">
             <div class="now">30만원</div>
           </div>
-          <div class="cut" style="bottom:calc(15% - 21px)">−20만</div>
+          <div class="cut sm" style="bottom:calc(15% - 12px)">8월 −20만</div>
         </div>
-        <div class="label">임신축하금</div>
+        <div class="label">임신지원금</div>
       </div>
     </div>
 
     <div class="case-note rise">
-      34세 · 프리미엄플랜 고객이라면<b>합계 150만원 → 80만원</b>
+      34세 · 프리미엄플랜 고객이라면<b>합계 150만원 → 60만원</b><span>8월부터 출산지원금 30만 · 임신지원금 30만</span>
     </div>
-    <div class="tip-line rise" style="text-align:center;margin-top:10px;white-space:nowrap;">출산지원금 50만 7.1 시행중. 8월 임신축하금 축소예정</div>
+    <div class="tip-line rise" style="text-align:center;margin-top:10px;white-space:nowrap;">출산지원금 50만 7.1 시행중 · 8월 출산·임신지원금 추가 축소</div>
   </section>
 
   <!-- ══ 3 · 항목별 낙하 그래프 ══ -->
@@ -528,7 +541,7 @@
     <div class="calc">
       <div class="item-tabs" role="tablist">
         <button id="t-birth" class="on" role="tab">출산지원금</button>
-        <button id="t-preg" role="tab">임신축하금</button>
+        <button id="t-preg" role="tab">임신지원금</button>
         <button id="t-inf" role="tab">난임치료비</button>
       </div>
 
@@ -597,33 +610,40 @@
         </thead>
         <tbody>
           <tr>
-            <td class="nm">최저<br>보험료</td>
-            <td class="old">7만원<br>이상</td>
-            <td class="new"><b>10만원</b><br>이상</td>
-            <td class="new"><b>10만원</b><br>이상</td>
+            <td class="nm">최저<br>보장P</td>
+            <td class="old">7만원<br><span style="font-weight:600;color:#8A96A8;font-size:15px">질병일당 5만원</span></td>
+            <td class="new" colspan="2"><span style="font-weight:600;color:#8A96A8;font-size:15px">출산/임신/난임치료 가입시</span><br><b>10만원</b><br><span style="font-weight:600;color:#8A96A8;font-size:15px">질병일당 가입시 <b>7만원</b></span></td>
           </tr>
           <tr>
             <td class="nm">출산지원금<br><span style="font-weight:600;color:#9AA0AB;font-size:15px">첫째</span></td>
-            <td class="old">프리미엄 100만<br>일반 50만</td>
-            <td class="new">33세 이하<br>100만<br><span class="dn">34세 이상<br>50만</span></td>
-            <td class="new">33세 이하<br>50만<br><span class="dn">34세 이상<br>30만</span></td>
-          </tr>
-          <tr>
-            <td class="nm">임신<br>축하금</td>
-            <td class="old">50만원</td>
+            <td class="old">50만</td>
             <td class="new">33세 이하<br>50만<br><span class="dn">34세 이상<br>30만</span></td>
             <td class="new"><span class="dn">33세 이하<br>30만<br>34세 이상<br>20만</span></td>
           </tr>
           <tr>
-            <td class="nm">난임<br>치료비</td>
-            <td class="old">35세 기준<br><span style="font-weight:600;color:#8A96A8;font-size:15px">금액은 그대로</span></td>
-            <td class="new"><b>33세 기준</b><br>이하 100만<br>초과 50만</td>
-            <td class="new"><b>33세 기준</b><br>이하 50만<br>초과 30만</td>
+            <td class="nm">출산지원금<br><span style="font-weight:600;color:#9AA0AB;font-size:15px">둘째 · 셋째</span></td>
+            <td class="old">300만<br>500만</td>
+            <td class="new" colspan="2">변경없음</td>
+          </tr>
+          <tr>
+            <td class="nm">임신<br>지원금</td>
+            <td class="old">50만</td>
+            <td class="new">33세 이하<br>50만<br><span class="dn">34세 이상<br>30만</span></td>
+            <td class="new"><span class="dn">33세 이하<br>30만<br>34세 이상<br>20만</span></td>
+          </tr>
+          <tr>
+            <td class="nm">난임치료비<br><span style="font-weight:600;color:#9AA0AB;font-size:15px">인공수정 3회</span></td>
+            <td class="old">35세 이하<br>50만<br>35세 초과<br>30만</td>
+            <td class="new" colspan="2"><b>33세 이하</b> 50만<br><b>34세 이상</b> 30만</td>
+          </tr>
+          <tr>
+            <td class="nm">난임치료비<br><span style="font-weight:600;color:#9AA0AB;font-size:15px">체외수정 5회</span></td>
+            <td class="old">35세 이하<br>100만<br>35세 초과<br>50만</td>
+            <td class="new" colspan="2"><b>33세 이하</b> 100만<br><b>34세 이상</b> 50만</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="tip-line rise" style="text-align:center;margin-top:10px;white-space:nowrap;">출산지원금 50만 7.1 시행중. 8월 임신축하금 축소예정</div>
 
   </section>
 
@@ -705,17 +725,17 @@
       <div class="check" tabindex="0" role="checkbox" aria-checked="false">
         <div class="box">✓</div>
         <div class="ct">고객 나이가 33세를 넘는지 확인하셨나요?
-          <span>34세부터 출산지원금과 임신축하금이 줄어듭니다</span></div>
+          <span>34세부터 출산지원금과 임신지원금이 줄어듭니다</span></div>
       </div>
       <div class="check" tabindex="0" role="checkbox" aria-checked="false">
         <div class="box">✓</div>
         <div class="ct">일반플랜 고객에게도 안내하셨나요?
-          <span>임신축하금 33세 이하 50만 → 30만원 · 34세 이상은 20만원</span></div>
+          <span>임신지원금 33세 이하 50만 → 30만원 · 34세 이상은 20만원</span></div>
       </div>
       <div class="check" tabindex="0" role="checkbox" aria-checked="false">
         <div class="box">✓</div>
-        <div class="ct">최저보험료 10만원을 안내하셨나요?
-          <span>7만원 → 10만원 (플랜·나이와 상관없이 오릅니다)</span></div>
+        <div class="ct">최저 보장P 10만원을 안내하셨나요?
+          <span>7만원 → 10만원 · 질병일당 가입시 5만원 → 7만원</span></div>
       </div>
       <div class="check" tabindex="0" role="checkbox" aria-checked="false">
         <div class="box">✓</div>
@@ -729,30 +749,33 @@
 </div>
 
 <script>
-/* ══ 데이터 : 공식 변경(안) 표 그대로. 추측 없음 ══
-   출산지원금(첫째) 현행 : 프리미엄 100만 · 일반 50만 (나이 무관)
-   임신축하금       현행 : 50만 (플랜·나이 무관)
+/* ══ 데이터 : 확정 공문 표 그대로. 추측 없음 ══
+   출산지원금(첫째) 현행 : 50만 (100→50만 7.1 기시행, 플랜 무관)
+                    변경 : 프리미엄 33세이하 50만 / 초과 30만 · 일반 33세이하 30만 / 초과 20만
+   임신지원금       현행 : 50만 → 변경 : 출산지원금(첫째)과 동일
    난임치료비       현행 : 기준연령 35세 → 변경 33세 (금액표는 그대로)
-                    프리미엄 기준이하 100만 / 초과 50만, 일반 50만 / 30만
+                    인공수정(3회) 이하 50만 / 초과 30만 · 체외수정(5회) 이하 100만 / 초과 50만
 
+   ⚠ 난임은 플랜 구분이 아니라 시술 구분 — inf일 때 seg-plan 버튼을
+      체외수정(premium 슬롯) / 인공수정(normal 슬롯)으로 재라벨해서 재사용한다.
    ⚠ 난임의 "불리해지는 층"은 34·35세뿐이다.
-      36세 이상은 7월에도 이미 초과구간(50·30만)이라 변화가 없다.
+      36세 이상은 7월에도 이미 초과구간이라 변화가 없다.
       그래서 나이 버튼을 '34세 이상'이 아니라 '34~35세'로 부른다.        */
 const D = {
   birth:{
-    premium:{ low:[100,100], high:[100,50] },
-    normal :{ low:[ 50, 50], high:[ 50,30] }
+    premium:{ low:[50,50], high:[50,30] },
+    normal :{ low:[50,30], high:[50,20] }
   },
   preg:{
     premium:{ low:[50,50], high:[50,30] },
     normal :{ low:[50,30], high:[50,20] }
   },
   inf:{
-    premium:{ low:[100,100], high:[100,50] },   /* 34·35세: 우대 → 초과로 밀려남 */
-    normal :{ low:[ 50, 50], high:[ 50,30] }
+    premium:{ low:[100,100], high:[100,50] },   /* 체외수정 5회 — 34·35세: 우대 → 초과로 밀려남 */
+    normal :{ low:[ 50, 50], high:[ 50,30] }    /* 인공수정 3회 */
   }
 };
-const NAMES = { birth:'출산지원금', preg:'임신축하금', inf:'난임치료비' };
+const NAMES = { birth:'출산지원금', preg:'임신지원금', inf:'난임치료비' };
 
 let item='birth', plan='premium', age='high';
 const $ = id => document.getElementById(id);
@@ -760,8 +783,10 @@ const $ = id => document.getElementById(id);
 function render(){
   const isInf = (item === 'inf');
   $('cutbar').hidden = !isInf;
-  /* 난임도 플랜마다 금액이 다르다 — 플랜 버튼을 숨기면 안 된다 */
+  /* 난임은 플랜이 아니라 시술 구분 — 같은 버튼을 재라벨해서 쓴다 */
   $('seg-plan').style.display = 'flex';
+  $('p-prem').textContent = isInf ? '체외수정 5회' : '프리미엄플랜';
+  $('p-norm').textContent = isInf ? '인공수정 3회' : '일반플랜';
   /* 난임에서 불리해지는 건 34·35세뿐 (36세↑는 원래 초과구간) */
   $('a-high').textContent = isInf ? '34~35세' : '34세 이상';
 
