@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>담보 교안 — 음성·자막</title>
+<title>기후성질환진단비 — 담보 교안</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -15,25 +15,39 @@
 
   .bar{position:fixed;top:22px;left:14px;right:14px;z-index:55;height:3px;background:#e6e9ed;border-radius:2px}
   .bar i{display:block;height:100%;background:var(--navy);border-radius:2px;width:0;transition:width .4s}
-  .pn{position:fixed;top:31px;right:16px;z-index:55;font-size:12px;color:#9aa1ac;font-weight:600}
-  .mute{position:fixed;top:28px;left:14px;z-index:57;background:#fff;border:1px solid var(--line);
-    border-radius:999px;padding:4px 11px;font-size:12px;font-weight:700;color:var(--navy);cursor:pointer}
+  .topbtn{position:fixed;top:27px;z-index:57;background:#fff;border:1px solid var(--line);
+    border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:700;color:var(--navy);cursor:pointer;
+    display:flex;align-items:center;gap:4px;transition:.15s}
+  .topbtn:active{transform:scale(.94)}
+  #home{left:14px} #mute{right:14px}
+  #home.hide{opacity:0;pointer-events:none}
 
-  .stage{position:absolute;top:40px;bottom:104px;left:0;right:0}
-  .pg{position:absolute;inset:0;padding:16px 24px;display:none;flex-direction:column;justify-content:center}
+  .stage{position:absolute;top:44px;bottom:104px;left:0;right:0}
+  .pg{position:absolute;inset:0;padding:14px 24px;display:none;flex-direction:column;justify-content:center}
   .pg.on{display:flex}
 
-  /* 등장 전 상태 — 조건부 렌더링 대신 opacity 제어 (레이아웃 시프트 방지) */
   .cue{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.22,1,.36,1)}
   .cue.show{opacity:1;transform:none}
   .cue.zoom{transform:scale(.86)}
   .cue.zoom.show{transform:scale(1)}
 
-  .kicker{font-size:16px;font-weight:700;color:var(--navy);letter-spacing:.6px;margin-bottom:14px}
-  .title{font-size:38px;font-weight:800;line-height:1.22;letter-spacing:-1.4px}
-  .paren{margin-top:12px;font-size:17px;color:#9aa1ac;font-weight:600}
-  .rule{margin-top:20px;width:64px;height:5px;border-radius:3px;background:var(--navy)}
+  /* ── 홈 ── */
+  .kicker{font-size:15px;font-weight:700;color:var(--navy);letter-spacing:.6px;text-align:center}
+  .htitle{margin-top:11px;font-size:33px;font-weight:800;line-height:1.24;letter-spacing:-1.3px;text-align:center}
+  .hone{margin-top:12px;font-size:18px;color:var(--sub);text-align:center;line-height:1.55}
+  .pick{margin-top:24px;font-size:15px;font-weight:700;color:var(--navy);text-align:center;letter-spacing:-.2px}
+  .grid{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:11px}
+  .gbtn{border:1.5px solid var(--line);border-radius:18px;padding:17px 12px;text-align:center;cursor:pointer;
+    background:#fff;transition:.15s}
+  .gbtn:active{transform:scale(.96);background:#f7f9fc}
+  .gbtn .ic{font-size:31px;line-height:1}
+  .gbtn .nm{margin-top:8px;font-size:19px;font-weight:800;letter-spacing:-.4px}
+  .gbtn .de{margin-top:4px;font-size:14.5px;color:var(--sub)}
+  .allbtn{margin-top:13px;border:0;width:100%;background:var(--navy);color:#fff;border-radius:16px;
+    padding:15px;font-size:18px;font-weight:700;font-family:inherit;cursor:pointer;transition:.15s}
+  .allbtn:active{transform:scale(.98)}
 
+  /* ── 내용 페이지 ── */
   .qh{font-size:20px;font-weight:700;color:var(--navy);margin-bottom:18px;letter-spacing:-.3px}
   .lead{font-size:29px;font-weight:800;line-height:1.4;letter-spacing:-1px}
   .lead em{font-style:normal;color:var(--warm)} .lead em.c{color:var(--cool)}
@@ -72,10 +86,9 @@
   .ph{display:inline-block;background:#fff4e5;color:#9a6116;font-size:12px;font-weight:700;
     padding:3px 8px;border-radius:6px;margin-left:7px;vertical-align:middle}
 
-  /* 자막 */
   .caption{position:fixed;left:0;right:0;bottom:30px;z-index:56;background:rgba(12,18,30,.92);
     color:#fff;min-height:62px;display:flex;align-items:center;justify-content:center;
-    padding:12px 74px 12px 18px;font-size:17px;line-height:1.5;letter-spacing:-.3px;text-align:center}
+    padding:12px 118px 12px 18px;font-size:17px;line-height:1.5;letter-spacing:-.3px;text-align:center}
   .caption span{opacity:0;transition:opacity .25s}
   .caption span.on{opacity:1}
 
@@ -84,7 +97,7 @@
     font-size:22px;font-weight:700;box-shadow:0 5px 16px rgba(18,48,92,.4);cursor:pointer;
     display:grid;place-items:center;transition:.15s;position:relative}
   .nav button:active{transform:scale(.92)}
-  .nav button.ghost{background:rgba(255,255,255,.14);color:#fff;box-shadow:none}
+  .nav button.ghost{background:rgba(255,255,255,.16);color:#fff;box-shadow:none}
   .nav button:disabled{opacity:.3;pointer-events:none}
   .pulse{position:absolute;inset:0;border-radius:50%;border:2px solid #fff;animation:rp 1.8s infinite;opacity:0}
   .pulse.on{opacity:1}
@@ -101,18 +114,32 @@
 
 <div class="compliance">본 자료는 교육용으로 온라인 매체(SNS등) 및 고객 설명, 광고자료로 활용 행위는 법으로 금지됩니다.</div>
 <div class="bar"><i id="bar"></i></div>
-<div class="pn" id="pn">1 / 7</div>
-<div class="mute" id="mute" onclick="toggleMute()">🔊 소리 켜짐</div>
+<div class="topbtn hide" id="home" onclick="goHome()">🏠 홈</div>
+<div class="topbtn" id="mute" onclick="toggleMute()">🔊 소리 켜짐</div>
 
 <div class="stage" id="stage">
 
+  <!-- 0. 홈 -->
   <section class="pg on" data-audio="p1">
     <div class="kicker cue" data-t="0">2026년 8월 신담보</div>
-    <div class="title cue" data-t="2.72">기후성질환<br>진단비</div>
-    <div class="paren cue" data-t="4.3">연간 1회한</div>
-    <div class="rule cue" data-t="4.6"></div>
+    <div class="htitle cue" data-t="2.72">기후성질환진단비</div>
+    <div class="hone cue" data-t="4.2">온열질환·저체온증을 보장합니다</div>
+
+    <div class="pick cue" data-t="4.5">무엇이 궁금하세요?</div>
+    <div class="grid">
+      <div class="gbtn cue" data-t="4.6" onclick="jump(1)">
+        <div class="ic">🛡️</div><div class="nm">보장</div><div class="de">뭘 보장하나</div></div>
+      <div class="gbtn cue" data-t="4.75" onclick="jump(3)">
+        <div class="ic">💰</div><div class="nm">보험료</div><div class="de">얼마 내나</div></div>
+      <div class="gbtn cue" data-t="4.9" onclick="jump(4)">
+        <div class="ic">💬</div><div class="nm">설명</div><div class="de">어떻게 말하나</div></div>
+      <div class="gbtn cue" data-t="5.05" onclick="jump(5)">
+        <div class="ic">👥</div><div class="nm">대상</div><div class="de">누구에게</div></div>
+    </div>
+    <button class="allbtn cue" data-t="5.2" onclick="jump(1)">처음부터 다 보기 ›</button>
   </section>
 
+  <!-- 1. 보장 -->
   <section class="pg" data-audio="p2">
     <div class="qh cue" data-t="0">한 줄로 말하면</div>
     <div class="lead">
@@ -126,6 +153,7 @@
     </div>
   </section>
 
+  <!-- 2. 지급액 -->
   <section class="pg" data-audio="p3">
     <div class="qh cue" data-t="0">얼마가 나오나</div>
     <div class="duo">
@@ -141,6 +169,7 @@
     <div class="cmp cue" data-t="6.86">진단을 받으면 지급됩니다.<br><b>각 연간 1회한</b></div>
   </section>
 
+  <!-- 3. 보험료 -->
   <section class="pg" data-audio="p4">
     <div class="qh cue" data-t="0">보험료는</div>
     <div class="big cue" data-t="1.4" data-count="240" data-ct="1.62">0원</div>
@@ -148,6 +177,7 @@
     <div class="cmp cue" data-t="3.94">커피 한 잔이 <b>5,000원</b>입니다.<br>한 달 <b>240원</b>으로 준비됩니다.</div>
   </section>
 
+  <!-- 4. 설명 -->
   <section class="pg" data-audio="p5">
     <div class="qh cue" data-t="0">이렇게 설명하세요<span class="ph">예시</span></div>
     <div class="bubble">
@@ -158,6 +188,7 @@
     <div class="who cue" data-t="9.6">— 고객에게 건네는 한마디</div>
   </section>
 
+  <!-- 5. 대상 -->
   <section class="pg" data-audio="p6">
     <div class="qh cue" data-t="0">이런 고객에게<span class="ph">예시</span></div>
     <div class="trow cue" data-t="0"><div class="ic">👷</div><div class="tx">야외 근무가 잦은 고객</div></div>
@@ -165,6 +196,7 @@
     <div class="trow cue" data-t="5.76"><div class="ic">👵</div><div class="tx">고령의 부모님을 걱정하는 고객</div></div>
   </section>
 
+  <!-- 6. 정리 -->
   <section class="pg" data-audio="p7">
     <div class="qh cue" data-t="0">정리하면</div>
     <div class="sum">
@@ -192,7 +224,7 @@
 <div class="gate" id="gate">
   <div>
     <h2>기후성질환진단비</h2>
-    <p>음성 설명과 자막이 함께 나옵니다.<br>다음 장은 오른쪽 아래 화살표로 넘깁니다.</p>
+    <p>음성 설명과 자막이 함께 나옵니다.<br>궁금한 항목을 바로 누르거나,<br>화살표로 처음부터 볼 수 있습니다.</p>
     <button onclick="start()">시작하기</button>
   </div>
 </div>
@@ -218,12 +250,19 @@ const SUBS={
 
 const pgs=[...document.querySelectorAll('.pg')];
 const au=document.getElementById('au'),cap=document.getElementById('capTx');
-let i=0,muted=false,raf=null;
+let i=0,muted=false,raf=null,homeSeen=false;
 
 function reset(p){
   p.querySelectorAll('.cue').forEach(el=>el.classList.remove('show'));
   p.querySelectorAll('[data-count]').forEach(el=>{
     el.textContent='0'+el.textContent.replace(/[0-9,]/g,'');el._done=false;
+  });
+}
+function showAll(p){
+  p.querySelectorAll('.cue').forEach(el=>el.classList.add('show'));
+  p.querySelectorAll('[data-count]').forEach(el=>{
+    el.textContent=(+el.dataset.count).toLocaleString('ko-KR')+el.textContent.replace(/[0-9,]/g,'');
+    el._done=true;
   });
 }
 function countUp(el){
@@ -249,29 +288,37 @@ function loop(){
     setTimeout(()=>{cap.textContent=tx;cap.classList.add('on')},120);}
   raf=requestAnimationFrame(loop);
 }
-function paint(){
+function paint(replayHome){
   cancelAnimationFrame(raf);
   pgs.forEach((p,n)=>p.classList.toggle('on',n===i));
   document.getElementById('bar').style.width=((i+1)/pgs.length*100)+'%';
-  document.getElementById('pn').textContent=(i+1)+' / '+pgs.length;
   document.getElementById('prev').disabled=i===0;
   document.getElementById('next').disabled=i===pgs.length-1;
   document.getElementById('pulse').classList.remove('on');
+  document.getElementById('home').classList.toggle('hide',i===0);
   const pg=pgs[i];
-  reset(pg); cap.textContent=''; cap.classList.remove('on');
+  cap.textContent=''; cap.classList.remove('on');
+
+  // 홈 재방문은 음성 없이 즉시 표시 (돌아올 때마다 인트로를 다시 듣지 않도록)
+  if(i===0&&homeSeen&&!replayHome){ au.pause(); showAll(pg); return; }
+  if(i===0)homeSeen=true;
+
+  reset(pg);
   au.src='audio/'+pg.dataset.audio+'.mp3';
   au.muted=muted;
-  au.play().catch(()=>{ /* 자동재생 차단 시 요소만 순차 표시 */ });
+  au.play().catch(()=>showAll(pg));
   raf=requestAnimationFrame(loop);
 }
 au.addEventListener('ended',()=>{
   if(i<pgs.length-1)document.getElementById('pulse').classList.add('on');
 });
 function mv(d){i=Math.max(0,Math.min(pgs.length-1,i+d));paint()}
+function jump(n){i=n;paint()}
+function goHome(){i=0;paint()}
 function toggleMute(){
   muted=!muted; au.muted=muted;
   document.getElementById('mute').textContent=muted?'🔇 소리 꺼짐':'🔊 소리 켜짐';
 }
-function start(){document.getElementById('gate').classList.add('off');paint()}
+function start(){document.getElementById('gate').classList.add('off');paint(true)}
 document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')mv(1);if(e.key==='ArrowLeft')mv(-1)});
 </script>
