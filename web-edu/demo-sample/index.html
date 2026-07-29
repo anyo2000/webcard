@@ -1,0 +1,323 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>바닐라 크림 콜드브루 — 웹카드 데모</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  :root{--navy:#12305C;--ink:#16181d;--sub:#6b7280;--line:#e8eaee;--warm:#EA580C;--cool:#2563EB}
+  html,body{height:100%}
+  body{font-family:Pretendard,sans-serif;color:var(--ink);background:#fff;overflow:hidden}
+
+  .compliance{position:fixed;top:0;left:0;right:0;z-index:60;background:#f4f5f7;color:#6b7280;
+    font-size:9.5px;line-height:1.35;padding:5px 10px;text-align:center;letter-spacing:-.2px}
+  .footbar{position:fixed;bottom:0;left:0;right:0;z-index:60;background:#fff;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;padding:7px 14px;font-size:11px;color:#9aa1ac}
+
+  .bar{position:fixed;top:22px;left:14px;right:14px;z-index:55;height:3px;background:#e6e9ed;border-radius:2px}
+  .bar i{display:block;height:100%;background:var(--navy);border-radius:2px;width:0;transition:width .4s}
+  .topbtn{position:fixed;top:27px;z-index:57;background:#fff;border:1px solid var(--line);
+    border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:700;color:var(--navy);cursor:pointer;
+    display:flex;align-items:center;gap:4px;transition:.15s}
+  .topbtn:active{transform:scale(.94)}
+  #home{left:14px} #mute{right:14px}
+  #home.hide{opacity:0;pointer-events:none}
+
+  .stage{position:absolute;top:44px;bottom:104px;left:0;right:0}
+  .pg{position:absolute;inset:0;padding:14px 24px;display:none;flex-direction:column;justify-content:center}
+  .pg.on{display:flex}
+
+  .cue{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.22,1,.36,1)}
+  .cue.show{opacity:1;transform:none}
+  .cue.zoom{transform:scale(.86)}
+  .cue.zoom.show{transform:scale(1)}
+
+  /* ── 홈 ── */
+  .kicker{font-size:15px;font-weight:700;color:var(--navy);letter-spacing:.6px;text-align:center}
+  .htitle{margin-top:11px;font-size:33px;font-weight:800;line-height:1.24;letter-spacing:-1.3px;text-align:center}
+  .hone{margin-top:12px;font-size:18px;color:var(--sub);text-align:center;line-height:1.55}
+  .pick{margin-top:24px;font-size:15px;font-weight:700;color:var(--navy);text-align:center;letter-spacing:-.2px}
+  .grid{margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:11px}
+  .gbtn{border:1.5px solid var(--line);border-radius:18px;padding:17px 12px;text-align:center;cursor:pointer;
+    background:#fff;transition:.15s}
+  .gbtn:active{transform:scale(.96);background:#f7f9fc}
+  .gbtn .ic{font-size:31px;line-height:1}
+  .gbtn .nm{margin-top:8px;font-size:19px;font-weight:800;letter-spacing:-.4px}
+  .gbtn .de{margin-top:4px;font-size:14.5px;color:var(--sub)}
+  .allbtn{margin-top:13px;border:0;width:100%;background:var(--navy);color:#fff;border-radius:16px;
+    padding:15px;font-size:18px;font-weight:700;font-family:inherit;cursor:pointer;transition:.15s}
+  .allbtn:active{transform:scale(.98)}
+
+  /* ── 내용 페이지 ── */
+  .qh{font-size:20px;font-weight:700;color:var(--navy);margin-bottom:18px;letter-spacing:-.3px}
+  .lead{font-size:29px;font-weight:800;line-height:1.4;letter-spacing:-1px}
+  .lead em{font-style:normal;color:var(--warm)} .lead em.c{color:var(--cool)}
+
+  .duo{display:flex;gap:14px;margin-top:22px}
+  .card{flex:1;border-radius:20px;padding:20px 12px;text-align:center;color:#fff}
+  .card.w{background:linear-gradient(160deg,#F97316,#C2410C)}
+  .card.c{background:linear-gradient(160deg,#3B82F6,#1D4ED8)}
+  .card .ic{font-size:40px;line-height:1}
+  .card .nm{margin-top:9px;font-size:18px;font-weight:700;opacity:.95}
+  .card .vl{margin-top:7px;font-size:31px;font-weight:800;letter-spacing:-1.2px;font-variant-numeric:tabular-nums}
+
+  .big{font-size:72px;font-weight:800;letter-spacing:-3px;line-height:1;font-variant-numeric:tabular-nums}
+  .bigsub{margin-top:11px;font-size:20px;color:var(--sub)}
+  .cmp{margin-top:22px;background:#f6f7f9;border-radius:16px;padding:17px;font-size:18px;line-height:1.6}
+  .cmp b{color:var(--navy)}
+
+  .bubble{position:relative;background:#12305C;color:#fff;border-radius:20px;padding:20px;
+    font-size:19px;line-height:1.66;letter-spacing:-.3px}
+  .bubble::after{content:"";position:absolute;left:26px;bottom:-12px;border:12px solid transparent;
+    border-top-color:#12305C;border-bottom:0}
+  .bubble .ln{display:block}
+  .who{margin-top:22px;font-size:16px;color:var(--sub)}
+
+  .trow{display:flex;align-items:center;gap:14px;padding:16px;border:1px solid var(--line);
+    border-radius:16px;margin-bottom:10px}
+  .trow .ic{font-size:27px}
+  .trow .tx{font-size:18px;font-weight:600;line-height:1.4}
+
+  .sum{border:2px solid var(--navy);border-radius:20px;padding:18px 20px}
+  .sum .r{display:flex;justify-content:space-between;align-items:center;padding:11px 0;
+    border-bottom:1px solid var(--line);font-size:17px}
+  .sum .r:last-child{border-bottom:0}
+  .sum .r b{font-size:20px;font-weight:800;letter-spacing:-.5px}
+
+  .ph{display:inline-block;background:#fff4e5;color:#9a6116;font-size:12px;font-weight:700;
+    padding:3px 8px;border-radius:6px;margin-left:7px;vertical-align:middle}
+
+  .caption{position:fixed;left:0;right:0;bottom:30px;z-index:56;background:rgba(12,18,30,.92);
+    color:#fff;min-height:62px;display:flex;align-items:center;justify-content:center;
+    padding:12px 118px 12px 18px;font-size:17px;line-height:1.5;letter-spacing:-.3px;text-align:center}
+  .caption span{opacity:0;transition:opacity .25s}
+  .caption span.on{opacity:1}
+
+  .nav{position:fixed;right:14px;bottom:38px;z-index:58;display:flex;gap:9px}
+  .nav button{width:48px;height:48px;border-radius:50%;border:0;background:var(--navy);color:#fff;
+    font-size:22px;font-weight:700;box-shadow:0 5px 16px rgba(18,48,92,.4);cursor:pointer;
+    display:grid;place-items:center;transition:.15s;position:relative}
+  .nav button:active{transform:scale(.92)}
+  .nav button.ghost{background:rgba(255,255,255,.16);color:#fff;box-shadow:none}
+  .nav button:disabled{opacity:.3;pointer-events:none}
+  .pulse{position:absolute;inset:0;border-radius:50%;border:2px solid #fff;animation:rp 1.8s infinite;opacity:0}
+  .pulse.on{opacity:1}
+  @keyframes rp{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.75);opacity:0}}
+
+  .gate{position:fixed;inset:0;z-index:90;background:rgba(255,255,255,.97);display:grid;place-items:center;
+    text-align:center;padding:30px}
+  .gate.off{display:none}
+  .gate h2{font-size:27px;font-weight:800;letter-spacing:-1px;line-height:1.3}
+  .gate p{margin-top:14px;font-size:17px;color:var(--sub);line-height:1.6}
+  .gate button{margin-top:26px;background:var(--navy);color:#fff;border:0;border-radius:999px;
+    padding:16px 34px;font-size:19px;font-weight:700;font-family:inherit;cursor:pointer}
+</style>
+
+<div class="compliance">데모 샘플 — 실제 상품·서비스와 무관한 가상 콘텐츠입니다.</div>
+<div class="bar"><i id="bar"></i></div>
+<div class="topbtn hide" id="home" onclick="goHome()">🏠 홈</div>
+<div class="topbtn" id="mute" onclick="toggleMute()">🔊 소리 켜짐</div>
+
+<div class="stage" id="stage">
+
+  <!-- 0. 홈 -->
+  <section class="pg on" data-audio="p1">
+    <div class="kicker cue" data-t="0">2026 여름 신메뉴 · DEMO</div>
+    <div class="htitle cue" data-t="2.46">바닐라 크림 콜드브루</div>
+    <div class="hone cue" data-t="3.3">진한 콜드브루 + 바닐라 크림</div>
+
+    <div class="pick cue" data-t="4.2">무엇이 궁금하세요?</div>
+    <div class="grid">
+      <div class="gbtn cue" data-t="4.3" onclick="jump(1)">
+        <div class="ic">🥤</div><div class="nm">구성</div><div class="de">뭐가 들었나</div></div>
+      <div class="gbtn cue" data-t="4.45" onclick="jump(2)">
+        <div class="ic">💰</div><div class="nm">가격</div><div class="de">얼마인가</div></div>
+      <div class="gbtn cue" data-t="4.6" onclick="jump(4)">
+        <div class="ic">💬</div><div class="nm">멘트</div><div class="de">어떻게 권하나</div></div>
+      <div class="gbtn cue" data-t="4.75" onclick="jump(5)">
+        <div class="ic">👥</div><div class="nm">손님</div><div class="de">누구에게</div></div>
+    </div>
+    <button class="allbtn cue" data-t="4.9" onclick="jump(1)">처음부터 다 보기 ›</button>
+  </section>
+
+  <!-- 1. 구성 -->
+  <section class="pg" data-audio="p2">
+    <div class="qh cue" data-t="0">한 줄로 말하면</div>
+    <div class="lead">
+      <span class="cue" data-t="1.34" style="display:block">진한 <em class="c">콜드브루</em> 위에</span>
+      <span class="cue" data-t="3.24" style="display:block"><em>바닐라 크림</em>을</span>
+      <span class="cue" data-t="4.34" style="display:block">올렸습니다</span>
+    </div>
+    <div class="duo">
+      <div class="card c cue zoom" data-t="2.28"><div class="ic">☕</div><div class="nm">콜드브루</div></div>
+      <div class="card w cue zoom" data-t="3.24"><div class="ic">🍦</div><div class="nm">바닐라 크림</div></div>
+    </div>
+  </section>
+
+  <!-- 2. 가격 -->
+  <section class="pg" data-audio="p3">
+    <div class="qh cue" data-t="0">가격은</div>
+    <div class="duo">
+      <div class="card w cue zoom" data-t="0">
+        <div class="ic">🔥</div><div class="nm">HOT</div>
+        <div class="vl" data-count="4500" data-ct="1.66">0원</div>
+      </div>
+      <div class="card c cue zoom" data-t="2.86">
+        <div class="ic">🧊</div><div class="nm">ICE</div>
+        <div class="vl" data-count="4800" data-ct="4.32">0원</div>
+      </div>
+    </div>
+    <div class="cmp cue" data-t="6.18">사이즈 업은 <b>+500원</b></div>
+  </section>
+
+  <!-- 3. 칼로리 -->
+  <section class="pg" data-audio="p4">
+    <div class="qh cue" data-t="0">칼로리는</div>
+    <div class="big cue" data-t="0.9" data-count="180" data-ct="0.98">0kcal</div>
+    <div class="bigsub cue" data-t="2.4">1잔 기준</div>
+    <div class="cmp cue" data-t="3.14">일반 카페라떼가 <b>250kcal</b>입니다.<br>생각보다 <b>가벼운</b> 메뉴입니다.</div>
+  </section>
+
+  <!-- 4. 멘트 -->
+  <section class="pg" data-audio="p5">
+    <div class="qh cue" data-t="0">이렇게 권해보세요<span class="ph">예시</span></div>
+    <div class="bubble">
+      <span class="ln cue" data-t="2.8">"단 거 좋아하시면 이거예요.</span>
+      <span class="ln cue" data-t="4.74">크림은 달고, 커피는 진해요.</span>
+      <span class="ln cue" data-t="7.16">첫 모금만 살짝 저어 드세요."</span>
+    </div>
+    <div class="who cue" data-t="8.6">— 손님에게 건네는 한마디</div>
+  </section>
+
+  <!-- 5. 손님 -->
+  <section class="pg" data-audio="p6">
+    <div class="qh cue" data-t="0">이런 손님에게<span class="ph">예시</span></div>
+    <div class="trow cue" data-t="0"><div class="ic">🍰</div><div class="tx">단 음료를 찾는 손님</div></div>
+    <div class="trow cue" data-t="2.16"><div class="ic">☕</div><div class="tx">커피가 부담스러운 손님 — 연하게 가능</div></div>
+    <div class="trow cue" data-t="6.22"><div class="ic">💚</div><div class="tx">신메뉴를 찾는 단골손님</div></div>
+  </section>
+
+  <!-- 6. 정리 -->
+  <section class="pg" data-audio="p7">
+    <div class="qh cue" data-t="0">정리하면</div>
+    <div class="sum">
+      <div class="r cue" data-t="2.16"><span>메뉴명</span><b style="font-size:17px">바닐라 크림 콜드브루</b></div>
+      <div class="r cue" data-t="4.04"><span>HOT</span><b style="color:var(--warm)">4,500원</b></div>
+      <div class="r cue" data-t="6.12"><span>ICE</span><b style="color:var(--cool)">4,800원</b></div>
+      <div class="r cue" data-t="8.36"><span>칼로리</span><b style="font-size:17px">180kcal</b></div>
+      <div class="r cue" data-t="10.86"><span>판매</span><b>여름 시즌 한정</b></div>
+    </div>
+  </section>
+
+</div>
+
+<div class="caption" id="cap"><span id="capTx"></span></div>
+
+<div class="nav">
+  <button class="ghost" id="prev" onclick="mv(-1)" disabled>‹</button>
+  <button id="next" onclick="mv(1)">›<span class="pulse" id="pulse"></span></button>
+</div>
+
+<div class="footbar"><span>WEBCARD DEMO</span><span>샘플 콘텐츠</span></div>
+
+<audio id="au" preload="auto"></audio>
+
+<div class="gate" id="gate">
+  <div>
+    <h2>바닐라 크림 콜드브루</h2>
+    <p>웹카드 데모입니다. 음성 설명과 자막이 함께 나옵니다.<br>궁금한 항목을 바로 누르거나,<br>화살표로 처음부터 볼 수 있습니다.</p>
+    <button onclick="start()">시작하기</button>
+  </div>
+</div>
+
+<script>
+/* 자막 — Whisper 실측 세그먼트 */
+const SUBS={
+ p1:[{t:0,e:4.14,x:"2026년 여름 신메뉴, 바닐라 크림 콜드브루입니다."}],
+ p2:[{t:0,e:5.24,x:"한 줄로 말하면, 진한 콜드브루 위에 바닐라 크림을 올린 메뉴입니다."}],
+ p3:[{t:0,e:5.52,x:"핫으로 주문하면 4,500원, 아이스로 주문하면 4,800원입니다."},
+     {t:6.18,e:7.9,x:"사이즈 업은 500원 추가입니다."}],
+ p4:[{t:0,e:2.38,x:"칼로리는 180칼로리입니다."},
+     {t:3.14,e:7.02,x:"일반 카페라떼가 250칼로리인 걸 생각하면 가벼운 편입니다."}],
+ p5:[{t:0,e:2.04,x:"손님에게는 이렇게 권해보세요."},
+     {t:2.8,e:4.1,x:"단 거 좋아하시면 이거예요."},
+     {t:4.74,e:6.5,x:"크림은 달고, 커피는 진해요."},
+     {t:7.16,e:8.58,x:"첫 모금만 살짝 저어 드세요."}],
+ p6:[{t:0,e:5.48,x:"단 음료를 찾는 손님, 커피가 부담스러운 손님은 연하게 바꿔 드릴 수 있고요."},
+     {t:6.22,e:9,x:"신메뉴를 찾는 단골손님에게 먼저 권해보세요."}],
+ p7:[{t:0,e:11.98,x:"정리하겠습니다. 바닐라 크림 콜드브루, 핫 4,500원, 아이스 4,800원, 칼로리는 180칼로리, 여름 시즌 한정입니다."}]
+};
+
+const pgs=[...document.querySelectorAll('.pg')];
+const au=document.getElementById('au'),cap=document.getElementById('capTx');
+let i=0,muted=false,raf=null,homeSeen=false;
+
+function reset(p){
+  p.querySelectorAll('.cue').forEach(el=>el.classList.remove('show'));
+  p.querySelectorAll('[data-count]').forEach(el=>{
+    el.textContent='0'+el.textContent.replace(/[0-9,]/g,'');el._done=false;
+  });
+}
+function showAll(p){
+  p.querySelectorAll('.cue').forEach(el=>el.classList.add('show'));
+  p.querySelectorAll('[data-count]').forEach(el=>{
+    el.textContent=(+el.dataset.count).toLocaleString('ko-KR')+el.textContent.replace(/[0-9,]/g,'');
+    el._done=true;
+  });
+}
+function countUp(el){
+  if(el._done)return; el._done=true;
+  const to=+el.dataset.count, unit=el.textContent.replace(/[0-9,]/g,'');
+  let s=null;
+  const tick=t=>{if(!s)s=t;const p=Math.min((t-s)/700,1);
+    el.textContent=Math.round(to*(1-Math.pow(1-p,3))).toLocaleString('ko-KR')+unit;
+    if(p<1)requestAnimationFrame(tick)};
+  requestAnimationFrame(tick);
+}
+function loop(){
+  const pg=pgs[i], now=au.currentTime, key=pg.dataset.audio;
+  pg.querySelectorAll('.cue').forEach(el=>{
+    if(now>=parseFloat(el.dataset.t))el.classList.add('show');
+  });
+  pg.querySelectorAll('[data-ct]').forEach(el=>{
+    if(now>=parseFloat(el.dataset.ct))countUp(el);
+  });
+  const s=(SUBS[key]||[]).find(s=>now>=s.t&&now<=s.e+.35);
+  const tx=s?s.x:'';
+  if(cap.textContent!==tx){cap.classList.remove('on');
+    setTimeout(()=>{cap.textContent=tx;cap.classList.add('on')},120);}
+  raf=requestAnimationFrame(loop);
+}
+function paint(replayHome){
+  cancelAnimationFrame(raf);
+  pgs.forEach((p,n)=>p.classList.toggle('on',n===i));
+  document.getElementById('bar').style.width=((i+1)/pgs.length*100)+'%';
+  document.getElementById('prev').disabled=i===0;
+  document.getElementById('next').disabled=i===pgs.length-1;
+  document.getElementById('pulse').classList.remove('on');
+  document.getElementById('home').classList.toggle('hide',i===0);
+  const pg=pgs[i];
+  cap.textContent=''; cap.classList.remove('on');
+
+  // 홈 재방문은 음성 없이 즉시 표시 (돌아올 때마다 인트로를 다시 듣지 않도록)
+  if(i===0&&homeSeen&&!replayHome){ au.pause(); showAll(pg); return; }
+  if(i===0)homeSeen=true;
+
+  reset(pg);
+  au.src='audio/'+pg.dataset.audio+'.mp3';
+  au.muted=muted;
+  au.play().catch(()=>showAll(pg));
+  raf=requestAnimationFrame(loop);
+}
+au.addEventListener('ended',()=>{
+  if(i<pgs.length-1)document.getElementById('pulse').classList.add('on');
+});
+function mv(d){i=Math.max(0,Math.min(pgs.length-1,i+d));paint()}
+function jump(n){i=n;paint()}
+function goHome(){i=0;paint()}
+function toggleMute(){
+  muted=!muted; au.muted=muted;
+  document.getElementById('mute').textContent=muted?'🔇 소리 꺼짐':'🔊 소리 켜짐';
+}
+function start(){document.getElementById('gate').classList.add('off');paint(true)}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')mv(1);if(e.key==='ArrowLeft')mv(-1)});
+</script>
