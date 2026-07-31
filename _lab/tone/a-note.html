@@ -1,0 +1,90 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A안 · 노트 판서</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  :root{--ink:#1a1c20;--sub:#8b8f96;--line:#d9d6cf;--accent:#12305C}
+  html,body{height:100%}
+  body{font-family:Pretendard,sans-serif;color:var(--ink);overflow:hidden;
+    background:#F7F6F3;
+    background-image:radial-gradient(circle,#d8d5cd 1px,transparent 1px);
+    background-size:22px 22px}
+
+  .compliance{position:fixed;top:0;left:0;right:0;z-index:60;background:rgba(247,246,243,.9);
+    color:#a09c93;font-size:9.5px;line-height:1.35;padding:6px 10px;text-align:center;letter-spacing:-.2px}
+  .footbar{position:fixed;bottom:0;left:0;right:0;z-index:60;
+    display:flex;justify-content:space-between;padding:8px 16px;font-size:11px;color:#a8a49b}
+
+  .stage{position:absolute;top:38px;bottom:120px;left:0;right:0;
+    padding:0 26px;display:flex;flex-direction:column;justify-content:center}
+
+  /* 판서 헤드 */
+  .head{display:flex;align-items:center;gap:16px;margin-bottom:26px}
+  .eyebrow{font-size:15px;color:var(--sub);letter-spacing:2px;writing-mode:vertical-rl;
+    font-weight:500}
+  .circ{position:relative;width:148px;height:92px;display:grid;place-items:center;flex:none}
+  .circ svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .circ svg path{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;
+    stroke-dasharray:520;stroke-dashoffset:520;animation:draw 1.1s .3s cubic-bezier(.6,0,.3,1) forwards}
+  .circ svg path.b{stroke-width:1.4;opacity:.45;animation-delay:.55s}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .circ span{font-family:'Nanum Pen Script',Pretendard,sans-serif;font-size:34px;
+    transform:rotate(-3deg);letter-spacing:1px;opacity:0;animation:fade .5s 1.1s forwards}
+  @keyframes fade{to{opacity:1}}
+
+  /* 체크리스트 */
+  .row{display:flex;align-items:center;gap:14px;padding:15px 2px;
+    border-bottom:1.5px dotted #cfccc4;opacity:0;transform:translateX(-10px);
+    animation:in .55s cubic-bezier(.22,1,.36,1) forwards}
+  .row:last-child{border-bottom:0}
+  .row:nth-child(1){animation-delay:1.35s} .row:nth-child(2){animation-delay:1.5s}
+  .row:nth-child(3){animation-delay:1.65s} .row:nth-child(4){animation-delay:1.8s}
+  .row:nth-child(5){animation-delay:1.95s}
+  @keyframes in{to{opacity:1;transform:none}}
+  .box{width:27px;height:27px;flex:none;border:2px solid var(--ink);border-radius:6px;
+    display:grid;place-items:center}
+  .box svg{width:15px;height:15px}
+  .box path{fill:none;stroke:var(--ink);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;
+    stroke-dasharray:26;stroke-dashoffset:26;animation:draw .35s forwards}
+  .row:nth-child(1) .box path{animation-delay:1.6s} .row:nth-child(2) .box path{animation-delay:1.75s}
+  .row:nth-child(3) .box path{animation-delay:1.9s}  .row:nth-child(4) .box path{animation-delay:2.05s}
+  .row:nth-child(5) .box path{animation-delay:2.2s}
+  .tx{font-size:19px;font-weight:700;letter-spacing:-.5px;line-height:1.35}
+  .tx b{font-weight:800;box-shadow:inset 0 -9px 0 #ffe9a8}
+
+  .cap{position:fixed;left:22px;right:22px;bottom:44px;z-index:56;
+    background:#3a3d42;color:#fff;border-radius:10px;
+    padding:13px 16px;font-size:17px;font-weight:600;line-height:1.45;text-align:center;
+    letter-spacing:-.3px;opacity:0;animation:fade .5s 2.4s forwards}
+</style>
+
+<div class="compliance">본 자료는 교육용으로 온라인 매체(SNS등) 및 고객 설명, 광고자료로 활용 행위는 법으로 금지됩니다.</div>
+
+<div class="stage">
+  <div class="head">
+    <div class="eyebrow">오늘 가져갈 것</div>
+    <div class="circ">
+      <svg viewBox="0 0 148 92" preserveAspectRatio="none">
+        <path d="M76 5 C30 4 6 24 5 47 C4 72 34 88 76 88 C120 88 144 70 143 45 C142 22 116 6 68 6"/>
+        <path class="b" d="M70 9 C28 10 10 28 10 48 C10 70 38 84 76 84"/>
+      </svg>
+      <span>딱 다섯 가지</span>
+    </div>
+  </div>
+
+  <div class="row"><div class="box"><svg viewBox="0 0 16 16"><path d="M2 8.5 L6 12.5 L14 3.5"/></svg></div>
+    <div class="tx">무엇이 <b>바뀌는지</b></div></div>
+  <div class="row"><div class="box"><svg viewBox="0 0 16 16"><path d="M2 8.5 L6 12.5 L14 3.5"/></svg></div>
+    <div class="tx">언제부터 적용되는지</div></div>
+  <div class="row"><div class="box"><svg viewBox="0 0 16 16"><path d="M2 8.5 L6 12.5 L14 3.5"/></svg></div>
+    <div class="tx">대상 상품 <b>5종</b></div></div>
+  <div class="row"><div class="box"><svg viewBox="0 0 16 16"><path d="M2 8.5 L6 12.5 L14 3.5"/></svg></div>
+    <div class="tx">청약 전 확인할 것</div></div>
+  <div class="row"><div class="box"><svg viewBox="0 0 16 16"><path d="M2 8.5 L6 12.5 L14 3.5"/></svg></div>
+    <div class="tx">고객에게 말할 한 문장</div></div>
+</div>
+
+<div class="cap">이 다섯 개만 챙기시면 됩니다</div>
+<div class="footbar"><span>영업컨설팅파트 2608 - 01</span><span>모집인 / 교육용</span></div>

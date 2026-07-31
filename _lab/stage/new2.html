@@ -1,0 +1,150 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>지급액 — 화이트 스테이지 +덧셈</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  /* 팔레트 계약은 그대로 — 강조 hue 여전히 네이비 하나. 덧셈은 색이 아니라 배치로만. */
+  :root{--stage:#FFFFFF;--ink:#16181D;--sub:#6B7280;--track:#E8EAEE;--accent:#12305C}
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{font-family:Pretendard,sans-serif;color:var(--ink);background:var(--stage);overflow:hidden}
+
+  .compliance{position:fixed;top:0;left:0;right:0;z-index:60;background:#F7F8FA;color:var(--sub);
+    font-size:9.5px;line-height:1.35;padding:6px 10px;text-align:center;letter-spacing:-.2px}
+  .footbar{position:fixed;bottom:0;left:0;right:0;z-index:60;background:var(--stage);
+    border-top:1px solid var(--track);display:flex;justify-content:space-between;
+    padding:8px 16px;font-size:11px;color:#9AA1AC}
+
+  .stage{position:absolute;top:40px;bottom:112px;left:0;right:0;overflow:hidden;
+    display:flex;flex-direction:column;justify-content:center}
+
+  .rise{opacity:0;transform:translateY(14px);
+    transition:opacity .42s cubic-bezier(.22,1,.36,1),transform .42s cubic-bezier(.22,1,.36,1)}
+  .rise.on{opacity:1;transform:none}
+
+  .q{padding:0 24px;font-size:20px;font-weight:700;color:var(--accent);letter-spacing:-.3px}
+
+  /* ── 덧셈 ① 색면 한 장 : 같은 네이비를 뒤집어 반전 ── */
+  .blk{position:relative;z-index:2;margin-top:26px;background:var(--accent);
+    padding:26px 24px 22px;
+    clip-path:inset(0 100% 0 0);transition:clip-path .52s cubic-bezier(.22,1,.36,1)}
+  .blk.on{clip-path:inset(0 0 0 0)}
+
+  /* ── 덧셈 ② 극단 대비 : 숫자 200 : 단위 24 : 캡션 15 ── */
+  .amt{display:flex;align-items:baseline;gap:8px;font-variant-numeric:tabular-nums;
+    transform-origin:left center}
+  .amt .n{font-size:200px;font-weight:800;letter-spacing:-.06em;line-height:.82}
+  .amt .u{font-size:24px;font-weight:800;letter-spacing:-.02em}
+  /* 숫자가 먼저, 라벨은 캡션으로 아래에 — 레퍼런스의 "20K" 문법 */
+  .cap-l{margin-top:14px;font-size:15px;font-weight:700;letter-spacing:0}
+
+  .blk .amt .n,.blk .amt .u{color:#fff}      /* 반전 */
+  .blk .cap-l{color:rgba(255,255,255,.72)}
+
+  /* ── 덧셈 ③ 겹침 : 두 번째 숫자가 색면 뒤로 들어간다 (z-index 1) ── */
+  .second{position:relative;z-index:1;margin-top:-46px;padding-left:96px}
+  /* 아웃라인은 큰 숫자에만 — 작은 글자에 stroke를 주면 뭉개진다 */
+  .second .amt .n{color:transparent;-webkit-text-stroke:2.5px var(--accent)}
+  .second .amt .u{color:var(--accent)}
+  .second .cap-l{color:var(--accent)}
+
+  @keyframes punch{0%{transform:scale(1)}45%{transform:scale(1.05)}100%{transform:scale(1)}}
+  .amt.punch{animation:punch .18s ease-out}
+
+  .note{margin-top:38px;padding:0 24px;font-size:18px;font-weight:500;line-height:1.6;color:var(--sub)}
+  .note b{font-weight:700;color:var(--ink)}
+
+  .cap{position:fixed;left:0;right:0;bottom:31px;z-index:56;min-height:78px;
+    background:#F7F8FA;border-top:1px solid var(--track);
+    display:flex;align-items:center;justify-content:center;
+    padding:12px 62px 12px 18px;font-size:17px;font-weight:600;line-height:1.42;
+    color:var(--ink);letter-spacing:-.3px;text-align:center}
+  .cap span{opacity:0;transition:opacity .25s}
+  .cap span.on{opacity:1}
+
+  .replay{position:fixed;right:16px;bottom:52px;z-index:58;
+    width:44px;height:44px;border-radius:50%;border:0;background:var(--accent);color:#fff;
+    font-size:17px;font-family:inherit;cursor:pointer;
+    box-shadow:0 5px 16px rgba(18,48,92,.25);display:grid;place-items:center}
+  .replay:active{transform:scale(.92)}
+
+  /* ?still=1 — 모션 끄고 최종 상태 (스크린샷·검수용, 레포 관례) */
+  html.still *{transition:none!important;animation:none!important}
+</style>
+
+<div class="compliance">본 자료는 교육용으로 온라인 매체(SNS등) 및 고객 설명, 광고자료로 활용 행위는 법으로 금지됩니다.</div>
+
+<div class="stage">
+  <div class="q rise" data-t="0">얼마가 나오나</div>
+
+  <div class="blk" data-t="0.4">
+    <div class="amt rise" data-t="0.9">
+      <span class="n" data-count="20" data-ct="1.94">0</span><span class="u">만원</span>
+    </div>
+    <div class="cap-l rise" data-t="1.2">온열질환</div>
+  </div>
+
+  <div class="second">
+    <div class="amt rise" data-t="3.68">
+      <span class="n" data-count="10" data-ct="5.18">0</span><span class="u">만원</span>
+    </div>
+    <div class="cap-l rise" data-t="4.0">저체온증</div>
+  </div>
+
+  <div class="note rise" data-t="6.86">진단을 받으면 지급됩니다<br><b>각 연간 1회한</b></div>
+</div>
+
+<div class="cap"><span id="capTx"></span></div>
+<button class="replay" onclick="play()">↻</button>
+<div class="footbar"><span>영업컨설팅파트 2608 - 01</span><span>모집인 / 교육용</span></div>
+
+<audio id="au" preload="auto" src="../../web-edu/test-onyeol/audio/p3.mp3"></audio>
+
+<script>
+const SUBS=[{t:0,e:8.42,x:"온열질환으로 진단받으면 20만원, 저체온증으로 진단받으면 10만원. 각각 연간 1회한입니다."}];
+const au=document.getElementById('au'), cap=document.getElementById('capTx');
+let raf=null, t0=0;
+const clock=()=>au.paused?(performance.now()-t0)/1000:au.currentTime;
+
+/* 카운트는 음성 시계에 종속 — 독립 rAF는 스로틀에 걸리면 중간값에서 얼어붙는다 */
+function countAt(el,now){
+  const ct=parseFloat(el.dataset.ct), to=+el.dataset.count;
+  if(now<ct){el.textContent='0';return}
+  const p=Math.min((now-ct)/0.8,1);
+  el.textContent=Math.round(to*(1-Math.pow(1-p,3)));
+  if(p>=1&&!el._done){el._done=true;el.closest('.amt').classList.add('punch')}
+}
+function reset(){
+  document.querySelectorAll('.rise,.blk').forEach(el=>el.classList.remove('on'));
+  document.querySelectorAll('.amt').forEach(el=>el.classList.remove('punch'));
+  document.querySelectorAll('[data-count]').forEach(el=>{el.textContent='0';el._done=false});
+  cap.textContent=''; cap.classList.remove('on');
+}
+function loop(){
+  const now=clock();
+  document.querySelectorAll('.rise,.blk').forEach(el=>{
+    if(now>=parseFloat(el.dataset.t))el.classList.add('on');
+  });
+  document.querySelectorAll('[data-ct]').forEach(el=>countAt(el,now));
+  const s=SUBS.find(s=>now>=s.t&&now<=s.e+.35);
+  const tx=s?s.x:'';
+  if(cap.textContent!==tx){
+    cap.classList.remove('on');
+    setTimeout(()=>{cap.textContent=tx;cap.classList.add('on')},120);
+  }
+  raf=requestAnimationFrame(loop);
+}
+function still(){
+  document.documentElement.classList.add('still');
+  document.querySelectorAll('.rise,.blk').forEach(el=>el.classList.add('on'));
+  document.querySelectorAll('[data-count]').forEach(el=>el.textContent=el.dataset.count);
+  cap.textContent=SUBS[0].x; cap.classList.add('on');
+}
+function play(){
+  cancelAnimationFrame(raf); reset();
+  t0=performance.now();
+  au.currentTime=0; au.play().catch(()=>{});
+  raf=requestAnimationFrame(loop);
+}
+new URLSearchParams(location.search).has('still') ? still() : play();
+</script>

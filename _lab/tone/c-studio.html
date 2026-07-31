@@ -1,0 +1,70 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>C안 · 밝은 스튜디오</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  :root{--navy:#12305C;--ink:#15181d;--sub:#6c7381;--line:#e6e9ee}
+  html,body{height:100%}
+  body{font-family:Pretendard,sans-serif;color:var(--ink);overflow:hidden;position:relative;
+    background:linear-gradient(178deg,#EEF1F6 0%,#E7EBF2 55%,#DFE5EE 100%)}
+  /* 무대 조명 — 위에서 떨어지는 빛 */
+  body::before{content:"";position:absolute;top:-180px;left:50%;transform:translateX(-50%);
+    width:520px;height:420px;background:radial-gradient(ellipse,rgba(255,255,255,.95),transparent 66%)}
+
+  .compliance{position:fixed;top:0;left:0;right:0;z-index:60;background:rgba(255,255,255,.72);
+    color:#8b929e;font-size:9.5px;line-height:1.35;padding:6px 10px;text-align:center;letter-spacing:-.2px}
+  .footbar{position:fixed;bottom:0;left:0;right:0;z-index:60;
+    display:flex;justify-content:space-between;padding:8px 16px;font-size:11px;color:#9aa2ae}
+
+  .stage{position:absolute;top:38px;bottom:120px;left:0;right:0;z-index:2;
+    padding:0 20px;display:flex;flex-direction:column;justify-content:center}
+
+  .eyebrow{text-align:center;font-size:15px;font-weight:700;color:var(--navy);letter-spacing:1.4px;
+    opacity:0;animation:up .6s .1s cubic-bezier(.22,1,.36,1) forwards}
+  .title{margin-top:10px;text-align:center;font-size:40px;font-weight:800;
+    letter-spacing:-1.8px;line-height:1.18;color:var(--navy);
+    opacity:0;animation:up .6s .25s cubic-bezier(.22,1,.36,1) forwards}
+  .sub{margin-top:10px;text-align:center;font-size:18px;color:var(--sub);
+    opacity:0;animation:up .6s .35s cubic-bezier(.22,1,.36,1) forwards}
+  @keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+  .sheet{margin-top:24px;background:#fff;border-radius:26px;padding:8px 20px;
+    box-shadow:0 22px 50px -14px rgba(20,35,65,.22),0 2px 6px rgba(20,35,65,.06);
+    opacity:0;animation:up .65s .45s cubic-bezier(.22,1,.36,1) forwards}
+  .row{display:flex;align-items:center;gap:14px;padding:16px 2px;border-bottom:1px solid var(--line);
+    opacity:0;animation:up .5s cubic-bezier(.22,1,.36,1) forwards}
+  .row:last-child{border-bottom:0}
+  .row:nth-child(1){animation-delay:.66s} .row:nth-child(2){animation-delay:.76s}
+  .row:nth-child(3){animation-delay:.86s} .row:nth-child(4){animation-delay:.96s}
+  .row:nth-child(5){animation-delay:1.06s}
+  .num{width:29px;height:29px;flex:none;border-radius:50%;display:grid;place-items:center;
+    font-size:14.5px;font-weight:800;color:#fff;background:var(--navy)}
+  .tx{font-size:18.5px;font-weight:600;letter-spacing:-.4px;line-height:1.35}
+  .tx b{font-weight:800;color:var(--navy)}
+
+  .cap{position:fixed;left:20px;right:20px;bottom:44px;z-index:56;
+    background:var(--navy);color:#fff;border-radius:16px;
+    box-shadow:0 12px 28px -8px rgba(18,48,92,.45);
+    padding:14px 16px;font-size:17px;font-weight:600;line-height:1.45;text-align:center;
+    letter-spacing:-.3px;opacity:0;animation:up .5s 1.25s forwards}
+</style>
+
+<div class="compliance">본 자료는 교육용으로 온라인 매체(SNS등) 및 고객 설명, 광고자료로 활용 행위는 법으로 금지됩니다.</div>
+
+<div class="stage">
+  <div class="eyebrow">오늘 가져갈 것</div>
+  <div class="title">딱 다섯 가지</div>
+  <div class="sub">3분이면 끝납니다</div>
+
+  <div class="sheet">
+    <div class="row"><div class="num">1</div><div class="tx">무엇이 <b>바뀌는지</b></div></div>
+    <div class="row"><div class="num">2</div><div class="tx">언제부터 적용되는지</div></div>
+    <div class="row"><div class="num">3</div><div class="tx">대상 상품 <b>5종</b></div></div>
+    <div class="row"><div class="num">4</div><div class="tx">청약 전 확인할 것</div></div>
+    <div class="row"><div class="num">5</div><div class="tx">고객에게 말할 한 문장</div></div>
+  </div>
+</div>
+
+<div class="cap">이 다섯 개만 챙기시면 됩니다</div>
+<div class="footbar"><span>영업컨설팅파트 2608 - 01</span><span>모집인 / 교육용</span></div>

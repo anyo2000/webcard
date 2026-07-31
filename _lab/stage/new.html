@@ -1,0 +1,149 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>지급액 — 화이트 스테이지</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  /* ── 화이트 스테이지 팔레트 계약 : 5역할, 강조 hue 1개 ── */
+  :root{
+    --stage:#FFFFFF;   /* 무대 */
+    --ink:#16181D;     /* 잉크 */
+    --sub:#6B7280;     /* 보조 — 회색은 이 하나만 */
+    --track:#E8EAEE;   /* 트랙·헤어라인 */
+    --accent:#12305C;  /* 강조 — 유일 */
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{font-family:Pretendard,sans-serif;color:var(--ink);background:var(--stage);overflow:hidden}
+
+  .compliance{position:fixed;top:0;left:0;right:0;z-index:60;background:#F7F8FA;color:var(--sub);
+    font-size:9.5px;line-height:1.35;padding:6px 10px;text-align:center;letter-spacing:-.2px}
+  .footbar{position:fixed;bottom:0;left:0;right:0;z-index:60;background:var(--stage);
+    border-top:1px solid var(--track);display:flex;justify-content:space-between;
+    padding:8px 16px;font-size:11px;color:#9AA1AC}
+
+  /* 자막 존 78px + 푸터를 고정 예약 — stage와 절대 겹치지 않음 */
+  .stage{position:absolute;top:40px;bottom:112px;left:0;right:0;
+    padding:0 24px;display:flex;flex-direction:column;justify-content:center}
+
+  /* ── 등장 문법 : rise ── */
+  .rise{opacity:0;transform:translateY(14px);
+    transition:opacity .42s cubic-bezier(.22,1,.36,1),transform .42s cubic-bezier(.22,1,.36,1)}
+  .rise.on{opacity:1;transform:none}
+
+  /* 질문 라벨 — 상단 */
+  .q{font-size:20px;font-weight:700;color:var(--accent);letter-spacing:-.3px}
+
+  /* 주인공 — 히어로 숫자 2행 스택 */
+  .hero{margin-top:38px}
+  .lbl{font-size:15px;font-weight:700;color:var(--sub);letter-spacing:0}
+  .amt{margin-top:2px;display:flex;align-items:baseline;gap:4px;
+    font-variant-numeric:tabular-nums;transform-origin:left center}
+  .amt .n{font-size:96px;font-weight:800;letter-spacing:-.03em;line-height:1}
+  .amt .u{font-size:32px;font-weight:800;letter-spacing:-.02em}
+
+  /* 대비는 색이 아니라 채움/비움으로 */
+  .fill .n,.fill .u{color:var(--accent)}
+  .line .n,.line .u{color:transparent;-webkit-text-stroke:2px var(--accent)}
+
+  /* 두 행 사이 헤어라인 — draw */
+  .rule{height:1px;background:var(--track);margin:26px 0;
+    transform:scaleX(0);transform-origin:left center;transition:transform .6s ease-out}
+  .rule.on{transform:scaleX(1)}
+
+  @keyframes punch{0%{transform:scale(1)}45%{transform:scale(1.06)}100%{transform:scale(1)}}
+  .amt.punch{animation:punch .18s ease-out}
+
+  /* 보조 한 줄 — 하단 */
+  .note{margin-top:40px;font-size:18px;font-weight:500;line-height:1.6;color:var(--sub)}
+  .note b{font-weight:700;color:var(--ink)}
+
+  /* 자막 — 다크 밴드 아님 */
+  .cap{position:fixed;left:0;right:0;bottom:31px;z-index:56;height:78px;
+    background:#F7F8FA;border-top:1px solid var(--track);
+    display:flex;align-items:center;justify-content:center;
+    padding:12px 76px 12px 20px;font-size:17px;font-weight:600;line-height:1.45;
+    color:var(--ink);letter-spacing:-.3px;text-align:center}
+  .cap span{opacity:0;transition:opacity .25s}
+  .cap span.on{opacity:1}
+
+  .replay{position:fixed;right:16px;bottom:52px;z-index:58;
+    width:44px;height:44px;border-radius:50%;border:0;background:var(--accent);color:#fff;
+    font-size:17px;font-family:inherit;cursor:pointer;
+    box-shadow:0 5px 16px rgba(18,48,92,.25);display:grid;place-items:center}
+  .replay:active{transform:scale(.92)}
+</style>
+
+<div class="compliance">본 자료는 교육용으로 온라인 매체(SNS등) 및 고객 설명, 광고자료로 활용 행위는 법으로 금지됩니다.</div>
+
+<div class="stage">
+  <div class="q rise" data-t="0">얼마가 나오나</div>
+
+  <div class="hero">
+    <div class="lbl rise" data-t="0.4">온열질환</div>
+    <div class="amt fill rise" data-t="0.4">
+      <span class="n" data-count="20" data-ct="1.94">0</span><span class="u">만원</span>
+    </div>
+
+    <div class="rule" data-t="3.3"></div>
+
+    <div class="lbl rise" data-t="3.68">저체온증</div>
+    <div class="amt line rise" data-t="3.68">
+      <span class="n" data-count="10" data-ct="5.18">0</span><span class="u">만원</span>
+    </div>
+  </div>
+
+  <div class="note rise" data-t="6.86">진단을 받으면 지급됩니다<br><b>각 연간 1회한</b></div>
+</div>
+
+<div class="cap"><span id="capTx"></span></div>
+<button class="replay" onclick="play()">↻</button>
+<div class="footbar"><span>영업컨설팅파트 2608 - 01</span><span>모집인 / 교육용</span></div>
+
+<audio id="au" preload="auto" src="../../web-edu/test-onyeol/audio/p3.mp3"></audio>
+
+<script>
+/* 자막 — Whisper 실측 세그먼트 (원본 그대로) */
+const SUBS=[{t:0,e:8.42,x:"온열질환으로 진단받으면 20만원, 저체온증으로 진단받으면 10만원. 각각 연간 1회한입니다."}];
+
+const au=document.getElementById('au'), cap=document.getElementById('capTx');
+let raf=null, t0=0;
+/* 자동재생이 막히면 오디오 시계가 안 흐른다 → 벽시계로 대체해 모션은 항상 재생 */
+const clock=()=>au.paused?(performance.now()-t0)/1000:au.currentTime;
+
+/* 카운트업은 자체 타이머를 쓰지 않고 음성 시계에 종속시킨다.
+   독립 rAF는 프레임 스로틀에 걸리면 중간값에서 멈추고, 음성과도 어긋난다. */
+function countAt(el,now){
+  const ct=parseFloat(el.dataset.ct), to=+el.dataset.count;
+  if(now<ct){el.textContent='0';return}
+  const p=Math.min((now-ct)/0.8,1);                    /* count 800ms ease-out cubic */
+  el.textContent=Math.round(to*(1-Math.pow(1-p,3)));
+  if(p>=1&&!el._done){el._done=true;el.closest('.amt').classList.add('punch')}
+}
+function reset(){
+  document.querySelectorAll('.rise,.rule').forEach(el=>el.classList.remove('on'));
+  document.querySelectorAll('.amt').forEach(el=>el.classList.remove('punch'));
+  document.querySelectorAll('[data-count]').forEach(el=>{el.textContent='0';el._done=false});
+  cap.textContent=''; cap.classList.remove('on');
+}
+function loop(){
+  const now=clock();
+  document.querySelectorAll('.rise,.rule').forEach(el=>{
+    if(now>=parseFloat(el.dataset.t))el.classList.add('on');
+  });
+  document.querySelectorAll('[data-ct]').forEach(el=>countAt(el,now));
+  const s=SUBS.find(s=>now>=s.t&&now<=s.e+.35);
+  const tx=s?s.x:'';
+  if(cap.textContent!==tx){
+    cap.classList.remove('on');
+    setTimeout(()=>{cap.textContent=tx;cap.classList.add('on')},120);
+  }
+  raf=requestAnimationFrame(loop);
+}
+function play(){
+  cancelAnimationFrame(raf); reset();
+  t0=performance.now();
+  au.currentTime=0; au.play().catch(()=>{});
+  raf=requestAnimationFrame(loop);
+}
+play();
+</script>

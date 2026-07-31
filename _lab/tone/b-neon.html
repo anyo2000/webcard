@@ -1,0 +1,73 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>B안 · 부드러운 네온</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  :root{--bg:#0E1117;--card:rgba(255,255,255,.045);--bd:rgba(255,255,255,.09);
+        --tx:#EAEDF2;--sub:#8A93A3;--mint:#5EEAD4;--vio:#A78BFA}
+  html,body{height:100%}
+  body{font-family:Pretendard,sans-serif;color:var(--tx);overflow:hidden;background:var(--bg);position:relative}
+  /* 은은한 광원 — 네온을 배경에 풀어두면 딱딱함이 빠진다 */
+  body::before{content:"";position:absolute;top:-140px;left:-90px;width:380px;height:380px;
+    background:radial-gradient(circle,rgba(94,234,212,.20),transparent 68%);filter:blur(14px)}
+  body::after{content:"";position:absolute;bottom:60px;right:-120px;width:340px;height:340px;
+    background:radial-gradient(circle,rgba(167,139,250,.18),transparent 68%);filter:blur(14px)}
+
+  .compliance{position:fixed;top:0;left:0;right:0;z-index:60;background:rgba(255,255,255,.04);
+    color:#6d7686;font-size:9.5px;line-height:1.35;padding:6px 10px;text-align:center;letter-spacing:-.2px}
+  .footbar{position:fixed;bottom:0;left:0;right:0;z-index:60;
+    display:flex;justify-content:space-between;padding:8px 16px;font-size:11px;color:#5c6472}
+
+  .stage{position:absolute;top:38px;bottom:120px;left:0;right:0;z-index:2;
+    padding:0 22px;display:flex;flex-direction:column;justify-content:center}
+
+  .eyebrow{font-size:15px;font-weight:700;color:var(--mint);letter-spacing:1.6px;
+    opacity:0;animation:up .6s .1s cubic-bezier(.22,1,.36,1) forwards}
+  .title{margin-top:12px;font-size:38px;font-weight:800;letter-spacing:-1.6px;line-height:1.2;
+    opacity:0;animation:up .6s .25s cubic-bezier(.22,1,.36,1) forwards}
+  .title em{font-style:normal;background:linear-gradient(100deg,var(--mint),var(--vio));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{margin-top:11px;font-size:18px;color:var(--sub);line-height:1.5;
+    opacity:0;animation:up .6s .35s cubic-bezier(.22,1,.36,1) forwards}
+  @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+  .list{margin-top:26px;display:flex;flex-direction:column;gap:9px}
+  .row{display:flex;align-items:center;gap:13px;background:var(--card);border:1px solid var(--bd);
+    border-radius:18px;padding:15px 16px;opacity:0;
+    animation:up .55s cubic-bezier(.22,1,.36,1) forwards}
+  .row:nth-child(1){animation-delay:.5s} .row:nth-child(2){animation-delay:.62s}
+  .row:nth-child(3){animation-delay:.74s} .row:nth-child(4){animation-delay:.86s}
+  .row:nth-child(5){animation-delay:.98s}
+  .num{width:30px;height:30px;flex:none;border-radius:10px;display:grid;place-items:center;
+    font-size:15px;font-weight:800;color:var(--mint);
+    background:rgba(94,234,212,.11);border:1px solid rgba(94,234,212,.28);
+    box-shadow:0 0 14px rgba(94,234,212,.16)}
+  .tx{font-size:18.5px;font-weight:600;letter-spacing:-.4px;line-height:1.35}
+  .tx b{font-weight:800;color:var(--mint)}
+
+  .cap{position:fixed;left:20px;right:20px;bottom:44px;z-index:56;
+    background:rgba(255,255,255,.07);border:1px solid var(--bd);
+    backdrop-filter:blur(12px);border-radius:16px;
+    padding:14px 16px;font-size:17px;font-weight:600;line-height:1.45;text-align:center;
+    letter-spacing:-.3px;opacity:0;animation:up .5s 1.2s forwards}
+</style>
+
+<div class="compliance">본 자료는 교육용으로 온라인 매체(SNS등) 및 고객 설명, 광고자료로 활용 행위는 법으로 금지됩니다.</div>
+
+<div class="stage">
+  <div class="eyebrow">오늘 가져갈 것</div>
+  <div class="title">딱 <em>다섯 가지</em></div>
+  <div class="sub">3분이면 끝납니다</div>
+
+  <div class="list">
+    <div class="row"><div class="num">1</div><div class="tx">무엇이 <b>바뀌는지</b></div></div>
+    <div class="row"><div class="num">2</div><div class="tx">언제부터 적용되는지</div></div>
+    <div class="row"><div class="num">3</div><div class="tx">대상 상품 <b>5종</b></div></div>
+    <div class="row"><div class="num">4</div><div class="tx">청약 전 확인할 것</div></div>
+    <div class="row"><div class="num">5</div><div class="tx">고객에게 말할 한 문장</div></div>
+  </div>
+</div>
+
+<div class="cap">이 다섯 개만 챙기시면 됩니다</div>
+<div class="footbar"><span>영업컨설팅파트 2608 - 01</span><span>모집인 / 교육용</span></div>

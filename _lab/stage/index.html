@@ -1,0 +1,72 @@
+<meta charset="utf-8">
+<title>지급액 장 — 기존 vs 화이트 스테이지</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Pretendard,sans-serif;background:#20242b;color:#e9edf3;padding:24px 20px 40px}
+  h1{font-size:21px;font-weight:800;letter-spacing:-.6px}
+  .lead{margin-top:7px;font-size:14.5px;color:#98a1af;line-height:1.6}
+  .lead b{color:#cfd6e0}
+  .wrap{margin-top:22px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+  .col{width:393px}
+  .hd{display:flex;align-items:baseline;gap:9px;margin-bottom:9px}
+  .hd .n{font-size:17px;font-weight:800}
+  .hd .d{font-size:12.5px;color:#8d96a4}
+  .frame{width:393px;height:852px;border:0;border-radius:20px;background:#fff;
+    box-shadow:0 18px 44px -12px rgba(0,0,0,.55);display:block}
+  .tools{margin-top:9px;display:flex;gap:8px}
+  .tools a,.tools button{font-family:inherit;font-size:13px;font-weight:700;text-decoration:none;
+    background:#2e343d;color:#cfd6e0;border:1px solid #3b424c;border-radius:9px;padding:7px 12px;cursor:pointer}
+  .tools a:hover,.tools button:hover{background:#39414b}
+  .chk{margin-top:26px;max-width:860px;margin-left:auto;margin-right:auto;
+    background:#262b33;border:1px solid #343b45;border-radius:14px;padding:18px 22px}
+  .chk h2{font-size:15px;font-weight:800;color:#cfd6e0}
+  .chk ol{margin:10px 0 0 18px;font-size:14.5px;line-height:1.85;color:#a8b1bf}
+  .chk b{color:#e9edf3}
+</style>
+
+<h1>지급액 장 — 기존 vs 「화이트 스테이지」</h1>
+<p class="lead">
+  사실값(온열 20만 / 저체온 10만 / 각 연간 1회한)·음성(<b>p3.mp3</b>)·타이밍은 <b>완전히 동일</b>. 디자인 언어만 교체했습니다.<br>
+  각 화면 우하단 <b>↻</b>를 누르면 음성과 함께 처음부터 재생됩니다. (자동재생이 막히면 모션만 먼저 돕니다)
+</p>
+
+<div class="wrap">
+  <div class="col">
+    <div class="hd"><span class="n">기존</span><span class="d">test-onyeol 원본</span></div>
+    <iframe class="frame" id="f1" src="old.html"></iframe>
+    <div class="tools"><button onclick="rp('f1')">다시 로드</button><a href="old.html" target="_blank">따로 열기</a></div>
+  </div>
+
+  <div class="col">
+    <div class="hd"><span class="n">스테이지 v1</span><span class="d">뺄셈만 — 깔끔하나 사건 0개</span></div>
+    <iframe class="frame" id="f2" src="new.html"></iframe>
+    <div class="tools"><button onclick="rp('f2')">다시 로드</button><a href="new.html" target="_blank">따로 열기</a></div>
+  </div>
+
+  <div class="col">
+    <div class="hd"><span class="n">스테이지 v2</span><span class="d">+덧셈 — 색면·극단대비·겹침</span></div>
+    <iframe class="frame" id="f3" src="new2.html"></iframe>
+    <div class="tools"><button onclick="rp('f3')">다시 로드</button><a href="new2.html" target="_blank">따로 열기</a></div>
+  </div>
+</div>
+
+<div class="chk">
+  <h2>v1 → v2에서 더한 것 (색은 하나도 안 늘렸습니다)</h2>
+  <ol>
+    <li><b>색면 한 장</b> — 네이비를 뒤집어 흰 숫자로. 색을 추가한 게 아니라 <b>같은 색을 반전</b>시킨 것</li>
+    <li><b>극단 대비</b> — 숫자 200 : 단위 24 : 캡션 15. v1의 96:32(3:1)는 너무 점잖았습니다</li>
+    <li><b>겹침</b> — 저체온증 숫자가 색면 <b>뒤로</b> 들어갑니다. 레이어가 깊이를 만듭니다</li>
+    <li><b>숫자 먼저, 라벨은 캡션으로</b> — 레퍼런스의 "20K" 문법. 라벨이 숫자 아래로 내려갔습니다</li>
+    <li><b>비대칭</b> — 두 번째 숫자를 96px 들여썼습니다. v1은 완전 좌측정렬이라 심심했습니다</li>
+    <li>모션 1종 추가 — 색면이 <b>좌→우로 열립니다</b>(clip-path wipe, 520ms)</li>
+  </ol>
+  <p style="margin-top:12px;font-size:14px;color:#8d96a4;line-height:1.7">
+    ※ 레퍼런스의 <b>숫자 크롭</b>은 안 썼습니다. 포스터에서 숫자를 자르는 건 그게 장식이기 때문이고,
+    여기 숫자는 FP가 읽어야 하는 정보입니다. "프레임을 꽉 채우기"로 번역했습니다.
+  </p>
+</div>
+
+<script>
+function rp(id){const f=document.getElementById(id);f.src=f.src}
+</script>

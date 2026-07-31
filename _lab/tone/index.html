@@ -1,0 +1,52 @@
+<meta charset="utf-8">
+<title>톤 시안 3안 비교 — 교육 겸 공지</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Pretendard,sans-serif;background:#20242b;color:#e9edf3;padding:26px 20px 40px}
+  h1{font-size:22px;font-weight:800;letter-spacing:-.6px}
+  .lead{margin-top:8px;font-size:15px;color:#98a1af;line-height:1.6}
+  .wrap{margin-top:26px;display:flex;gap:22px;justify-content:center;flex-wrap:wrap}
+  .col{width:393px}
+  .hd{display:flex;align-items:baseline;gap:9px;margin-bottom:10px}
+  .hd .n{font-size:17px;font-weight:800}
+  .hd .d{font-size:13px;color:#8d96a4}
+  .frame{width:393px;height:852px;border:0;border-radius:22px;background:#fff;
+    box-shadow:0 18px 48px -12px rgba(0,0,0,.55);display:block}
+  .tools{margin-top:10px;display:flex;gap:8px}
+  .tools a,.tools button{font-family:inherit;font-size:13px;font-weight:700;text-decoration:none;
+    background:#2e343d;color:#cfd6e0;border:1px solid #3b424c;border-radius:9px;
+    padding:7px 12px;cursor:pointer}
+  .tools a:hover,.tools button:hover{background:#39414b}
+  .note{margin-top:9px;font-size:13.5px;color:#7f8896;line-height:1.55}
+</style>
+
+<h1>교육 겸 공지 — 톤 시안 3안</h1>
+<p class="lead">내용·문구·레이아웃 골격은 셋 다 동일. <b>톤만</b> 다릅니다. 각 안의 「다시 재생」로 등장 모션까지 보세요.</p>
+
+<div class="wrap">
+  <div class="col">
+    <div class="hd"><span class="n">A · 노트 판서</span><span class="d">보내주신 이미지 계열</span></div>
+    <iframe class="frame" id="f1" src="a-note.html"></iframe>
+    <div class="tools"><button onclick="rp('f1')">다시 재생</button><a href="a-note.html" target="_blank">따로 열기</a></div>
+    <p class="note">종이 바탕 + 점모눈, 손그림 동그라미가 <b>그려지는</b> 모션, 무채색 + 형광펜 1색. 강의 온도는 제일 높고 공지 무게는 제일 가볍습니다.</p>
+  </div>
+
+  <div class="col">
+    <div class="hd"><span class="n">B · 부드러운 네온</span><span class="d">다크, 덜 딱딱하게</span></div>
+    <iframe class="frame" id="f2" src="b-neon.html"></iframe>
+    <div class="tools"><button onclick="rp('f2')">다시 재생</button><a href="b-neon.html" target="_blank">따로 열기</a></div>
+    <p class="note">순검정 대신 딥잉크, 네온은 배경 광원으로 <b>풀어서</b> 2색만. 예전 Remotion 강의의 딱딱함을 라운드·여백으로 뺐습니다.</p>
+  </div>
+
+  <div class="col">
+    <div class="hd"><span class="n">C · 밝은 스튜디오</span><span class="d">지금 웹카드의 확장</span></div>
+    <iframe class="frame" id="f3" src="c-studio.html"></iframe>
+    <div class="tools"><button onclick="rp('f3')">다시 재생</button><a href="c-studio.html" target="_blank">따로 열기</a></div>
+    <p class="note">회색 무대 위에 흰 시트가 떠 있는 구조 + 위에서 떨어지는 조명. 한화 네이비 유지 → 공지 신뢰감이 제일 높습니다.</p>
+  </div>
+</div>
+
+<script>
+function rp(id){const f=document.getElementById(id);f.src=f.src}
+</script>
