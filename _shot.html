@@ -14,6 +14,8 @@
   q.delete('p');
   const h = q.get('h'); q.delete('h');            /* ?h=611 → 카톡 인앱 등 짧은 뷰포트 시뮬 */
   if(h) document.getElementById('f').style.height = h + 'px';
+  const w = q.get('w'); q.delete('w');            /* ?w=511 → 9:15 등 다른 비율로 뽑을 때 */
+  if(w) document.getElementById('f').style.width = w + 'px';
   document.getElementById('f').src = '/' + p + 'index.html?' + q.toString();
 </script>
 </body>
