@@ -6,7 +6,7 @@
 밀어서 넘기고, 눌러서 상세를 본다. **링크가 계속 살아있고, 내용 수정 시 즉시 반영된다.**
 
 ## 자료 목록
-https://anyo2000.github.io/webcard/
+https://webcard-alc.pages.dev/  (구주소 https://anyo2000.github.io/webcard/ 는 기배포 카드 시효까지 유지)
 
 | 시기 | 자료 | 주소 |
 |------|------|------|

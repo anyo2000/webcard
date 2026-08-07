@@ -24,8 +24,9 @@
 ## 배포
 - **PUBLIC 레포 + GitHub Pages** (private은 무료 Pages 불가 → 반드시 public)
   - ⚠️ **한시 운영 (2026-08-02 확정)**: 글로벌 표준(GH Pages 신규 금지·Cloudflare)과 충돌 상태 — **8/15 이후 Cloudflare Pages + 비공개 레포로 이전 예정** (메모리 project_repo_visibility 펜딩). 이전 시 배포 주소 변경 → FP 공지 필요. 그때까지만 아래 github.io 주소 유효
-- 배포 주소: `https://anyo2000.github.io/webcard/{YYMM}/{슬러그}/`
-- 목록 페이지: `https://anyo2000.github.io/webcard/` ← FP에게 이거 하나만 알려주면 지난 자료도 다 찾음
+- 배포 주소: `https://webcard-alc.pages.dev/{YYMM}/{슬러그}/` (2026-08-07부터 Cloudflare Pages — 신규 카드는 이 주소로 배포)
+- 구주소 `https://anyo2000.github.io/webcard/...`는 이미 뿌린 카드 시효까지만 유지 — **새 카드에 쓰지 말 것**
+- 목록 페이지: `https://webcard-alc.pages.dev/` ← FP에게 이거 하나만 알려주면 지난 자료도 다 찾음
 - `robots.txt`로 검색엔진 차단 (링크 아는 사람만 접근). 단 **GitHub 저장소 자체는 공개**임을 항상 인지할 것
 
 ## 폴더 규칙
