@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <!-- 스크린샷용 iframe 래퍼 — Chrome headless가 뷰포트를 500px로 잡는 문제 우회 (CLAUDE.md 참고)
-     사용: _shot.html?p=2607/birth-uw/&s=2&still=1  (p = 자료 폴더, 나머지 쿼리는 그대로 전달) -->
+     사용: _shot.html?p=2607/birth-uw/&s=2&still=1  (p = 자료 폴더, 나머지 쿼리는 그대로 전달)
+     ?bottom=1 → 슬라이드 s의 "바닥"을 뷰포트 바닥에 정렬 (h=611과 조합해 짧은 뷰포트 잘림 검사) -->
 <style>html,body{margin:0;padding:0}iframe{width:393px;height:852px;border:0;display:block}</style>
 </head>
 <body>
@@ -16,7 +17,14 @@
   if(h) document.getElementById('f').style.height = h + 'px';
   const w = q.get('w'); q.delete('w');            /* ?w=511 → 9:15 등 다른 비율로 뽑을 때 */
   if(w) document.getElementById('f').style.width = w + 'px';
-  document.getElementById('f').src = '/' + p + 'index.html?' + q.toString();
+  const btm = q.get('bottom'); q.delete('bottom');
+  const f = document.getElementById('f');
+  if(btm) f.onload = () => setTimeout(() => {
+    const d = f.contentDocument, deck = d.getElementById('deck');
+    const sl = d.querySelectorAll('.slide')[parseInt(q.get('s')||'1',10)-1];
+    if(deck && sl) deck.scrollTop = sl.offsetTop + sl.offsetHeight - f.clientHeight;
+  }, 900);
+  f.src = '/' + p + 'index.html?' + q.toString();
 </script>
 </body>
 </html>

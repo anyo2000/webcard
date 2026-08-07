@@ -46,7 +46,7 @@
   #deck{height:100dvh;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;}
   #deck::-webkit-scrollbar{display:none;}
   .slide{
-    height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;
+    min-height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;
     position:relative;display:flex;flex-direction:column;
     padding:calc(env(safe-area-inset-top) + 74px) 22px calc(env(safe-area-inset-bottom) + 62px);
     overflow:hidden;
